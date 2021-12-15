@@ -1,58 +1,50 @@
-
-#include <stdio.h>
-#include <string.h>
-#include <readline/readline.h>
-#include <readline/history.h>
-#include "../libft/libft.h"
-
-typedef struct s_command
-{
-	char		*command;
-	int 		flag;
-}				t_command;
+#include "../minishell.h"
 
 char **get_path(char **envp)
 {
 	char	**path;
-	char	*temp;
-	int		i;
+	int		index;
 
-	i = 0;
-	while (envp[i])
+	index = 0;
+	while (envp[index])
 	{
-		if (!strncmp("PATH=", envp[i], 5))
+		if (!strncmp("PATH=", envp[index], 5))
 			break ;
-		i++;
+		index++;
 	}
-	if (!envp[i])
+	if (!envp[index])
 		return (NULL);
-	temp = envp[i] + 5;
-	path = ft_split(temp, ':');
+	path = ft_split(envp[index] + 5, ':');
 	return (path);
 }
 
-t_command	*parse_string(char **envp, char **argv)
+t_command	**parse_string(char **envp, char *file)
 {
-	t_command	*command;
+	t_command	**command;
 	char		**path;
+	char		*absolute_path;
+	int 		index;
+	int			counter;
 
+	index = 0;
+	counter = 0;
 	path = get_path(envp);
-	while ()
-
-
-	return (command);
-}
-
-int	main(int argc, char **argv, char **envp)
-{
-	char *str;
-
-	while (1)
+	if (!access(file, F_OK))
+		printf("file is present\n");
+	else
 	{
-		str = readline("hello$ ");
-		parse_string(envp, argv);
-		if (strlen(str) > 0)
-			add_history(str);
+		file = ft_strjoin("/", file);
+		while (path[index])
+		{
+			absolute_path = ft_strjoin(path[index], file);
+			if (!access(absolute_path, F_OK))
+				printf("file is present\n");
+			free(absolute_path);
+			index++;
+		}
 	}
-	return (0);
+	command = malloc(sizeof(t_command *) * );
+	command->command = file;
+	command->flag = 0;
+	return (command);
 }
