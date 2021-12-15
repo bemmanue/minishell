@@ -18,14 +18,14 @@
 
 typedef struct s_command
 {
-	char		*command;
+	char		*name;
 	void		*next;
 }				t_command;
 
-t_command	**parse_string(char **envp, char *file);
+t_command	*parse_string(char **envp, char *file);
 
 int			command_center(char **envp, char *input);
 
-int			pipex(t_command **commands);
+int			pipex(t_command *commands, char **envp);
 
 #endif
