@@ -1,33 +1,20 @@
-
-#include <stdio.h>
-#include <string.h>
-#include <readline/readline.h>
-#include <readline/history.h>
-#include "../libft/libft.h"
-
-typedef struct s_command
-{
-	char				*name;
-	struct s_command	*next;
-}						t_command;
+#include "../minishell.h"
 
 char **get_path(char **envp)
 {
 	char	**path;
-	char	*temp;
-	int		i;
+	int		index;
 
-	i = 0;
-	while (envp[i])
+	index = 0;
+	while (envp[index])
 	{
-		if (!ft_strncmp("PATH=", envp[i], 5))
+		if (!ft_strncmp("PATH=", envp[index], 5))
 			break ;
-		i++;
+		index++;
 	}
-	if (!envp[i])
+	if (!envp[index])
 		return (NULL);
-	temp = envp[i] + 6;
-	path = ft_split(temp, ':');
+	path = ft_split(envp[index] + 6, ':');
 	return (path);
 }
 
@@ -65,9 +52,9 @@ t_command	*parse_string(char **envp, char *file)
 {
 	char	**path;
 	char	*absolute_path;
-	int		i;
+	int		index;
 
-	i = 0;
+	index = 0;
 	if (is_builtin_command(file))
 		return (fill_command(file));
 	path = get_path(envp);
@@ -76,32 +63,14 @@ t_command	*parse_string(char **envp, char *file)
 	else
 	{
 		file = ft_strjoin("/", file);
-		while (path[i])
+		while (path[index])
 		{
-			absolute_path = ft_strjoin(path[i], file);
+			absolute_path = ft_strjoin(path[index], file);
 			if (!access(absolute_path, F_OK))
 				return (fill_command(absolute_path));
 			free(absolute_path);
-			i++;
+			index++;
 		}
 	}
 	return (NULL);
-}
-
-int	main(int argc, char **argv, char **envp)
-{
-	char 		*str;
-	t_command	*command;
-
-	if (argc != 1)
-		return (0);
-	(void)argv;
-	while (1)
-	{
-		str = readline("hello$ ");
-		command = parse_string(envp, str);
-		if (strlen(str) > 0)
-			add_history(str);
-	}
-	return (0);
 }
