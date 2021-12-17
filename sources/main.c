@@ -17,8 +17,10 @@ int main(int argc, char **argv, char **envp)
 {
 	char *str;
 
+	(void)argv;
+	(void)argc;
 	str = readline("minishell$ ");
-	while (ft_strncmp(str, "exit", 4) || str)
+	while (ft_strncmp(str, "exit", 4) && str)
 	{
 		command_center(envp, str);
 		if (ft_strlen(str) > 0)

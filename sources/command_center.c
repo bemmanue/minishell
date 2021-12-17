@@ -14,9 +14,9 @@
 
 int	command_center(char **envp, char *input)
 {
-	t_command	**commands;
+	t_command	*commands;
 
 	commands = parse_string(envp, input);
-	pipex(commands);
+	pipex(commands, envp);
 	return (0);
 }

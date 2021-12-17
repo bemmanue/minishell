@@ -12,21 +12,22 @@
 
 #include "../minishell.h"
 
-int	pipex(t_command **commands)
+int	pipex(t_command *commands, char **envp)
 {
-	int	counter;
-	int	status;
+	int		status;
+	char	**argv;
 
-	counter = 0;
-	while (commands[counter])
-		counter++;
+	printf("%s\n", commands->name);
+	argv = malloc(sizeof(char *) * 2);
+	argv[0] = " ";
+	argv[1] = NULL;
 	if (fork())
 		waitpid(0, &status, 0);
 	else
 	{
-		execve(commands[0]->command, NULL, NULL);
+		status = execve(commands->name, argv, envp);
 		write(2, "Error: exec\n", 12);
-		exit(1);
+		exit(status);
 	}
 	return (0);
 }
