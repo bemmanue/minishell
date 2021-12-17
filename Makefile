@@ -14,7 +14,7 @@ LIBFT			=	libft.a
 LIBFT_PATH		=	./libft/
 LIBFTMAKE		=	$(MAKE) all -sC $(LIBFT_PATH)
 CC				=	gcc
-CFLAGS			=	-Wall -Wextra -Werror -MMD
+CFLAGS			=	-Wall -Wextra -Werror -MMD -O2
 
 all:				lib $(NAME)
 
