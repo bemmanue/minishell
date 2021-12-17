@@ -3,7 +3,8 @@ NAME			=	minishell
 CHECKER			=	checker
 
 SRCS			=	sources/parser.c sources/command_center.c\
-					sources/main.c sources/pipex.c
+					sources/main.c sources/pipex.c\
+					sources/shell_utils.c
 
 OBJS			=	$(SRCS:.c=.o)
 
