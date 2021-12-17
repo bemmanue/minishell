@@ -1,7 +1,4 @@
-./**/*.[ado]
-./libft/*.a
-./libft/*.o
-./libft/*.d
-./objects
-./cmake-build-debug
+**/*.[ado]
+objects
+cmake-build-debug
 *.txt

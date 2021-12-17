@@ -19,6 +19,7 @@
 typedef struct s_command
 {
 	char		*name;
+	char		**argv;
 	void		*next;
 }				t_command;
 

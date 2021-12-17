@@ -1,3 +1,4 @@
+
 #include "../minishell.h"
 
 char **get_path(char **envp)
@@ -37,40 +38,86 @@ int	is_builtin_command(char *name)
 	return (0);
 }
 
-t_command	*fill_command(char *name)
+int	count_argv(char **argv)
 {
-	t_command *command;
+	int i;
 
-	command = malloc(sizeof(t_command));
-	if (!command)
-		return (NULL);
-	command->name = name;
-	return (command);
+	i = 0;
+	if (!argv)
+		return (-1);
+	while (argv[i])
+		i++;
+	return (i);
 }
 
-t_command	*parse_string(char **envp, char *file)
+char	*full_path(char *str, char **path)
 {
-	char	**path;
 	char	*absolute_path;
 	int		index;
 
 	index = 0;
-	if (is_builtin_command(file))
-		return (fill_command(file));
-	path = get_path(envp);
-	if (!access(file, F_OK))
-		return (fill_command(file));
+	if (is_builtin_command(str))
+		return (str);
+	if (!access(str, F_OK))
+		return (str);
 	else
 	{
-		file = ft_strjoin("/", file);
+		str = ft_strjoin("/", str);
 		while (path[index])
 		{
-			absolute_path = ft_strjoin(path[index], file);
+			absolute_path = ft_strjoin(path[index], str);
 			if (!access(absolute_path, F_OK))
-				return (fill_command(absolute_path));
+				return (absolute_path);
 			free(absolute_path);
 			index++;
 		}
 	}
 	return (NULL);
+}
+
+t_command	*new_command(char **argv, char **path)
+{
+	t_command	*command;
+	int			number_of_args;
+	int			i;
+
+	i = 0;
+	command = malloc(sizeof(t_command));
+	command->name = full_path(argv[0], path);
+	number_of_args = count_argv(argv) - 1;
+	command->argv = malloc(sizeof(char *) * number_of_args);
+	while (i < number_of_args)
+	{
+		command->argv[i] = argv[i + 1];
+		i++;
+	}
+	command->next = NULL;
+	return (command);
+}
+
+t_command	*parse_string(char **envp, char *str)
+{
+	char		**commands;
+	int			i;
+	char		**argv;
+	t_command	*command;
+	t_command	*temp;
+	char		**path;
+
+	i = 0;
+	path = get_path(envp);
+	commands = ft_split(str, '|');
+	argv = ft_split(commands[i++], ' ');
+	command = new_command(argv, path);
+	free(argv);
+	temp = command;
+	while (commands[i])
+	{
+		argv = ft_split(commands[i], ' ');
+		temp->next = new_command(argv, path);
+		temp = temp->next;
+		free(argv);
+		i++;
+	}
+	return (command);
 }
