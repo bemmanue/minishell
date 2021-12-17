@@ -12,7 +12,6 @@ HEAD			=	includes/push_swap.h
 LIBFT			=	libft.a
 LIBFT_PATH		=	./libft/
 LIBFTMAKE		=	$(MAKE) all -sC $(LIBFT_PATH)
-
 CC				=	gcc
 CFLAGS			=	-Wall -Wextra -Werror -MMD
 
@@ -24,7 +23,7 @@ bonus:				lib $(CHECKER)
 					$(CC) $(CFLAGS) -Iincludes/ -c $< -o $@
 
 $(NAME):			$(OBJS)
-					$(CC) $(CFLAGS) $(OBJS) -L$(LIBFT_PATH) -lft -o $(NAME)
+					$(CC) $(CFLAGS) $(OBJS) -L$(LIBFT_PATH) -lft  -lreadline -o $(NAME)
 
 lib:
 					$(LIBFTMAKE)
