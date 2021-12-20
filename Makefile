@@ -14,10 +14,13 @@ HEAD			=	includes/push_swap.h
 LIBFT			=	libft.a
 LIBFT_PATH		=	./libft/
 LIBFTMAKE		=	$(MAKE) all -sC $(LIBFT_PATH)
-CC				=	gcc
-CFLAGS			=	-Wall -Wextra -Werror -MMD -O2
+BUILTIN_PATH	=	sources/builtin/
+CC				=	cc
+CFLAGS			=	-Wall -Wextra -Werror -MMD
 
-all:				lib $(NAME)
+BUILTIN:			make -sC $(BUILTIN_PATH)
+
+all:				lib $(NAME) $(BUILTIN)
 
 bonus:				lib $(CHECKER)
 
