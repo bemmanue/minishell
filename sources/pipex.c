@@ -44,6 +44,8 @@ static int	last_fork(t_command *command, int backup[2])
 	int	pid;
 	int	status;
 
+	if (ft_strncmp(command->name, "cd", 3))
+		return (cd)
 	pid = fork();
 	if (pid < 0)
 		return (errno);
