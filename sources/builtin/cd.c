@@ -10,16 +10,36 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "builtin.h"
+#include "../../minishell.h"
 
-static int	ft_strncmp(const char *str1, const char *str2, int stop)
+static char	*get_str(char **envp, char *reference)
 {
-	while (stop-- && *str1++ == *str2++)
-		;
-	return (*str1 - *str2);
+	char	*str;
+
+	str = NULL;
+	while (*envp)
+	{
+		if (!ft_strncmp(*envp, reference, ft_strlen(reference)))
+		{
+			str = *envp;
+			break;
+		}
+		envp += sizeof(char *);
+	}
+	if (str)
+	{
+		str = strchr(str, '=');
+		str++;
+	}
+	return (str);
 }
 
-int	main(int argc, char **argv, char **envp)
+int	cd(int argc, char **argv, char **envp)
 {
+	char	*home;
 
+	home = get_str(envp, "HOME");
+	if (!argv[0])
+		chdir(home);
+	return (0);
 }

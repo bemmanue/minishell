@@ -1,8 +1,8 @@
 NAME = built-in
 CFLAGS = -Wall -Wextra -Werror
-VARS = echo cd pwd export unset env exit
+VARS = echo pwd export unset env exit
 SRCS_DIR = sources/
-SRCS = echo.c cd.c pwd.c export.c unset.c env.c exit.c
+SRCS = echo.c pwd.c export.c unset.c env.c exit.c
 
 all: $(NAME)
 $(NAME):
