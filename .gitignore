@@ -1,4 +1,4 @@
 **/*.[ado]
-/objects
-/cmake-build-debug
+objects
+cmake-build-debug
 *.txt

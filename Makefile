@@ -14,6 +14,7 @@ HEAD			=	includes/push_swap.h
 LIBFT			=	libft.a
 LIBFT_PATH		=	./libft/
 LIBFTMAKE		=	$(MAKE) all -sC $(LIBFT_PATH)
+
 BUILTIN_PATH	=	sources/builtin/
 CC				=	cc
 CFLAGS			=	-Wall -Wextra -Werror -MMD
