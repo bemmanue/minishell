@@ -50,11 +50,11 @@ static void	ft_cycle(int flag, int index, char **argv)
 	}
 }
 
-int	main(int argc, char **argv)
+int	echo(int argc, char **argv)
 {
 	if (argc < 2)
 		return (write(STDOUT_FILENO, "\n", 1) - 1);
-	if (argc == 2 && !ft_strncmp(argv[1], "-n", 3))
+	if (argc == 2 && !ft_strncmp(argv[1], "-n", 2))
 		return (0);
 	if (argc > 2 && !ft_strncmp(argv[1], "-n", 3))
 		ft_cycle(0, 2, argv);

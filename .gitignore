@@ -1,4 +1,5 @@
 **/*.[ado]
 objects
 cmake-build-debug
+.ccls-cache
 *.txt

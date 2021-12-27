@@ -16,6 +16,8 @@
 # include <fcntl.h>
 # include <unistd.h>
 
+int	echo(int argc, char **argv);
+
 int	cd(int argc, char **argv, char **envp);
 
 #endif
