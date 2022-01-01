@@ -31,31 +31,66 @@ static char	*get_str(char **envp, char *reference)
 	return (str);
 }
 
-static int	relative_path(char *cdpath, char *path, char **envp)
+static void	change_pwd(char *path, char **envp)
 {
-	char	**pathnames;
+	char	*pwd;
+	char	*temp;
+	int		index;
 
-	pathnames = ft_split(cdpath, ':');
+	index = 0;
+	pwd = get_str(envp, "PWD=");
+	while (envp[index])
+	{
+		if (!ft_strncmp(envp[index], "OLDPWD=", 7))
+			break ;
+		index++;
+	}
+	temp = ft_strjoin("OLDPWD=", pwd);
+	if (!envp[index])
+	{
+		ft_strlcpy(envp[index], temp, ft_strlen(temp));
+		envp[index + 1] = NULL;
+	}
+	else
+	{
+		ft_bzero(envp[index], ft_strlen(envp[index]));
+		ft_strlcpy(envp[index], temp, ft_strlen(temp));
+	}
+	free(temp);
+	ft_strlcpy(pwd, path, ft_strlen(path));
+}
+
+static int	change_dir(char *path, char **envp)
+{
+	if (!path)
+		;
+	else
+		chdir(path);
+	change_pwd(path, envp);
+	return (0);
+}
+
+static int	relative_path(char *path, char **envp)
+{
+	path = ft_strjoin("./", path);
+	if (!path)
+		return (-1);
+	change_dir(path, envp);
+	free(path);
 	return (0);
 }
 
 int	cd(int argc, char **argv, char **envp)
 {
 	char	*home;
-	char	*cdpath;
+	int		result;
 
 	home = get_str(envp, "HOME=");
-	cdpath = get_str(envp, "CDPATH=");
 	if (argc < 2)
-		return (chdir(home));
-	if (argc > 2)
-		return (write(STDERR_FILENO, "cd: too many arguments\n", 23));
-	if (argv[1][0] == '/')
-		return (chdir(argv[1]));
-	if (!cdpath)
-		cdpath = ft_strdup(".");
+		result = change_dir(home, envp);
+	else if (argv[1][0] == '/')
+		result = change_dir(argv[1], envp);
 	else
-		cdpath = ft_strjoin(".:", cdpath);
-	relative_path(cdpath, argv[1], envp);
-	return (0);
+		result = relative_path(argv[1], envp);
+	return (result);
 }

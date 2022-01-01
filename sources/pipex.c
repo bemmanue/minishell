@@ -43,9 +43,11 @@ static int	last_fork(t_command *command, int backup[2])
 {
 	int	pid;
 	int	status;
+	int	builtin;
 
-	if (ft_strncmp(command->name, "cd", 3))
-		return (cd)
+	builtin = chk_builtin(command);
+	if (builtin)
+		return (builtin);
 	pid = fork();
 	if (pid < 0)
 		return (errno);

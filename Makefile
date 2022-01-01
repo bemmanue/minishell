@@ -4,7 +4,8 @@ CHECKER			=	checker
 
 SRCS			=	sources/parser.c sources/command_center.c\
 					sources/main.c sources/pipex.c\
-					sources/shell_utils.c sources/builtin/cd.c
+					sources/shell_utils.c sources/builtin/cd.c\
+					sources/builtin/cd.c
 
 OBJS			=	$(SRCS:.c=.o)
 
@@ -15,11 +16,8 @@ LIBFT			=	libft.a
 LIBFT_PATH		=	./libft/
 LIBFTMAKE		=	$(MAKE) all -sC $(LIBFT_PATH)
 
-BUILTIN_PATH	=	sources/builtin/
 CC				=	cc
 CFLAGS			=	-Wall -Wextra -Werror -MMD
-
-BUILTIN:			make -sC $(BUILTIN_PATH)
 
 all:				lib $(NAME) $(BUILTIN)
 

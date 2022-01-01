@@ -12,9 +12,10 @@
 
 #include "libft.h"
 
-int	ft_strncmp(const char *str1, const char *str2, int stop)
+int	ft_strncmp(const char *str1, const char *str2, size_t stop)
 {
-	while (stop-- > 0 && *str1++ == *str2++)
-		;
-	return (*str1 - *str2);
+	while ((*str1 || *str2) && stop--)
+		if (*str1++ != *str2++)
+			return (*(str1 - 1) - *(str2 - 1));
+	return (0);
 }
