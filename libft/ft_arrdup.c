@@ -12,7 +12,7 @@
 
 #include "libft.h"
 
-static int	freedom(char ***arr)
+static void	*freedom(char ***arr)
 {
 	char	**temp;
 
@@ -23,10 +23,10 @@ static int	freedom(char ***arr)
 		temp += sizeof(char *);
 	}
 	free(*arr);
-	return (-1);
+	return (NULL);
 }
 
-int	ft_arrdup(char ***arr)
+char	**ft_arrdup(char **arr)
 {
 	char	**temp;
 	int		index;
@@ -34,18 +34,18 @@ int	ft_arrdup(char ***arr)
 
 	index = 0;
 	counter = 0;
-	while (*(arr)[counter])
+	while (arr[counter])
 		counter++;
 	temp = malloc(sizeof(char *) * counter + sizeof(char *));
 	if (!temp)
-		return (-1);
+		return (NULL);
 	while (index < counter)
 	{
-		temp[index] = ft_strdup((*arr)[index]);
+		temp[index] = ft_strdup(arr[index]);
 		if (!temp[index])
 			return (freedom(&temp));
 		index++;
 	}
-	*arr = temp;
-	return (0);
+	temp[index] = NULL;
+	return (temp);
 }

@@ -21,7 +21,7 @@ static char	*get_str(char **envp, char *reference)
 	{
 		if (!ft_strncmp(*envp, reference, ft_strlen(reference)))
 		{
-			str = *envp;
+			str = *envp; // try strdup for a change
 			break;
 		}
 		envp += sizeof(char *);

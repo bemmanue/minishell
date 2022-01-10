@@ -17,6 +17,8 @@ char	*ft_itoa(int n);
 
 char	**ft_split(char const *s, char c);
 
+char	**ft_arrdup(char **arr);
+
 char	*ft_strchr(const char *s, int c);
 
 char	*ft_strdup(const char *s1);
@@ -52,8 +54,6 @@ int		ft_strncmp(const char *s1, const char *s2, size_t n);
 int		ft_tolower(int c);
 
 int		ft_toupper(int c);
-
-int		ft_arrdup(char ***arr);
 
 size_t	ft_strlcat(char *dst, const char *src, size_t dstsize);
 

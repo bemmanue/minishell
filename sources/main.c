@@ -19,7 +19,7 @@ int main(int argc, char **argv, char **envp)
 
 	(void)argv;
 	(void)argc;
-	ft_arrdup(&envp);
+	envp = ft_arrdup(envp);
 	ft_exclude(envp, "OLDPWD=");
 	str = readline("minishell$ ");
 	while (ft_strncmp(str, "exit", 4) && str)
