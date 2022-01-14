@@ -1,34 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin.h                                          :+:      :+:    :+:   */
+/*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dwillard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/20 18:35:31 by dwillard          #+#    #+#             */
-/*   Updated: 2021/12/20 21:32:30 by dwillard         ###   ########.fr       */
+/*   Created: 2022/01/14 20:57:17 by dwillard          #+#    #+#             */
+/*   Updated: 2022/01/14 20:57:18 by dwillard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef BUILTIN_H
-# define BUILTIN_H
+#include "builtin.h"
 
-# include <fcntl.h>
-# include <stdio.h>
-# include "../../libft/libft.h"
+int	pwd(void)
+{
+	char	*temp;
 
-# define MAX_DIR 160
-
-char	*get_str(char **envp, char *reference);
-
-void	err_msg(char *str);
-
-void	*freedom(char ***arr);
-
-int		echo(int argc, char **argv);
-
-int		cd(char **argv, char **envp);
-
-int		pwd(void);
-
-#endif
+	temp = getcwd(NULL, MAX_DIR);
+	if (!temp)
+		return (-1);
+	ft_putendl_fd(temp, 1);
+	free(temp);
+	return (0);
+}

@@ -5,7 +5,8 @@ CHECKER			=	checker
 SRCS			=	sources/parser.c sources/command_center.c\
 					sources/main.c sources/pipex.c\
 					sources/shell_utils.c sources/builtin/cd.c\
-					sources/builtin/cd.c
+					sources/builtin/cd.c sources/builtin/cd_utils.c\
+					sources/builtin/pwd.c
 
 OBJS			=	$(SRCS:.c=.o)
 
