@@ -4,13 +4,11 @@
 
 # include <readline/readline.h>
 # include <readline/history.h>
-# include <stdio.h>
 # include <sys/wait.h>
 # include <string.h>
 # include <signal.h>
 # include <errno.h>
 # include <err.h>
-# include "libft/libft.h"
 # include "sources/builtin/builtin.h"
 
 # define INPUT_END 1

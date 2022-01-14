@@ -21,7 +21,6 @@ static void	ft_putstr(char *str, int flag)
 		write(STDOUT_FILENO, "\n", 1);
 }
 
-
 static void	ft_cycle(int flag, int index, char **argv)
 {
 	while (argv[index])

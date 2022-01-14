@@ -6,91 +6,81 @@
 /*   By: dwillard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/20 21:32:16 by dwillard          #+#    #+#             */
-/*   Updated: 2021/12/20 21:32:17 by dwillard         ###   ########.fr       */
+/*   Updated: 2022/01/10 19:44:00 by dwillard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../minishell.h"
+#include "builtin.h"
 
-static char	*get_str(char **envp, char *reference)
+static void	change_pwd(char **envp)
 {
-	char	*str;
-
-	str = NULL;
-	while (*envp)
-	{
-		if (!ft_strncmp(*envp, reference, ft_strlen(reference)))
-		{
-			str = *envp; // try strdup for a change
-			break;
-		}
-		envp += sizeof(char *);
-	}
-	if (str)
-		str += ft_strlen(reference);
-	return (str);
-}
-
-static void	change_pwd(char *path, char **envp)
-{
+	char	**temp;
 	char	*pwd;
-	char	*temp;
 	int		index;
 
 	index = 0;
-	pwd = get_str(envp, "PWD=");
-	while (envp[index])
-	{
-		if (!ft_strncmp(envp[index], "OLDPWD=", 7))
-			break ;
+	pwd = getcwd(NULL, MAX_DIR);
+	while (envp[index] && ft_strncmp(envp[index], "PWD=", ft_strlen("PWD=")))
 		index++;
-	}
-	temp = ft_strjoin("OLDPWD=", pwd);
-	if (!envp[index])
-	{
-		ft_strlcpy(envp[index], temp, ft_strlen(temp));
-		envp[index + 1] = NULL;
-	}
+	if (envp[index])
+		free(envp[index]);
 	else
 	{
-		ft_bzero(envp[index], ft_strlen(envp[index]));
-		ft_strlcpy(envp[index], temp, ft_strlen(temp));
+		temp = envp;
+		envp = ft_arrdup(envp, 1);
+		freedom(&temp);
 	}
-	free(temp);
-	ft_strlcpy(pwd, path, ft_strlen(path));
+	envp[index] = ft_strjoin("PWD=", pwd);
+	free(pwd);
+}
+
+static void	change_oldpwd(char **envp)
+{
+	char	**temp;
+	char	*oldpwd;
+	int		index;
+
+	index = 0;
+	oldpwd = getcwd(NULL, MAX_DIR);
+	while (envp[index] && ft_strncmp(envp[index], "OLDPWD=",
+			ft_strlen("OLDPWD=")))
+		index++;
+	if (envp[index])
+		free(envp[index]);
+	else
+	{
+		temp = envp;
+		envp = ft_arrdup(envp, 1);
+		freedom(&temp);
+	}
+	envp[index] = ft_strjoin("OLDPWD=", oldpwd);
+	free(oldpwd);
 }
 
 static int	change_dir(char *path, char **envp)
 {
+	int		check;
+
+	change_oldpwd(envp);
 	if (!path)
-		;
+		check = 1;
 	else
-		chdir(path);
-	change_pwd(path, envp);
-	return (0);
+		check = chdir(path);
+	change_pwd(envp);
+	return (check);
 }
 
-static int	relative_path(char *path, char **envp)
-{
-	path = ft_strjoin("./", path);
-	if (!path)
-		return (-1);
-	change_dir(path, envp);
-	free(path);
-	return (0);
-}
-
-int	cd(int argc, char **argv, char **envp)
+int	cd(char **argv, char **envp)
 {
 	char	*home;
 	int		result;
 
 	home = get_str(envp, "HOME=");
-	if (argc < 2)
+	if (!argv)
 		result = change_dir(home, envp);
-	else if (argv[1][0] == '/')
-		result = change_dir(argv[1], envp);
 	else
-		result = relative_path(argv[1], envp);
+		result = change_dir(argv[0], envp);
+	if (result && argv)
+		err_msg(argv[0]);
 	return (result);
 }

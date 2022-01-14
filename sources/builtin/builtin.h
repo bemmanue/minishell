@@ -14,10 +14,19 @@
 # define BUILTIN_H
 
 # include <fcntl.h>
+# include <stdio.h>
+# include "../../libft/libft.h"
 
+# define MAX_DIR 100
 
-int	echo(int argc, char **argv);
+char	*get_str(char **envp, char *reference);
 
-int	cd(int argc, char **argv, char **envp);
+void	err_msg(char *str);
+
+void	*freedom(char ***arr);
+
+int		echo(int argc, char **argv);
+
+int		cd(char **argv, char **envp);
 
 #endif

@@ -17,7 +17,7 @@ char	*ft_itoa(int n);
 
 char	**ft_split(char const *s, char c);
 
-char	**ft_arrdup(char **arr);
+char	**ft_arrdup(char **arr, int add);
 
 char	*ft_strchr(const char *s, int c);
 
