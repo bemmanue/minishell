@@ -2,6 +2,8 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+# include "sources/builtin/builtin.h"
+# include "libft/libft.h"
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <sys/wait.h>
@@ -9,7 +11,7 @@
 # include <signal.h>
 # include <errno.h>
 # include <err.h>
-# include "sources/builtin/builtin.h"
+
 
 # define INPUT_END 1
 # define OUTPUT_END 0
