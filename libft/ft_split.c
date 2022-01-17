@@ -6,22 +6,21 @@
 /*   By: bemmanue <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/29 14:52:54 by bemmanue          #+#    #+#             */
-/*   Updated: 2021/05/04 13:11:23 by bemmanue         ###   ########.fr       */
+/*   Updated: 2021/12/28 19:31:27 by dwillard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <stdlib.h>
+#include "libft.h"
 
-static void	ft_free(char **mass, int i)
+static void	ft_free(char ***mass, int i)
 {
 	while (i != 0)
 	{
-		free(mass[i]);
+		free((*mass)[i]);
 		i++;
 	}
-	free(mass);
-	mass = NULL;
+	free(*mass);
+	*mass = NULL;
 }
 
 static char	*ft_memandcopy(char *str, int ch, char const *s)
@@ -87,19 +86,21 @@ char	**ft_split(char const *s, char c)
 {
 	char	**mass;
 	int		i;
+	int		count;
 
 	i = 0;
 	if (!s)
 		return (NULL);
-	mass = malloc(sizeof(*mass) * ft_word(s, c) + 1);
+	count = ft_word(s, c);
+	mass = malloc(sizeof(mass) * (count + 1));
 	if (mass == NULL)
 		return (NULL);
-	while (i < ft_word(s, c))
+	while (i < count)
 	{
 		mass[i] = ft_char(i, mass, s, c);
 		if (mass[i] == NULL)
 		{
-			ft_free(mass, i);
+			ft_free(&mass, i);
 			return (NULL);
 		}
 		i++;

@@ -10,17 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "builtin.h"
-
-static int	ft_strlen(char *str)
-{
-	int	counter;
-
-	counter = 0;
-	while (str[counter])
-		counter++;
-	return (counter);
-}
+#include "../../minishell.h"
 
 static void	ft_putstr(char *str, int flag)
 {
@@ -29,13 +19,6 @@ static void	ft_putstr(char *str, int flag)
 		write(STDOUT_FILENO, " ", 1);
 	if (flag == 2)
 		write(STDOUT_FILENO, "\n", 1);
-}
-
-static int	ft_strncmp(const char *str1, const char *str2, int stop)
-{
-	while (stop-- && *str1++ == *str2++)
-		;
-	return (*str1 - *str2);
 }
 
 static void	ft_cycle(int flag, int index, char **argv)
@@ -54,7 +37,7 @@ int	echo(int argc, char **argv)
 {
 	if (argc < 2)
 		return (write(STDOUT_FILENO, "\n", 1) - 1);
-	if (argc == 2 && !ft_strncmp(argv[1], "-n", 2))
+	if (argc == 2 && !ft_strncmp(argv[1], "-n", 3))
 		return (0);
 	if (argc > 2 && !ft_strncmp(argv[1], "-n", 3))
 		ft_cycle(0, 2, argv);
