@@ -1,3 +1,15 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    CMakeLists.txt                                     :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: dwillard <marvin@42.fr>                    +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2022/01/17 18:22:05 by dwillard          #+#    #+#              #
+#    Updated: 2022/01/17 18:22:07 by dwillard         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
 cmake_minimum_required(VERSION 3.20)
 project(minishell C)
 
@@ -37,6 +49,6 @@ add_executable(
         libft/ft_calloc.c
         libft/ft_bzero.c
         sources/parse_example.c
-        )
+        sources/redirects.c)
 
 target_link_libraries(minishell readline)

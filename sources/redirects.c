@@ -1,39 +1,47 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_example.c                                    :+:      :+:    :+:   */
+/*   redirects.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dwillard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/17 18:21:21 by dwillard          #+#    #+#             */
+/*   Created: 2022/01/17 18:28:36 by dwillard          #+#    #+#             */
 /*   Updated: 2022/01/17 19:22:31 by dwillard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
-struct s_out
+static int	input(char *str)
 {
-	char			*command;
-	char			**args;
-	char			**redir;
-	struct s_out	*next;
-};
-
-int	main(void)
-{
-	struct s_out	*input;
-
-	input = malloc(sizeof (struct s_out *));
-	input->command = ft_strdup("cat");
-	input->args = malloc(sizeof (char *) * 3);
-	input->args[1] = ft_strdup("file1");
-	input->args[0] = ft_strdup("file0");
-	input->args[2] = NULL;
-	input->redir = malloc(sizeof (char *) * 3);
-	input->redir[0] = ft_strdup("<kamil");
-	input->redir[1] = ft_strdup(">yulya");
-	input->redir[2] = NULL;
-	input->next = NULL;
+	if (str[1] != '<')
+		;
+	else
+		here_doc();
 	return (0);
+}
+
+static int	output(char *str)
+{
+	return (0);
+}
+
+int	*redirect(char **red_arr)
+{
+	int	counter;
+	int	*fd_pair;
+
+	counter = 0;
+	fd_pair = malloc(sizeof(int) * 2);
+	fd_pair[0] = STDIN_FILENO;
+	fd_pair[1] = STDOUT_FILENO;
+	while (red_arr[counter])
+	{
+		if (red_arr[counter][0] == '<')
+			fd_pair[0] = input(red_arr[counter]);
+		else if (red_arr[counter][0] == '>')
+			fd_pair[1] = output(red_arr[counter]);
+		counter++;
+	}
+	return (fd_pair);
 }
