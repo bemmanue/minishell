@@ -36,6 +36,7 @@ add_executable(
         libft/ft_memcpy.c
         libft/ft_calloc.c
         libft/ft_bzero.c
+        sources/parse_example.c
         )
 
 target_link_libraries(minishell readline)
