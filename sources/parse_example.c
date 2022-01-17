@@ -18,6 +18,10 @@ int	main(void)
 	input->args[1] = ft_strdup("file1");
 	input->args[0] = ft_strdup("file0");
 	input->args[2] = NULL;
-	input->redir = malloc(sizeof (char *) * 1);
-	input->redir[0] = NULL;
+	input->redir = malloc(sizeof (char *) * 3);
+	input->redir[0] = ft_strdup("kamil>");
+	input->redir[1] = ft_strdup(">yulya");
+	input->redir[2] = NULL;
+	input->next = NULL;
+	return (0);
 }
