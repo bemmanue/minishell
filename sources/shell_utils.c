@@ -12,6 +12,20 @@
 
 #include "../minishell.h"
 
+void	*free_arr(char ***arr)
+{
+	char	**temp;
+
+	temp = *arr;
+	while (temp)
+	{
+		free(*temp);
+		temp += sizeof(char *);
+	}
+	free(*arr);
+	return (NULL);
+}
+
 int	lst_len(t_command *lst)
 {
 	int		ret_counter;

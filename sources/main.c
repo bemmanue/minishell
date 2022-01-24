@@ -15,19 +15,22 @@
 
 int main(int argc, char **argv, char **envp)
 {
-	char *str;
+	char	*str[1000];
+	int		index;
 
+	index = 0;
 	(void)argv;
 	(void)argc;
 	envp = ft_arrdup(envp, 0);
 	ft_exclude(envp, "OLDPWD=");
-	str = readline("minishell$ ");
-	while (ft_strncmp(str, "exit", 4) && str)
+	str[index] = readline("minishell$ ");
+	while (str[index] && ft_strncmp(str[index], "exit", 4))
 	{
-		command_center(envp, str);
-		if (ft_strlen(str) > 0)
-			add_history(str);
-		str = readline("minishell$ ");
+		command_center(envp, str[index]);
+		if (ft_strlen(str[index]) > 0)
+			add_history(str[index]);
+		index++;
+		str[index] = readline("minishell$ ");
 	}
 	return (0);
 }
