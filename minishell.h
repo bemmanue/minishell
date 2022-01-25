@@ -36,8 +36,6 @@ typedef struct s_command
 
 t_command	*parse_string(char **envp, char *file);
 
-void		*free_arr(char ***arr);
-
 int			command_center(char **envp, char *input);
 
 int			pipex(t_command *commands, char **envp);

@@ -1,26 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   shell_utils.c                                      :+:      :+:    :+:   */
+/*   ft_free_arr.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dwillard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/17 21:26:17 by dwillard          #+#    #+#             */
-/*   Updated: 2021/12/17 21:26:20 by dwillard         ###   ########.fr       */
+/*   Created: 2022/01/25 19:30:23 by dwillard          #+#    #+#             */
+/*   Updated: 2022/01/25 19:30:25 by dwillard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "libft.h"
 
-int	lst_len(t_command *lst)
+void	*free_arr(char ***arr)
 {
-	int		ret_counter;
+	char	**temp;
 
-	ret_counter = 0;
-	while (lst)
+	temp = *arr;
+	while (temp)
 	{
-		ret_counter++;
-		lst = lst->next;
+		free(*temp);
+		*temp = NULL;
+		temp += sizeof(char *);
 	}
-	return (ret_counter);
+	free(*arr);
+	*arr = NULL;
+	return (NULL);
 }
