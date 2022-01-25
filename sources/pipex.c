@@ -88,5 +88,9 @@ int	pipex(t_command *commands, char **envp)
 	backup[0] = dup(STDIN_FILENO);
 	backup[1] = dup(STDOUT_FILENO);
 	pipeline(commands, envp, backup);
+	dup2(STDIN_FILENO, backup[0]);
+	dup2(STDOUT_FILENO, backup[1]);
+	close(backup[0]);
+	close(backup[1]);
 	return (0);
 }
