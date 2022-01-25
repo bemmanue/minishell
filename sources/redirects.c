@@ -14,8 +14,10 @@
 
 #define NO_FILE -1
 #define NO_READ -2
-#define MEM_ERR -3
-#define HEREDOC -4
+#define NO_WRIT -3
+#define MEM_ERR -4
+#define OPN_ERR -5
+#define HEREDOC 100
 
 static int	here_doc(char *delimiter, char ***doc)
 {
@@ -50,13 +52,17 @@ static int	input(char *str, char ***doc)
 {
 	int	check;
 
-	check = 0;
+	if (*doc)
+		free_arr(doc);
 	if (str[1] != '<')
 	{
 		if (access(&str[1], F_OK))
 			return (NO_FILE);
 		if (access (&str[1], R_OK))
 			return (NO_READ);
+		check = open(&str[1], O_RDONLY);
+		if (check < 0)
+			check = OPN_ERR;
 	}
 	else
 		check = here_doc(str, doc);
@@ -65,26 +71,36 @@ static int	input(char *str, char ***doc)
 
 static int	output(char *str)
 {
-	return (0);
+	int	check;
+
+	if (access(&str[1], F_OK))
+		return (NO_FILE);
+	if (access (&str[1], W_OK))
+		return (NO_WRIT);
+	if (str[1] != '>')
+		check = open(&str[1], O_CREAT | O_WRONLY | O_TRUNC, 0622);
+	else
+		check = open(&str[1], O_CREAT | O_WRONLY | O_APPEND, 0622);
+	if (check < 0)
+		check = OPN_ERR;
+	return (check);
 }
 
-int	*redirect(char **red_arr, char ***document)
+int	*redirect(char **red_arr, int *fd_pair, char ***document)
 {
 	int	counter;
-	int	*fd_pair;
 
 	if (*document)
 		free_arr(document);
 	counter = 0;
-	fd_pair = malloc(sizeof(int) * 2);
-	fd_pair[0] = STDIN_FILENO;
-	fd_pair[1] = STDOUT_FILENO;
 	while (red_arr[counter])
 	{
 		if (red_arr[counter][0] == '<')
 			fd_pair[0] = input(red_arr[counter], document);
 		else if (red_arr[counter][0] == '>')
 			fd_pair[1] = output(red_arr[counter]);
+		if (fd_pair[0] < 0 || fd_pair[1] < 0)
+			return (free_arr(document));
 		counter++;
 	}
 	return (fd_pair);

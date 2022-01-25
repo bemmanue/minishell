@@ -46,4 +46,6 @@ int			lst_len(t_command *lst);
 
 int			chk_builtin(t_command *command);
 
+int			*redirect(char **red_arr, int *fd_pair, char ***document);
+
 #endif

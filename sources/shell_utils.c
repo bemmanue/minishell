@@ -20,9 +20,11 @@ void	*free_arr(char ***arr)
 	while (temp)
 	{
 		free(*temp);
+		*temp = NULL;
 		temp += sizeof(char *);
 	}
 	free(*arr);
+	*arr = NULL;
 	return (NULL);
 }
 
