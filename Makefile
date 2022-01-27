@@ -12,36 +12,32 @@
 
 
 NAME			=	minishell
-CHECKER			=	checker
 
 SRCS			=	sources/parser.c sources/command_center.c\
 					sources/main.c sources/pipex.c\
 					sources/shell_utils.c sources/builtin/cd.c\
-					sources/builtin/cd.c sources/builtin/cd_utils.c\
-					sources/builtin/pwd.c
+					sources/builtin/cd_utils.c sources/builtin/pwd.c\
+					sources/pipex_utils.c
 
 OBJS			=	$(SRCS:.c=.o)
 
 DEPS 			= 	$(SRCS:.c=.d)
 
-HEAD			=	includes/push_swap.h
 LIBFT			=	libft.a
 LIBFT_PATH		=	./libft/
 LIBFTMAKE		=	$(MAKE) all -sC $(LIBFT_PATH)
+LDFLAGS			=	-L$(HOME)/.brew/opt/readline/lib
 
 CC				=	cc
 CFLAGS			=	-Wall -Wextra -Werror -MMD
 
 all:				lib $(NAME) $(BUILTIN)
-
-bonus:				lib $(CHECKER)
-
 .c.o:
-					$(CC) $(CFLAGS) -I -Ilibft -Isources/builtin -c $< -o $@
+					$(CC) $(CFLAGS) -I. -Ilibft -Isources/builtin -c $< -o $@
 
 $(NAME):			$(OBJS)
-					$(CC) $(CFLAGS) $(OBJS) -I -Ilibft -Isources/builtin \
- 					-L$(LIBFT_PATH) -lft  -lreadline -o $(NAME) 
+					$(CC) $(CFLAGS) $(OBJS) -I. -Ilibft -Isources/builtin \
+ 					-L$(LIBFT_PATH) -lft $(LDFLAGS) -lreadline -o $(NAME)
 
 lib:
 					$(LIBFTMAKE)

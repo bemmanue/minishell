@@ -1,22 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   command_center.c                                   :+:      :+:    :+:   */
+/*   pipex_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dwillard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/15 16:41:27 by dwillard          #+#    #+#             */
-/*   Updated: 2021/12/17 21:25:44 by dwillard         ###   ########.fr       */
+/*   Created: 2022/01/27 18:34:43 by dwillard          #+#    #+#             */
+/*   Updated: 2022/01/27 18:34:57 by dwillard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-int	command_center(char **envp, char *input)
+void	dups(int fd_in, char ***doc, int fd[2])
 {
-	t_command	*commands;
+	char	**heredoc;
 
-	commands = parse_string(envp, input);
-	pipex(commands);
-	return (0);
+	close(fd[INPUT_END]);
+	close(fd[OUTPUT_END]);
+	heredoc = *doc;
+	if (fd_in != HEREDOC)
+		dup2(fd_in, STDIN_FILENO);
+	else
+	{
+		while (*heredoc)
+		{
+			write(STDIN_FILENO, *heredoc, ft_strlen(*heredoc));
+			heredoc += sizeof(char *);
+		}
+		free_arr(doc);
+	}
+	if (fd_in != HEREDOC)
+		close(fd_in);
 }

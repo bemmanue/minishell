@@ -11,24 +11,61 @@
 /* ************************************************************************** */
 
 #include <minishell.h>
+//
+//static int	last_fork(t_command *command)
+//{
+//	int	pid;
+//	int	status;
+//	int	builtin;
+//
+//	builtin = chk_builtin(command);
+//	if (builtin)
+//		return (builtin);
+//	pid = fork();
+//	if (pid < 0)
+//		return (errno);
+//	else if (!pid)
+//	{
+//		execve(command->name, command->argv, NULL);
+//		write(2, "Error: exec\n", 12);
+//		exit(errno);
+//	}
+//	else
+//		waitpid(pid, &status, 0);
+//	return (status);
+//}
 
-static int	child(t_command *commands, int fd[2])
+static void	child(int fd[2], t_command *commands, int fd_out)
 {
-	pid_t	pid;
-
-	if (pipe(fd))
-		return (errno);
-	pid = fork();
-	if (!pid)
+	if (fd_out < 0)
 	{
 		close(fd[OUTPUT_END]);
 		dup2(fd[INPUT_END], STDOUT_FILENO);
 		close(fd[INPUT_END]);
-		execve(commands->name, commands->argv, NULL);
-		write(2, "Error: exec\n", 12);
-		exit(errno);
 	}
-	else if (pid > 0)
+	else
+		dup2(fd_out, STDOUT_FILENO);
+	//вставить сюда проверки на встроенные функции и сделать условие
+	execve(commands->name, commands->argv, NULL);
+	write(2, "minishell error: exec\n", 22);
+	error(NULL);
+}
+
+static int	pipeline(t_command *commands, int fd[2])
+{
+	pid_t	pid;
+	int		fd_redir[2];
+	char	**doc;
+
+	if (pipe(fd))
+		return (errno);
+	redirect(commands->redirects, fd_redir, &doc);
+	if (fd_redir[0] > 0)
+		dups(fd_redir[0], &doc, fd);
+	pid = fork();
+	if (!pid)
+		child(fd, commands, fd_redir[1]);
+	else if (pid > 0 && fd_redir[0] == STD_VAL)
 	{
 		close(fd[INPUT_END]);
 		dup2(fd[OUTPUT_END], STDIN_FILENO);
@@ -39,31 +76,7 @@ static int	child(t_command *commands, int fd[2])
 	return (pid);
 }
 
-static int	last_fork(t_command *command, int backup[2])
-{
-	int	pid;
-	int	status;
-	int	builtin;
-
-	builtin = chk_builtin(command);
-	if (builtin)
-		return (builtin);
-	pid = fork();
-	if (pid < 0)
-		return (errno);
-	else if (!pid)
-	{
-		dup2(backup[1], STDOUT_FILENO);
-		execve(command->name, command->argv, NULL);
-		write(2, "Error: exec\n", 12);
-		exit(errno);
-	}
-	else
-		waitpid(pid, &status, 0);
-	return (status);
-}
-
-static int	pipeline(t_command *commands, char **envp, int backup[2])
+int	pipex(t_command *commands)
 {
 	int		counter;
 	int		fd[2];
@@ -73,24 +86,11 @@ static int	pipeline(t_command *commands, char **envp, int backup[2])
 	counter = 0;
 	while (counter < lst_len(commands) - 1)
 	{
-		pid = child(commands, fd);
-		waitpid(pid, &status, 0);
+		pid = pipeline(commands, fd);
+		if (pid > 0)
+			waitpid(pid, &status, 0);
 		counter++;
 	}
-	last_fork(commands, backup);
-	return (0);
-}
-
-int	pipex(t_command *commands, char **envp)
-{
-	int		backup[2];
-
-	backup[0] = dup(STDIN_FILENO);
-	backup[1] = dup(STDOUT_FILENO);
-	pipeline(commands, envp, backup);
-	dup2(STDIN_FILENO, backup[0]);
-	dup2(STDOUT_FILENO, backup[1]);
-	close(backup[0]);
-	close(backup[1]);
+	last_fork(commands);
 	return (0);
 }

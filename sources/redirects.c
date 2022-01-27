@@ -12,13 +12,6 @@
 
 #include <minishell.h>
 
-#define NO_FILE -1
-#define NO_READ -2
-#define NO_WRIT -3
-#define MEM_ERR -4
-#define OPN_ERR -5
-#define HEREDOC 100
-
 static int	here_doc(char *delimiter, char ***doc)
 {
 	char	*str;
@@ -48,10 +41,12 @@ static int	here_doc(char *delimiter, char ***doc)
 	return (HEREDOC);
 }
 
-static int	input(char *str, char ***doc)
+static int	input(char *str, char ***doc, int fd)
 {
 	int	check;
 
+	if (fd != STD_VAL && fd != HEREDOC)
+		close(fd);
 	if (*doc)
 		free_arr(doc);
 	if (str[1] != '<')
@@ -69,10 +64,12 @@ static int	input(char *str, char ***doc)
 	return (check);
 }
 
-static int	output(char *str)
+static int	output(char *str, int fd)
 {
 	int	check;
 
+	if (fd != STD_VAL)
+		close(fd);
 	if (access(&str[1], F_OK))
 		return (NO_FILE);
 	if (access (&str[1], W_OK))
@@ -86,19 +83,21 @@ static int	output(char *str)
 	return (check);
 }
 
-int	*redirect(char **red_arr, int *fd_pair, char ***document)
+int	*redirect(char **red_arr, int fd_pair[2], char ***document)
 {
 	int	counter;
 
 	if (*document)
 		free_arr(document);
 	counter = 0;
+	fd_pair[0] = STD_VAL;
+	fd_pair[1] = STD_VAL;
 	while (red_arr[counter])
 	{
 		if (red_arr[counter][0] == '<')
-			fd_pair[0] = input(red_arr[counter], document);
+			fd_pair[0] = input(red_arr[counter], document, fd_pair[0]);
 		else if (red_arr[counter][0] == '>')
-			fd_pair[1] = output(red_arr[counter]);
+			fd_pair[1] = output(red_arr[counter], fd_pair[1]);
 		if (fd_pair[0] < 0 || fd_pair[1] < 0)
 			return (free_arr(document));
 		counter++;

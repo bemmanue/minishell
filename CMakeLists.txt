@@ -56,6 +56,6 @@ add_executable(
         sources/redirects.c
         libft/ft_free_arr.c
         libft/ft_unite.c
-)
+        sources/pipex_utils.c)
 
 target_link_libraries(minishell readline)
