@@ -20,7 +20,11 @@ set(
         sources/builtin/builtin.h
     )
 
-include_directories(.)
+include_directories(
+        .
+        libft
+        sources/builtin
+)
 
 add_executable(
         minishell
@@ -49,6 +53,9 @@ add_executable(
         libft/ft_calloc.c
         libft/ft_bzero.c
         sources/parse_example.c
-        sources/redirects.c libft/ft_free_arr.c)
+        sources/redirects.c
+        libft/ft_free_arr.c
+        libft/ft_unite.c
+)
 
 target_link_libraries(minishell readline)

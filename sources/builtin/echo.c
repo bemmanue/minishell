@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../minishell.h"
+#include <minishell.h>
 
 static void	ft_putstr(char *str, int flag)
 {
@@ -36,7 +36,10 @@ static void	ft_cycle(int flag, int index, char **argv)
 int	echo(int argc, char **argv)
 {
 	if (argc < 2)
-		return (write(STDOUT_FILENO, "\n", 1) - 1);
+	{
+		write(STDOUT_FILENO, "\n", 1);
+		return (0);
+	}
 	if (argc == 2 && !ft_strncmp(argv[1], "-n", 3))
 		return (0);
 	if (argc > 2 && !ft_strncmp(argv[1], "-n", 3))

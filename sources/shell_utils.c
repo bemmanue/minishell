@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include <minishell.h>
 
 int	lst_len(t_command *lst)
 {

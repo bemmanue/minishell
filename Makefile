@@ -37,10 +37,11 @@ all:				lib $(NAME) $(BUILTIN)
 bonus:				lib $(CHECKER)
 
 .c.o:
-					$(CC) $(CFLAGS) -Iincludes/ -c $< -o $@
+					$(CC) $(CFLAGS) -I -Ilibft -Isources/builtin -c $< -o $@
 
 $(NAME):			$(OBJS)
-					$(CC) $(CFLAGS) $(OBJS) -L$(LIBFT_PATH) -lft  -lreadline -o $(NAME)
+					$(CC) $(CFLAGS) $(OBJS) -I -Ilibft -Isources/builtin \
+ 					-L$(LIBFT_PATH) -lft  -lreadline -o $(NAME) 
 
 lib:
 					$(LIBFTMAKE)

@@ -15,7 +15,7 @@
 
 # include <fcntl.h>
 # include <stdio.h>
-# include "../../libft/libft.h"
+# include <libft.h>
 
 # define MAX_DIR 160
 

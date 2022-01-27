@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include <minishell.h>
 
 static int	child(t_command *commands, int fd[2])
 {

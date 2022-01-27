@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include <minishell.h>
 
 #define NO_FILE -1
 #define NO_READ -2
