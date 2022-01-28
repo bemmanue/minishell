@@ -11,7 +11,35 @@
 /* ************************************************************************** */
 
 #include <minishell.h>
-//
+
+int	chk_builtin(t_command *commands)
+{
+	char	*name;
+	int		code;
+	int		argc;
+
+	argc = 0;
+	while (commands->argv[argc])
+		argc++;
+	code = NONBLTN;
+	name = commands->name;
+	if (!ft_strncmp(name, g_info.bltn[0], max(name, g_info.bltn[0])))
+		code = echo(argc, commands->argv);
+	if (!ft_strncmp(name, g_info.bltn[0], max(name, g_info.bltn[0])))
+		code = cd(commands->argv, g_info.env);
+	if (!ft_strncmp(name, g_info.bltn[0], max(name, g_info.bltn[0])))
+		code = pwd();
+//	if (!ft_strncmp(name, g_info.bltn[0], max(name, g_info.bltn[0])))
+//		code = export(argc, commands->argv);
+//	if (!ft_strncmp(name, g_info.bltn[0], max(name, g_info.bltn[0])))
+//		code = unset(argc, commands->argv);
+//	if (!ft_strncmp(name, g_info.bltn[0], max(name, g_info.bltn[0])))
+//		code = env(argc, commands->argv);
+//	if (!ft_strncmp(name, g_info.bltn[0], max(name, g_info.bltn[0])))
+//		code = exit(argc, commands->argv);
+	return (code);
+}
+
 //static int	last_fork(t_command *command)
 //{
 //	int	pid;
@@ -46,9 +74,13 @@ static void	child(int fd[2], t_command *commands, int fd_out)
 	else
 		dup2(fd_out, STDOUT_FILENO);
 	//вставить сюда проверки на встроенные функции и сделать условие
-	execve(commands->name, commands->argv, NULL);
-	write(2, "minishell error: exec\n", 22);
-	error(NULL);
+	if (chk_builtin(commands))
+	{
+
+		execve(commands->name, commands->argv, NULL);
+		write(2, "minishell error: exec\n", 22);
+		error(NULL);
+	}
 }
 
 static int	pipeline(t_command *commands, int fd[2])
@@ -58,10 +90,14 @@ static int	pipeline(t_command *commands, int fd[2])
 	char	**doc;
 
 	if (pipe(fd))
-		return (errno);
+		return (-1);
 	redirect(commands->redirects, fd_redir, &doc);
+	//возможно хорошая мысль
+	//вставить сюда проверку фдшников и выход?
 	if (fd_redir[0] > 0)
 		dups(fd_redir[0], &doc, fd);
+	else if (fd_redir[0] != -6 || (fd_redir[1] < 0 && fd_redir[1] != -6))
+		return (-1);
 	pid = fork();
 	if (!pid)
 		child(fd, commands, fd_redir[1]);
@@ -72,7 +108,7 @@ static int	pipeline(t_command *commands, int fd[2])
 		close(fd[OUTPUT_END]);
 	}
 	else
-		return (errno);
+		return (-1);
 	return (pid);
 }
 
@@ -89,6 +125,8 @@ int	pipex(t_command *commands)
 		pid = pipeline(commands, fd);
 		if (pid > 0)
 			waitpid(pid, &status, 0);
+		else
+			return (errno);
 		counter++;
 	}
 	last_fork(commands);

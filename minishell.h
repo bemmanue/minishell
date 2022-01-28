@@ -32,6 +32,7 @@
 # define OPN_ERR -5
 # define STD_VAL -6
 # define HEREDOC 100
+# define NONBLTN 1000
 
 typedef struct s_command
 {
@@ -52,7 +53,8 @@ struct s_info
 	int		std_fd[2];
 	int		yulya_var;
 	int		last_prcs;
-	t_env	*env_lst;
+	char	**env;
+	char	**bltn;
 }g_info;
 
 t_command	*parse_string(char **envp, char *file);
@@ -74,5 +76,7 @@ void		dups(int fd_in, char ***doc, int fd[2]);
 int			chk_builtin(t_command *command);
 
 int			*redirect(char **red_arr, int *fd_pair, char ***document);
+
+int			max(char *str1, char *str2);
 
 #endif

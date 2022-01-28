@@ -33,3 +33,8 @@ void	dups(int fd_in, char ***doc, int fd[2])
 	if (fd_in != HEREDOC)
 		close(fd_in);
 }
+
+int	check_fd_ret()
+{
+	return (0);
+}

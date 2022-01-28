@@ -12,7 +12,29 @@
 
 #include <minishell.h>
 
-void	init_info(char **envp)
+static char	**fill_bltn(void)
+{
+	char	**ret;
+	int		i;
+
+	i = 0;
+	ret = ft_calloc(8, sizeof (char *));
+	if (!ret)
+		return (NULL);
+	ret[0] = ft_strdup("echo");
+	ret[1] = ft_strdup("cd");
+	ret[2] = ft_strdup("pwd");
+	ret[3] = ft_strdup("export");
+	ret[4] = ft_strdup("unset");
+	ret[5] = ft_strdup("env");
+	ret[6] = ft_strdup("exit");
+	while (i < 7)
+		if (!ret[i])
+			return (free_arr(&ret));
+	return (ret);
+}
+
+static void	init_info(char **envp)
 {
 	int	counter;
 
@@ -20,9 +42,7 @@ void	init_info(char **envp)
 	g_info.std_fd[0] = dup(STDIN_FILENO);
 	g_info.std_fd[1] = dup(STDOUT_FILENO);
 	//сделать проверку на невыделение памяти
-	g_info.env_lst = lst_new(envp[counter]);
-	while (envp[++counter])
-		lst_add_back(&(g_info.env_lst), lst_new(envp[counter]));
+	g_info.bltn = fill_bltn();
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -33,7 +53,7 @@ int	main(int argc, char **argv, char **envp)
 	index = 0;
 	(void)argv;
 	(void)argc;
-	envp = ft_arrdup(envp, 0);
+	g_info.env = ft_arrdup(envp, 0);
 	ft_exclude(envp, "OLDPWD=");
 	init_info(envp);
 	str[index] = readline("minishell$ ");

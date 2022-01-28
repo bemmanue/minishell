@@ -12,6 +12,19 @@
 
 #include <minishell.h>
 
+int	max(char *str1, char *str2)
+{
+	int	num1;
+	int	num2;
+
+	num1 = ft_strlen(str1);
+	num2 = ft_strlen(str2);
+	if (num1 > num2)
+		return (num1);
+	else
+		return (num2);
+}
+
 void	error(char *str)
 {
 	if (str)
