@@ -23,48 +23,19 @@ int	chk_builtin(t_command *commands)
 		argc++;
 	code = NONBLTN;
 	name = commands->name;
-	if (!ft_strncmp(name, g_info.bltn[0], max(name, g_info.bltn[0])))
+	if (!ft_strncmp(name, g_info.bltn[0], 5))
 		code = echo(argc, commands->argv);
-	if (!ft_strncmp(name, g_info.bltn[0], max(name, g_info.bltn[0])))
+	if (!ft_strncmp(name, g_info.bltn[1], 3))
 		code = cd(commands->argv, g_info.env);
-	if (!ft_strncmp(name, g_info.bltn[0], max(name, g_info.bltn[0])))
+	if (!ft_strncmp(name, g_info.bltn[2], 4))
 		code = pwd();
-//	if (!ft_strncmp(name, g_info.bltn[0], max(name, g_info.bltn[0])))
-//		code = export(argc, commands->argv);
-//	if (!ft_strncmp(name, g_info.bltn[0], max(name, g_info.bltn[0])))
-//		code = unset(argc, commands->argv);
-//	if (!ft_strncmp(name, g_info.bltn[0], max(name, g_info.bltn[0])))
-//		code = env(argc, commands->argv);
-//	if (!ft_strncmp(name, g_info.bltn[0], max(name, g_info.bltn[0])))
-//		code = exit(argc, commands->argv);
 	return (code);
 }
 
-//static int	last_fork(t_command *command)
-//{
-//	int	pid;
-//	int	status;
-//	int	builtin;
-//
-//	builtin = chk_builtin(command);
-//	if (builtin)
-//		return (builtin);
-//	pid = fork();
-//	if (pid < 0)
-//		return (errno);
-//	else if (!pid)
-//	{
-//		execve(command->name, command->argv, NULL);
-//		write(2, "Error: exec\n", 12);
-//		exit(errno);
-//	}
-//	else
-//		waitpid(pid, &status, 0);
-//	return (status);
-//}
-
 static void	child(int fd[2], t_command *commands, int fd_out)
 {
+	int	temp;
+
 	if (fd_out < 0)
 	{
 		close(fd[OUTPUT_END]);
@@ -73,14 +44,14 @@ static void	child(int fd[2], t_command *commands, int fd_out)
 	}
 	else
 		dup2(fd_out, STDOUT_FILENO);
-	//вставить сюда проверки на встроенные функции и сделать условие
-	if (chk_builtin(commands))
+	temp = chk_builtin(commands);
+	if (temp == NONBLTN)
 	{
-
-		execve(commands->name, commands->argv, NULL);
-		write(2, "minishell error: exec\n", 22);
-		error(NULL);
+		g_info.last_prcs = execve(commands->name, commands->argv, g_info.env);
+		error(commands->name);
 	}
+	else
+		g_info.last_prcs = temp;
 }
 
 static int	pipeline(t_command *commands, int fd[2])
@@ -91,20 +62,18 @@ static int	pipeline(t_command *commands, int fd[2])
 
 	if (pipe(fd))
 		return (-1);
+	doc = NULL;
 	redirect(commands->redirects, fd_redir, &doc);
-	//возможно хорошая мысль
-	//вставить сюда проверку фдшников и выход?
-	if (fd_redir[0] > 0)
-		dups(fd_redir[0], &doc, fd);
-	else if (fd_redir[0] != -6 || (fd_redir[1] < 0 && fd_redir[1] != -6))
+	if (check_fd_ret(fd_redir, fd, &doc))
 		return (-1);
 	pid = fork();
 	if (!pid)
 		child(fd, commands, fd_redir[1]);
-	else if (pid > 0 && fd_redir[0] == STD_VAL)
+	else if (pid > 0)
 	{
 		close(fd[INPUT_END]);
-		dup2(fd[OUTPUT_END], STDIN_FILENO);
+		if (fd_redir[0] == STD_VAL)
+			dup2(fd[OUTPUT_END], STDIN_FILENO);
 		close(fd[OUTPUT_END]);
 	}
 	else
@@ -112,23 +81,38 @@ static int	pipeline(t_command *commands, int fd[2])
 	return (pid);
 }
 
+static int	last_fork(t_command *commands, int fd[2])
+{
+	int	pid;
+	int	status;
+
+	pid = pipeline(commands, fd);
+	if (pid > 0)
+		waitpid(pid, &status, 0);
+	else
+		return (-1);
+	if (WIFEXITED(status))
+		g_info.last_prcs = WEXITSTATUS(status);
+	return (0);
+}
+
 int	pipex(t_command *commands)
 {
-	int		counter;
 	int		fd[2];
 	int		status;
 	int		pid;
 
-	counter = 0;
-	while (counter < lst_len(commands) - 1)
+	while (lst_len(commands) - 1)
 	{
 		pid = pipeline(commands, fd);
 		if (pid > 0)
 			waitpid(pid, &status, 0);
 		else
-			return (errno);
-		counter++;
+			return (-1);
+		if (WIFEXITED(status))
+			g_info.last_prcs = WEXITSTATUS(status);
+		commands = commands->next;
 	}
-	last_fork(commands);
+	last_fork(commands, fd);
 	return (0);
 }

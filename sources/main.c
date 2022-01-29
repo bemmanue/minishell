@@ -29,20 +29,24 @@ static char	**fill_bltn(void)
 	ret[5] = ft_strdup("env");
 	ret[6] = ft_strdup("exit");
 	while (i < 7)
+	{
 		if (!ret[i])
 			return (free_arr(&ret));
+		i++;
+	}
 	return (ret);
 }
 
-static void	init_info(char **envp)
+static void	init_info(int argc, char **argv)
 {
-	int	counter;
-
-	counter = 0;
+	(void)argc;
+	(void)argv;
 	g_info.std_fd[0] = dup(STDIN_FILENO);
 	g_info.std_fd[1] = dup(STDOUT_FILENO);
-	//сделать проверку на невыделение памяти
 	g_info.bltn = fill_bltn();
+	if (!g_info.bltn)
+		return ;
+	g_info.error = 0;
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -51,11 +55,11 @@ int	main(int argc, char **argv, char **envp)
 	int		index;
 
 	index = 0;
-	(void)argv;
-	(void)argc;
 	g_info.env = ft_arrdup(envp, 0);
-	ft_exclude(envp, "OLDPWD=");
-	init_info(envp);
+	init_info(argc, argv);
+	if (!g_info.env || !g_info.bltn)
+		return (-1);
+	envp = g_info.env;
 	str[index] = readline("minishell$ ");
 	while (str[index] && ft_strncmp(str[index], "exit", 4))
 	{

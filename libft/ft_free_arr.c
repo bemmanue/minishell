@@ -15,15 +15,19 @@
 void	*free_arr(char ***arr)
 {
 	char	**temp;
+	int		index;
 
+	index = 0;
 	temp = *arr;
-	while (temp)
+	if (!temp)
+		return (NULL);
+	while (temp[index])
 	{
-		free(*temp);
-		*temp = NULL;
-		temp += sizeof(char *);
+		free(temp[index]);
+		temp[index] = NULL;
+		index++;
 	}
-	free(*arr);
-	*arr = NULL;
+	free(temp);
+	temp = NULL;
 	return (NULL);
 }

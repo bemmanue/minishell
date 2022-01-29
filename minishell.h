@@ -30,7 +30,7 @@
 # define NO_WRIT -3
 # define MEM_ERR -4
 # define OPN_ERR -5
-# define STD_VAL -6
+# define STD_VAL 200
 # define HEREDOC 100
 # define NONBLTN 1000
 
@@ -51,8 +51,9 @@ typedef struct s_env
 struct s_info
 {
 	int		std_fd[2];
-	int		yulya_var;
+	int		error;
 	int		last_prcs;
+	char	*file;
 	char	**env;
 	char	**bltn;
 }g_info;
@@ -65,18 +66,20 @@ void		lst_add_back(t_env **lst, t_env *new);
 
 int			lst_len(t_command *lst);
 
-void		error(char *str);
-
 int			command_center(char **envp, char *input);
 
 int			pipex(t_command *commands);
+
+void		error_pipex(void);
+
+void		error(char *str);
+
+int			check_fd_ret(int fd_redir[2], int fd[2], char ***doc);
 
 void		dups(int fd_in, char ***doc, int fd[2]);
 
 int			chk_builtin(t_command *command);
 
 int			*redirect(char **red_arr, int *fd_pair, char ***document);
-
-int			max(char *str1, char *str2);
 
 #endif

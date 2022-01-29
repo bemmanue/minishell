@@ -13,11 +13,12 @@
 
 NAME			=	minishell
 
-SRCS			=	sources/parser.c sources/command_center.c\
-					sources/main.c sources/pipex.c\
-					sources/shell_utils.c sources/builtin/cd.c\
-					sources/builtin/cd_utils.c sources/builtin/pwd.c\
-					sources/pipex_utils.c
+SRCS			=	sources/parser.c		sources/command_center.c\
+					sources/main.c			sources/pipex.c\
+					sources/shell_utils.c	sources/pipex_utils.c\
+					sources/redirects.c		\
+					sources/builtin/cd.c	sources/builtin/cd_utils.c\
+					sources/builtin/pwd.c	sources/builtin/echo.c
 
 OBJS			=	$(SRCS:.c=.o)
 

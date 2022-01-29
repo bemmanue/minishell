@@ -12,26 +12,13 @@
 
 #include <minishell.h>
 
-int	max(char *str1, char *str2)
-{
-	int	num1;
-	int	num2;
-
-	num1 = ft_strlen(str1);
-	num2 = ft_strlen(str2);
-	if (num1 > num2)
-		return (num1);
-	else
-		return (num2);
-}
-
 void	error(char *str)
 {
-	if (str)
-		ft_putendl_fd(str, 2);
-	if (errno && !str)
-		ft_putendl_fd(strerror(errno), 2);
-	exit(errno);
+	ft_putstr_fd("minishell: ", 2);
+	ft_putstr_fd(str, 2);
+	ft_putstr_fd(": ", 2);
+	ft_putendl_fd(strerror(errno), 2);
+	exit(-1);
 }
 
 t_env	*lst_new(char *content)
