@@ -74,11 +74,10 @@ static int	output(char *str, int fd)
 {
 	int	check;
 
+	check = 0;
 	if (fd != STD_VAL)
 		close(fd);
-	if (access(&str[1], F_OK))
-		check = NO_FILE;
-	if (access (&str[1], W_OK)  && !check)
+	if (!access(&str[1], F_OK) && access(&str[1], W_OK))
 		check = NO_WRIT;
 	if (check)
 	{
@@ -88,7 +87,7 @@ static int	output(char *str, int fd)
 	if (str[1] != '>')
 		check = open(&str[1], O_CREAT | O_WRONLY | O_TRUNC, 0622);
 	else
-		check = open(&str[1], O_CREAT | O_WRONLY | O_APPEND, 0622);
+		check = open(&str[2], O_CREAT | O_WRONLY | O_APPEND, 0622);
 	if (check < 0)
 	{
 		check = OPN_ERR;

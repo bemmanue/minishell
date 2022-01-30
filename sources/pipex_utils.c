@@ -17,16 +17,34 @@ void	error_pipex(void)
 	ft_putendl_fd(strerror(errno), 2);
 }
 
+int	chk_builtin(t_command *commands)
+{
+	char	*name;
+	int		code;
+	int		argc;
+
+	argc = 0;
+	while (commands->argv[argc])
+		argc++;
+	code = NONBLTN;
+	name = commands->name;
+	if (!ft_strncmp(name, g_info.bltn[0], 5))
+		code = echo(argc, commands->argv);
+	if (!ft_strncmp(name, g_info.bltn[1], 3))
+		code = cd(commands->argv, g_info.env);
+	if (!ft_strncmp(name, g_info.bltn[2], 4))
+		code = pwd();
+	return (code);
+}
+
 void	dups(int fd_in, char ***doc, int fd[2])
 {
 	char	**heredoc;
 
-	close(fd[INPUT_END]);
-	close(fd[OUTPUT_END]);
 	heredoc = *doc;
 	if (fd_in != HEREDOC && fd_in != STD_VAL)
 		dup2(fd_in, STDIN_FILENO);
-	else if(fd_in == HEREDOC)
+	else if (fd_in == HEREDOC)
 	{
 		while (*heredoc)
 		{
@@ -35,7 +53,12 @@ void	dups(int fd_in, char ***doc, int fd[2])
 		}
 		free_arr(doc);
 	}
-	if (fd_in != HEREDOC)
+	if (fd[1] != STD_VAL)
+	{
+		dup2(fd[1], STDOUT_FILENO);
+		close(fd[1]);
+	}
+	if (fd_in != HEREDOC && fd_in != STD_VAL)
 		close(fd_in);
 }
 
