@@ -22,11 +22,14 @@ void	write_command(t_command *command, t_list *list)
 	rdrct_index = 0;
 	while (list)
 	{
-		printf("list = %s\n", list->content);
+//		printf("list = %s\n", list->content);
 		if (strchr("<>", *list->content))
 			command->rdrct[rdrct_index++] = expand(list->content);
 		else if (!command->name)
+		{
 			command->name = add_full_path(expand(list->content), path);
+			command->argv[argv_index++] = add_full_path(expand(list->content), path);
+		}
 		else
 			command->argv[argv_index++] = expand(list->content);
 		list = list->next;
@@ -44,7 +47,7 @@ void	fill_command(t_command	*command, t_list *list)
 
 	count_arguments(list, &argv_number, &rdrct_number);
 	command->name = NULL;
-	command->argv = malloc(sizeof(char *) * (argv_number + 1));
+	command->argv = malloc(sizeof(char *) * (argv_number + 2));
 	command->rdrct = malloc(sizeof(char *) * (rdrct_number + 1));
 	command->next = NULL;
 	if (!command->argv || !command->rdrct)
