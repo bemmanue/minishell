@@ -13,12 +13,15 @@
 
 NAME			=	minishell
 
-SRCS			=	sources/parser.c		sources/command_center.c\
-					sources/main.c			sources/pipex.c\
-					sources/shell_utils.c	sources/pipex_utils.c\
-					sources/redirects.c		\
-					sources/builtin/cd.c	sources/builtin/cd_utils.c\
-					sources/builtin/pwd.c	sources/builtin/echo.c
+SRCS			=	sources/redirects.c				sources/command_center.c\
+					sources/main.c					sources/pipex.c\
+					sources/shell_utils.c			sources/pipex_utils.c\
+					sources/builtin/cd.c			sources/builtin/cd_utils.c\
+					sources/builtin/pwd.c			sources/builtin/echo.c\
+					sources/parser/parser.c			sources/parser/parser_utils.c\
+					sources/parser/command_line.c	sources/parser/command.c\
+					sources/parser/get.c			sources/parser/open.c\
+					sources/parser/skip.c
 
 OBJS			=	$(SRCS:.c=.o)
 
@@ -34,10 +37,10 @@ CFLAGS			=	-Wall -Wextra -Werror -MMD
 
 all:				lib $(NAME) $(BUILTIN)
 .c.o:
-					$(CC) $(CFLAGS) -I. -Ilibft -Isources/builtin -c $< -o $@
+					$(CC) $(CFLAGS) -I. -Ilibft -Isources/builtin -Isources/parser -c $< -o $@
 
 $(NAME):			$(OBJS)
-					$(CC) $(CFLAGS) $(OBJS) -I. -Ilibft -Isources/builtin \
+					$(CC) $(CFLAGS) $(OBJS) -I. -Ilibft -Isources/builtin -Isources/parser \
  					-L$(LIBFT_PATH) -lft $(LDFLAGS) -lreadline -o $(NAME)
 
 lib:

@@ -63,7 +63,7 @@ static int	pipeline(t_command *commands, int fd[2])
 	if (pipe(fd))
 		return (-1);
 	doc = NULL;
-	redirect(commands->redirects, fd_redir, &doc);
+	redirect(commands->rdrct, fd_redir, &doc);
 	if (check_fd_ret(fd_redir, fd, &doc))
 		return (-1);
 	pid = fork();

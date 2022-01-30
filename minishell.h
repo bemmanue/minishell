@@ -15,6 +15,7 @@
 
 # include <builtin.h>
 # include <libft.h>
+# include <parser.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <sys/wait.h>
@@ -34,13 +35,16 @@
 # define HEREDOC 100
 # define NONBLTN 1000
 
+# ifndef COMMAND
+#  define COMMAND
 typedef struct s_command
 {
 	char	*name;
 	char	**argv;
-	char	**redirects;
+	char	**rdrct;
 	void	*next;
 }t_command;
+# endif
 
 typedef struct s_env
 {
@@ -57,8 +61,6 @@ struct s_info
 	char	**env;
 	char	**bltn;
 }g_info;
-
-t_command	*parse_string(char **envp, char *file);
 
 t_env		*lst_new(char *content);
 

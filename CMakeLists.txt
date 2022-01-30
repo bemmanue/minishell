@@ -18,12 +18,14 @@ set(
         minishell.h
         libft/libft.h
         sources/builtin/builtin.h
+        sources/parser/parser.h
     )
 
 include_directories(
         .
         libft
         sources/builtin
+        sources/parser
 )
 
 add_executable(
@@ -31,7 +33,6 @@ add_executable(
         minishell.h
         sources/command_center.c
         sources/main.c
-        sources/parser.c
         sources/pipex.c
         sources/shell_utils.c
         sources/builtin/cd.c
@@ -39,6 +40,8 @@ add_executable(
         sources/builtin/echo.c
         sources/builtin/pwd.c
         sources/builtin/builtin.h
+        sources/redirects.c
+        sources/pipex_utils.c
         libft/libft.h
         libft/ft_split.c
         libft/ft_arrdup.c
@@ -52,9 +55,21 @@ add_executable(
         libft/ft_memcpy.c
         libft/ft_calloc.c
         libft/ft_bzero.c
-        sources/redirects.c
         libft/ft_free_arr.c
         libft/ft_unite.c
-        sources/pipex_utils.c)
+        libft/ft_lstadd_back.c
+        libft/ft_lstclear.c
+        libft/ft_strchr.c
+        libft/ft_lstnew.c
+        libft/ft_skipnchar.c
+        sources/parser/command.c
+        sources/parser/command_line.c
+        sources/parser/get.c
+        sources/parser/open.c
+        sources/parser/parser.c
+        sources/parser/parser_utils.c
+        sources/parser/skip.c
+        sources/parser/parser.h
+)
 
 target_link_libraries(minishell readline)
