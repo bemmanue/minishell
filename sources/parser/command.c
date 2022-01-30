@@ -6,8 +6,8 @@ char	*expand(char *argument)
 	char	*new;
 
 	new = ft_strdup(argument);
-//	open_dollar(&new);
-//	new = strdup(open_quotes(str));
+	open_dollar(&new);
+	open_quotes(&new);
 	return (new);
 }
 
@@ -22,7 +22,6 @@ void	write_command(t_command *command, t_list *list)
 	rdrct_index = 0;
 	while (list)
 	{
-//		printf("list = %s\n", list->content);
 		if (strchr("<>", *list->content))
 			command->rdrct[rdrct_index++] = expand(list->content);
 		else if (!command->name)

@@ -1,6 +1,31 @@
 
 # include "parser.h"
 
+char	*get_quotes_content(char *str)
+{
+	char	quote;
+	int		i;
+
+	i = 0;
+	quote = *str++;
+	while (str[i] && str[i] != quote)
+		i++;
+	str = strndup(str, i);
+	return (str);
+}
+
+char	*get_dollar(char *str)
+{
+	char	*dollar;
+	int		i;
+
+	i = 1;
+	while (!strchr(" $'\"\t\v\0", str[i]))
+		i++;
+	dollar = strndup(&str[1], i - 1);
+	return (dollar);
+}
+
 char *get_redirect(char *str)
 {
 	char	*redirect;
