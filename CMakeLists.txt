@@ -57,6 +57,11 @@ add_executable(
         libft/ft_bzero.c
         libft/ft_free_arr.c
         libft/ft_unite.c
+        libft/ft_lstadd_back.c
+        libft/ft_lstclear.c
+        libft/ft_strchr.c
+        libft/ft_lstnew.c
+        libft/ft_skipnchar.c
         sources/parser/command.c
         sources/parser/command_line.c
         sources/parser/get.c

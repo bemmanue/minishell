@@ -46,6 +46,7 @@ void	fill_command(t_command	*command, t_list *list)
 	command->name = NULL;
 	command->argv = malloc(sizeof(char *) * (argv_number + 1));
 	command->rdrct = malloc(sizeof(char *) * (rdrct_number + 1));
+	command->next = NULL;
 	if (!command->argv || !command->rdrct)
 		raise_error(MEMORY_ERROR);
 	write_command(command, list);
