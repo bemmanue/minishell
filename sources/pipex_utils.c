@@ -72,7 +72,7 @@ int	check_fd_ret(int fd_redir[2], int fd[2], char ***doc)
 		close(fd[OUTPUT_END]);
 		if (fd_redir[0] < 0 && fd_redir[1] != STD_VAL)
 			close(fd_redir[1]);
-		else if(fd_redir[1] < 0 && fd_redir[0] != STD_VAL)
+		if(fd_redir[1] < 0 && fd_redir[0] != STD_VAL)
 			close(fd_redir[0]);
 		error_pipex();
 		return (-1);

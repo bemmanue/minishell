@@ -13,6 +13,9 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+//лики в хирдоке, хирдок не перенапрявляет ввод, перенаправление echo не
+// работает
+
 # include <builtin.h>
 # include <libft.h>
 # include <parser.h>

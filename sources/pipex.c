@@ -18,13 +18,7 @@ static int	child(int fd[2], t_command *commands, int fd_out)
 	int	pid;
 
 	pid = 0;
-	if (fd_out == STD_VAL)
-	{
-		close(fd[OUTPUT_END]);
-		dup2(fd[INPUT_END], STDOUT_FILENO);
-		close(fd[INPUT_END]);
-	}
-	else
+	if (fd_out != STD_VAL)
 		dup2(fd_out, STDOUT_FILENO);
 	temp = chk_builtin(commands);
 	if (temp == NONBLTN)
@@ -32,6 +26,10 @@ static int	child(int fd[2], t_command *commands, int fd_out)
 		pid = fork();
 		if (pid)
 			return (pid);
+		close(fd[OUTPUT_END]);
+		if (fd_out == STD_VAL)
+			dup2(fd[INPUT_END], STDOUT_FILENO);
+		close(fd[INPUT_END]);
 		g_info.last_prcs = execve(commands->name, commands->argv, g_info.env);
 		error(commands->name);
 	}
