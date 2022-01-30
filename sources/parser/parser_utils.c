@@ -50,12 +50,8 @@ char	*add_full_path(char *str, char **path)
 	int		index;
 	char	*temp;
 
-	if (!str)
-		return (NULL);
-	if (is_builtin_command(str))
-		return (ft_strdup(str));
-	if (!access(str, F_OK))
-		return (ft_strdup(str));
+	if (!str || !access(str, F_OK) || is_builtin_command(str))
+		return (str);
 	if (path)
 	{
 		temp = ft_strjoin("/", str);
@@ -66,14 +62,15 @@ char	*add_full_path(char *str, char **path)
 			if (!access(absolute_path, F_OK))
 			{
 				free(temp);
+				free(str);
 				return (absolute_path);
 			}
 			free(absolute_path);
 			index++;
 		}
-		free (temp);
+		free(temp);
 	}
-	return (ft_strdup(str));
+	return (str);
 }
 
 int	is_builtin_command(char *name)
