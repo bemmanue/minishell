@@ -18,7 +18,7 @@ t_list	*split_command_line(char *str)
 	t_list	*new;
 
 	list = NULL;
-	while (*str)
+	while (*str && !g_info.error)
 	{
 		if (strchr(" \t\v", *str))
 			str++;

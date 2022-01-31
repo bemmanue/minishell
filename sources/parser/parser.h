@@ -20,6 +20,10 @@ typedef struct s_command
 
 # define PIPE_ERROR		1
 # define MEMORY_ERROR	2
+# define PATH_ERROR		3
+# define COMMAND_ERROR	4
+# define REDIRECT_ERROR	5
+# define QUOTE_ERROR	6
 
 int	g_error; //удалить и заменить все вхождения на элемент глобальной структуры
 
@@ -53,7 +57,7 @@ char		*add_full_path(char *str, char **path);
 int			is_builtin_command(char *name);
 void		free_array(char **array);
 
-void		*raise_error(int code);
-void		*ft_parser_error(void);
+void		*raise_error(int code, char *command);
+void		*parser_error(t_command *command);
 
 #endif

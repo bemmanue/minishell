@@ -25,7 +25,7 @@ int	skip_quotes(char *str)
 	while (str[i] && str[i] != quote)
 		i++;
 	if (str[i] == '\0')
-		g_error = 1;
+		raise_error(QUOTE_ERROR, strndup(&str[0], 1));
 	return (i);
 }
 
@@ -38,15 +38,18 @@ int	skip_redirect(char *str)
 	arrow = str[i++];
 	if (str[i] == arrow)
 		i++;
-	while (strchr(" \t\v", str[i]))
+	while (str[i] && strchr(" \t\v", str[i]))
 		i++;
 	if (!str[i] || strchr("<>", str[i]))
-		g_error = 1;
-	while (str[i] && !strchr(" \t\v<>", str[i]))
+		raise_error(REDIRECT_ERROR, strndup(&str[0], 1));
+	else
 	{
-		if (str[i] == '\'' || str[i] == '"')
-			i += skip_quotes(&str[i]);
-		i++;
+		while (str[i] && !strchr(" \t\v<>", str[i]))
+		{
+			if (str[i] == '\'' || str[i] == '"')
+				i += skip_quotes(&str[i]);
+			i++;
+		}
 	}
 	return (i);
 }
