@@ -70,6 +70,6 @@ add_executable(
         sources/parser/parser_utils.c
         sources/parser/skip.c
         sources/parser/parser.h
-)
+        sources/pipex_last.c)
 
 target_link_libraries(minishell readline)

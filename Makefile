@@ -16,6 +16,7 @@ NAME		=	minishell
 SRCS		=	sources/redirects.c				sources/command_center.c\
 				sources/main.c					sources/pipex.c\
 				sources/shell_utils.c			sources/pipex_utils.c\
+				sources/pipex_last.c			\
 				sources/builtin/cd.c			sources/builtin/cd_utils.c\
 				sources/builtin/pwd.c			sources/builtin/echo.c\
 				sources/parser/parser.c			sources/parser/parser_utils.c\

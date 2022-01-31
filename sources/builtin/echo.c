@@ -33,8 +33,13 @@ static void	ft_cycle(int flag, int index, char **argv)
 	}
 }
 
-int	echo(int argc, char **argv)
+int	echo(char **argv)
 {
+	int	argc;
+
+	argc = 0;
+	while (argv[argc])
+		argc++;
 	if (argc < 2)
 	{
 		write(STDOUT_FILENO, "\n", 1);
