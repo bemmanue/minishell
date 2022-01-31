@@ -10,7 +10,7 @@ OBJS			=	$(SRCS:.c=.o)
 DEPS 			= 	$(SRCS:.c=.d)
 
 LIBFT			=	libft.a
-LIBFT_PATH		=	./libft/
+LIBFT_PATH		=	../../libft/
 LIBFTMAKE		=	$(MAKE) all -sC $(LIBFT_PATH)
 
 CC				=	cc
@@ -19,10 +19,10 @@ CFLAGS			=	-Wall -Wextra -Werror -MMD
 all:				lib $(NAME)
 
 .c.o:
-					$(CC) $(CFLAGS) -Iincludes/ -c $< -o $@
+					$(CC) $(CFLAGS) -I. -I../.. -I../builtin -I$(LIBFT_PATH) -c $< -o $@
 
 $(NAME):			$(OBJS)
-					$(CC) $(OBJS) -I. -I../../libft -L$(LIBFT_PATH)\
+					$(CC) $(OBJS) -I. -I../.. -I../builtin -I$(LIBFT_PATH) -L$(LIBFT_PATH)\
 					-lft $(LDFLAGS) -lreadline	-o $(NAME)
 
 lib:

@@ -22,7 +22,7 @@ void	check_correct_use_of_pipes(char *str)
 	while (*str && !g_error)
 	{
 		if (*str == '|' && !word)
-			g_error = PIPE_ERROR;
+			raise_error(PIPE_ERROR, NULL);
 		if (*str == '|')
 		{
 			pipe = 1;
@@ -38,7 +38,7 @@ void	check_correct_use_of_pipes(char *str)
 		str++;
 	}
 	if (pipe == 1)
-		g_error = PIPE_ERROR;
+		raise_error(PIPE_ERROR, NULL);
 }
 
 t_command	*parse_string(char *str)
@@ -47,17 +47,17 @@ t_command	*parse_string(char *str)
 	char		*command_line;
 	t_list		*list;
 
-	g_error = 0;
+	g_info.error = 0;
 	command = NULL;
 	check_correct_use_of_pipes(str);
-	while (*str && !g_error)
+	while (*str && !g_info.error)
 	{
 		command_line = get_command_line(&str);
 		list = split_command_line(command_line);
 		add_new_command(&command, list);
 		ft_lstclear(&list, free);
 	}
-	if (g_error)
-		return (ft_parser_error());
+	if (g_info.error)
+		return (parser_error(command));
 	return (command);
 }

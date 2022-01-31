@@ -61,6 +61,7 @@ add_executable(
         libft/ft_strchr.c
         libft/ft_lstnew.c
         libft/ft_skipnchar.c
+        libft/ft_itoa.c
         libft/libft.h
         sources/parser/command.c
         sources/parser/command_line.c

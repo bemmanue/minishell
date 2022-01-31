@@ -12,22 +12,6 @@
 
 #include "libft.h"
 
-static int	count_new_len(const char *str, char *skip)
-{
-	int		new_len;
-	int		i;
-
-	i = 0;
-	new_len = 0;
-	while (str[i])
-	{
-		if (!ft_strchr(skip, str[i]))
-			new_len++;
-		i++;
-	}
-	return (new_len);
-}
-
 static char	*write_new(const char *str, char *skip, int new_len)
 {
 	char	*new;
@@ -46,6 +30,22 @@ static char	*write_new(const char *str, char *skip, int new_len)
 		str_index++;
 	}
 	return (new);
+}
+
+static int	count_new_len(const char *str, char *skip)
+{
+	int		new_len;
+	int		i;
+
+	i = 0;
+	new_len = 0;
+	while (str[i])
+	{
+		if (!ft_strchr(skip, str[i]))
+			new_len++;
+		i++;
+	}
+	return (new_len);
 }
 
 char	*ft_skipchar(const char *str, char *skip)
