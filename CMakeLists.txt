@@ -35,14 +35,13 @@ add_executable(
         sources/main.c
         sources/pipex.c
         sources/shell_utils.c
+        sources/redirects.c
+        sources/pipex_utils.c
         sources/builtin/cd.c
         sources/builtin/cd_utils.c
         sources/builtin/echo.c
         sources/builtin/pwd.c
         sources/builtin/builtin.h
-        sources/redirects.c
-        sources/pipex_utils.c
-        libft/libft.h
         libft/ft_split.c
         libft/ft_arrdup.c
         libft/ft_strdup.c
@@ -63,6 +62,7 @@ add_executable(
         libft/ft_lstnew.c
         libft/ft_skipnchar.c
         libft/ft_itoa.c
+        libft/libft.h
         sources/parser/command.c
         sources/parser/command_line.c
         sources/parser/get.c
@@ -71,6 +71,6 @@ add_executable(
         sources/parser/parser_utils.c
         sources/parser/skip.c
         sources/parser/parser.h
-)
+        sources/pipex_last.c)
 
 target_link_libraries(minishell readline)

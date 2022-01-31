@@ -37,13 +37,16 @@ int	command_center(char **envp, char *input)
 
 	(void)envp;
 	commands = parse_string(input);
-	if (pipex(commands))
-		g_info.last_prcs = 127;
-	free_comm(&commands);
-	g_info.error = 0;
+	if (commands)
+	{
+		if (pipex(commands))
+			g_info.last_prcs = 127;
+		free_comm(&commands);
+		dup2(g_info.std_fd[0], STDIN_FILENO);
+		dup2(g_info.std_fd[1], STDOUT_FILENO);
+	}
 	errno = 0;
-	dup2(g_info.std_fd[0], STDIN_FILENO);
-	dup2(g_info.std_fd[1], STDOUT_FILENO);
+	g_info.error = 0;
 	//g_info.env = envp проверить, что все работает
 	return (0);
 }

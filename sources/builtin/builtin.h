@@ -25,7 +25,7 @@ void	err_msg(char *str);
 
 void	*freedom(char ***arr);
 
-int		echo(int argc, char **argv);
+int		echo(char **argv);
 
 int		cd(char **argv, char **envp);
 

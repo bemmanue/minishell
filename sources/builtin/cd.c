@@ -76,11 +76,11 @@ int	cd(char **argv, char **envp)
 	int		result;
 
 	home = get_str(envp, "HOME=");
-	if (!argv)
+	if (!argv[1])
 		result = change_dir(home, envp);
 	else
-		result = change_dir(argv[0], envp);
+		result = change_dir(argv[1], envp);
 	if (result && argv)
-		err_msg(argv[0]);
+		err_msg(argv[1]);
 	return (result);
 }

@@ -11,49 +11,50 @@
 # **************************************************************************** #
 
 
-NAME			=	minishell
+NAME		=	minishell
 
-SRCS			=	sources/redirects.c				sources/command_center.c\
-					sources/main.c					sources/pipex.c\
-					sources/shell_utils.c			sources/pipex_utils.c\
-					sources/builtin/cd.c			sources/builtin/cd_utils.c\
-					sources/builtin/pwd.c			sources/builtin/echo.c\
-					sources/parser/parser.c			sources/parser/parser_utils.c\
-					sources/parser/command_line.c	sources/parser/command.c\
-					sources/parser/get.c			sources/parser/open.c\
-					sources/parser/skip.c
+SRCS		=	sources/redirects.c				sources/command_center.c\
+				sources/main.c					sources/pipex.c\
+				sources/shell_utils.c			sources/pipex_utils.c\
+				sources/pipex_last.c			\
+				sources/builtin/cd.c			sources/builtin/cd_utils.c\
+				sources/builtin/pwd.c			sources/builtin/echo.c\
+				sources/parser/parser.c			sources/parser/parser_utils.c\
+				sources/parser/command_line.c	sources/parser/command.c\
+				sources/parser/get.c			sources/parser/open.c\
+				sources/parser/skip.c
 
-OBJS			=	$(SRCS:.c=.o)
+OBJS		=	$(SRCS:.c=.o)
 
-DEPS 			= 	$(SRCS:.c=.d)
+DEPS 		= 	$(SRCS:.c=.d)
 
-LIBFT			=	libft.a
-LIBFT_PATH		=	./libft/
-LIBFTMAKE		=	$(MAKE) all -sC $(LIBFT_PATH)
-LDFLAGS			=	-L$(HOME)/.brew/opt/readline/lib
+LIBFT		=	libft.a
+LIBFT_PATH	=	./libft/
+LIBFTMAKE	=	$(MAKE) all -sC $(LIBFT_PATH)
+LDFLAGS		=	-L$(HOME)/.brew/opt/readline/lib
 
-CC				=	cc
-CFLAGS			=	-Wall -Wextra -Werror -MMD
+CC			=	cc
+CFLAGS		=	-Wall -Wextra -Werror -MMD
 
-all:				lib $(NAME) $(BUILTIN)
+all:			lib $(NAME) $(BUILTIN)
 .c.o:
-					$(CC) $(CFLAGS) -I. -Ilibft -Isources/builtin -Isources/parser -c $< -o $@
+				$(CC) $(CFLAGS) -I. -Ilibft -Isources/builtin -Isources/parser -c $< -o $@
 
-$(NAME):			$(OBJS)
-					$(CC) $(CFLAGS) $(OBJS) -I. -Ilibft -Isources/builtin -Isources/parser \
- 					-L$(LIBFT_PATH) -lft $(LDFLAGS) -lreadline -o $(NAME)
+$(NAME):		$(OBJS)
+				$(CC) $(CFLAGS) $(OBJS) -I. -Ilibft -Isources/builtin -Isources/parser \
+-L$(LIBFT_PATH) -lft $(LDFLAGS) -lreadline -o $(NAME)
 
 lib:
-					$(LIBFTMAKE)
+			$(LIBFTMAKE)
 
 clean:
-					$(MAKE)	clean -sC $(LIBFT_PATH)
-					rm -rf $(OBJS) $(DEPS)
+			$(MAKE)	clean -sC $(LIBFT_PATH)
+			rm -rf $(OBJS) $(DEPS)
 
-fclean:				clean
-					$(MAKE)	fclean -sC $(LIBFT_PATH)
-					rm -rf $(NAME)
+fclean:		clean
+			$(MAKE)	fclean -sC $(LIBFT_PATH)
+			rm -rf $(NAME)
 
-re:					fclean all
-.PHONY:				all lib bonus clean fclean re
--include			$(OBJS:.o=.d) $(BNS_OBJS:.o=.d)
+re:			fclean all
+.PHONY:		all lib bonus clean fclean re
+-include	$(OBJS:.o=.d) $(BNS_OBJS:.o=.d)

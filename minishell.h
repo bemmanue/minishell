@@ -13,6 +13,9 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+//лики в хирдоке, хирдок не перенапрявляет ввод, перенаправление builtin не
+//работает
+
 # include <builtin.h>
 # include <libft.h>
 # include <parser.h>
@@ -46,12 +49,6 @@ typedef struct s_command
 }t_command;
 # endif
 
-typedef struct s_env
-{
-	char	*str;
-	void	*next;
-}t_env;
-
 struct s_info
 {
 	int		std_fd[2];
@@ -62,25 +59,23 @@ struct s_info
 	char	**bltn;
 }g_info;
 
-t_env		*lst_new(char *content);
-
-void		lst_add_back(t_env **lst, t_env *new);
-
 int			lst_len(t_command *lst);
 
 int			command_center(char **envp, char *input);
 
 int			pipex(t_command *commands);
 
+int			last_fork(t_command *commands);
+
 void		error_pipex(void);
 
-void		error(char *str);
+void		error(char *str, int err);
 
 int			check_fd_ret(int fd_redir[2], int fd[2], char ***doc);
 
-void		dups(int fd_in, char ***doc, int fd[2]);
+void		dups(char ***doc, int fd[2]);
 
-int			chk_builtin(t_command *command);
+int			chk_builtin(t_command *commands, int fd[2]);
 
 int			*redirect(char **red_arr, int *fd_pair, char ***document);
 
