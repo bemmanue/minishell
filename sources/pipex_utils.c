@@ -47,6 +47,8 @@ int	chk_builtin(t_command *commands, int fd[2], int fd_out)
 		if (fd)
 			close(fd[OUTPUT_END]);
 		code = do_builtins(code, commands);
+		if (fd)
+			close(fd[INPUT_END]);
 	}
 	return (code);
 }

@@ -28,10 +28,6 @@ static int	child(int fd[2], t_command *commands, int fd_out)
 	int	pid;
 
 	pid = 0;
-	if (fd_out != STD_VAL)
-		dup2(fd_out, STDOUT_FILENO);
-	else
-		dup2(fd[INPUT_END], STDOUT_FILENO);
 	temp = chk_builtin(commands, fd, fd_out);
 	if (temp == NONBLTN)
 	{
@@ -61,6 +57,7 @@ static int	pipeline(t_command *commands, int fd[2], char **doc)
 			dup2(fd[OUTPUT_END], STDIN_FILENO);
 		close(fd[OUTPUT_END]);
 	}
+
 	if (pid < 0)
 		return (-1);
 	return (pid);
