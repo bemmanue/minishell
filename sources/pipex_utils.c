@@ -22,13 +22,7 @@ int	chk_builtin(t_command *commands, int fd[2])
 	char	*name;
 	int		code;
 
-	if (fd)
-	{
-		dup2(fd[INPUT_END], STDOUT_FILENO);
-		dup2(fd[OUTPUT_END], STDIN_FILENO);
-		close(fd[INPUT_END]);
-		close(fd[OUTPUT_END]);
-	}
+	(void)fd;
 	code = NONBLTN;
 	name = commands->name;
 	if (!ft_strncmp(name, g_info.bltn[0], 5))
