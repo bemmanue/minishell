@@ -17,20 +17,37 @@ void	error_pipex(void)
 	ft_putendl_fd(strerror(errno), 2);
 }
 
-int	chk_builtin(t_command *commands, int fd[2])
+static int	do_builtins(int code, t_command *commands)
+{
+	if (!code)
+		return (echo(commands->argv));
+	if (code == 1)
+			return (cd(commands->argv, g_info.env));
+	if (code == 2)
+		return (pwd());
+	return (NONBLTN);
+}
+
+int	chk_builtin(t_command *commands, int fd[2], int fd_out)
 {
 	char	*name;
 	int		code;
 
-	(void)fd;
-	code = NONBLTN;
+	code = 0;
 	name = commands->name;
-	if (!ft_strncmp(name, g_info.bltn[0], 5))
-		code = echo(commands->argv);
-	if (!ft_strncmp(name, g_info.bltn[1], 3))
-		code = cd(commands->argv, g_info.env);
-	if (!ft_strncmp(name, g_info.bltn[2], 4))
-		code = pwd();
+	while (code < 7
+		&& ft_strncmp(name, g_info.bltn[code], ft_strlen(g_info.bltn[code])))
+		code++;
+	if (code == 7)
+		return (NONBLTN);
+	else
+	{
+		if (fd_out == STD_VAL && fd)
+			dup2(fd[OUTPUT_END], STDIN_FILENO);
+		if (fd)
+			close(fd[OUTPUT_END]);
+		code = do_builtins(code, commands);
+	}
 	return (code);
 }
 
@@ -74,7 +91,7 @@ int	check_fd_ret(int fd_redir[2], int fd[2], char ***doc)
 		}
 		if (fd_redir[0] < 0 && fd_redir[1] != STD_VAL)
 			close(fd_redir[1]);
-		if(fd_redir[1] < 0 && fd_redir[0] != STD_VAL)
+		if (fd_redir[1] < 0 && fd_redir[0] != STD_VAL)
 			close(fd_redir[0]);
 		error_pipex();
 		return (-1);

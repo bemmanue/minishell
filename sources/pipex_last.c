@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   pipex_last.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dwillard <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/02/01 17:04:42 by dwillard          #+#    #+#             */
+/*   Updated: 2022/02/01 17:04:46 by dwillard         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include <minishell.h>
 
@@ -11,7 +22,7 @@ static int	child(t_command *commands, int fd_out)
 		dup2(fd_out, STDOUT_FILENO);
 	else
 		dup2(g_info.std_fd[1], STDOUT_FILENO);
-	temp = chk_builtin(commands, NULL);
+	temp = chk_builtin(commands, NULL, fd_out);
 	if (temp == NONBLTN)
 	{
 		pid = fork();

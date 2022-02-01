@@ -12,6 +12,16 @@
 
 #include <minishell.h>
 
+static void	exec_cmd(int fd[2], int fd_out, t_command *commands)
+{
+	close(fd[OUTPUT_END]);
+	if (fd_out == STD_VAL)
+		dup2(fd[INPUT_END], STDOUT_FILENO);
+	close(fd[INPUT_END]);
+	g_info.last_prcs = execve(commands->name, commands->argv, g_info.env);
+	error(commands->name, 0);
+}
+
 static int	child(int fd[2], t_command *commands, int fd_out)
 {
 	int	temp;
@@ -22,18 +32,13 @@ static int	child(int fd[2], t_command *commands, int fd_out)
 		dup2(fd_out, STDOUT_FILENO);
 	else
 		dup2(fd[INPUT_END], STDOUT_FILENO);
-	temp = chk_builtin(commands, fd);
+	temp = chk_builtin(commands, fd, fd_out);
 	if (temp == NONBLTN)
 	{
 		pid = fork();
 		if (pid)
 			return (pid);
-		close(fd[OUTPUT_END]);
-		if (fd_out == STD_VAL)
-			dup2(fd[INPUT_END], STDOUT_FILENO);
-		close(fd[INPUT_END]);
-		g_info.last_prcs = execve(commands->name, commands->argv, g_info.env);
-		error(commands->name, 0);
+		exec_cmd(fd, fd_out, commands);
 	}
 	else
 		g_info.last_prcs = temp;
@@ -49,8 +54,6 @@ static int	pipeline(t_command *commands, int fd[2], char **doc)
 	if (check_fd_ret(fd_redir, fd, &doc))
 		return (-1);
 	pid = child(fd, commands, fd_redir[1]);
-	if (pid < 0)
-		return (-1);
 	if (pid > 0)
 	{
 		close(fd[INPUT_END]);
@@ -58,6 +61,8 @@ static int	pipeline(t_command *commands, int fd[2], char **doc)
 			dup2(fd[OUTPUT_END], STDIN_FILENO);
 		close(fd[OUTPUT_END]);
 	}
+	if (pid < 0)
+		return (-1);
 	return (pid);
 }
 
@@ -74,8 +79,12 @@ int	pipex(t_command *commands)
 		pid = pipeline(commands, fd, NULL);
 		if (pid > 0)
 			waitpid(pid, &status, 0);
-		else
+		else if (pid < 0)
+		{
+			close(fd[INPUT_END]);
+			close(fd[OUTPUT_END]);
 			return (-1);
+		}
 		if (WIFEXITED(status))
 			g_info.last_prcs = WEXITSTATUS(status);
 		commands = commands->next;

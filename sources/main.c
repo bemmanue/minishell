@@ -63,9 +63,9 @@ int	main(int argc, char **argv, char **envp)
 	str[index] = readline("minishell$ ");
 	while (str[index] && ft_strncmp(str[index], "exit", 4))
 	{
-		command_center(envp, str[index]);
 		if (ft_strlen(str[index]) > 0)
 			add_history(str[index]);
+		command_center(envp, str[index]);
 		free(str[index]);
 		index++;
 		if (index == 1000)

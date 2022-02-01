@@ -21,11 +21,10 @@ void	free_comm(t_command **lst)
 	while (temp1)
 	{
 		temp2 = temp1->next;
-		free(temp1->name);
 		if (temp1->argv)
-			free_arr(&temp1->argv);
+			free_arr(&(temp1->argv));
 		if (temp1->rdrct)
-			free_arr(&temp1->rdrct);
+			free_arr(&(temp1->rdrct));
 		free(temp1);
 		temp1 = temp2;
 	}
