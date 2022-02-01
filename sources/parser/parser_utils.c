@@ -61,7 +61,8 @@ void	*raise_error(int code, char *command)
 		else if (g_info.error == QUOTE_ERROR)
 			printf("parse error near `%s'\n", command);
 	}
-	free(command);
+	if (command)
+		free(command);
 	return (NULL);
 }
 
@@ -124,6 +125,6 @@ char	*add_full_path(char *str, char **path)
 		index++;
 	}
 	free(temp);
-	return (raise_error(COMMAND_ERROR, strdup(str)));
-//	return (str);
+	raise_error(COMMAND_ERROR, strdup(str));
+	return (str);
 }

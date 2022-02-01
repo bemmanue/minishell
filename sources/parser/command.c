@@ -21,7 +21,6 @@ void	write_command(t_command *command, t_list *list)
 	command->argv[argv_index] = NULL;
 	command->rdrct[rdrct_index] = NULL;
 	command->argv[0] = add_full_path(command->argv[0], path);
-	command->name = command->argv[0];
 	free_array(path);
 }
 

@@ -26,7 +26,7 @@ int main(void)
 		}
 		command = command->next;
 	}
-//	while (1)
-//		NULL;
+	while (1)
+		NULL;
 	return (0);
 }
