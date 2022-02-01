@@ -23,7 +23,6 @@ static int	here_doc(char *delimiter, char ***doc)
 	*doc = dup_doc;
 	if (!dup_doc)
 		return (MEM_ERR);
-	delimiter += 2;
 	str = readline("> ");
 	while (str && ft_strncmp(str, delimiter, ft_strlen(delimiter)))
 	{
@@ -34,6 +33,7 @@ static int	here_doc(char *delimiter, char ***doc)
 			free_arr(doc);
 			return (MEM_ERR);
 		}
+		index++;
 		str = readline("> ");
 	}
 	if (str)
@@ -64,7 +64,7 @@ static int	input(char *str, char ***doc, int fd)
 			check = OPN_ERR;
 	}
 	else
-		check = here_doc(str, doc);
+		check = here_doc(str + 2, doc);
 	if (check < 0)
 		g_info.error = check;
 	return (check);
