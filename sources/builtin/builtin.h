@@ -17,8 +17,6 @@
 # include <stdio.h>
 # include <libft.h>
 
-# define MAX_DIR 160
-
 char	*get_str(char **envp, char *reference);
 
 void	err_msg(char *str);

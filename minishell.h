@@ -49,7 +49,7 @@ typedef struct s_command
 }t_command;
 # endif
 
-struct s_info
+typedef struct s_info
 {
 	int		std_fd[2];
 	int		error;
@@ -57,7 +57,9 @@ struct s_info
 	char	*file;
 	char	**env;
 	char	**bltn;
-}g_info;
+}t_info;
+
+extern t_info   g_info;
 
 int			lst_len(t_command *lst);
 
@@ -77,6 +79,6 @@ void		dups(char ***doc, int fd[2]);
 
 int			chk_builtin(t_command *commands, int fd[2]);
 
-int			*redirect(char **red_arr, int *fd_pair, char ***document);
+int			*redirect(char **red_arr, int fd_pair[2], char ***document);
 
 #endif

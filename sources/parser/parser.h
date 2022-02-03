@@ -25,8 +25,6 @@ typedef struct s_command
 # define REDIRECT_ERROR	5
 # define QUOTE_ERROR	6
 
-int	g_error; //удалить и заменить все вхождения на элемент глобальной структуры
-
 t_command	*parse_string(char *str);
 void		check_correct_use_of_pipes(char *str);
 

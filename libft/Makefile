@@ -24,11 +24,11 @@ DEPS =		${SRCS:.c=.d}
 BNS_OBJS =	${BNS:.c=.o}
 BNS_DEPS =	${BNS:.c=.d}
 HEAD =		libft.h
-CC = 		gcc
+CC = 		clang
 CFLAGS =	-Wall -Wextra -Werror -MMD -c
 
 all: 		$(NAME)
-.c.o: 		$(HEAD)
+.c.o:
 		$(CC) $(CFLAGS) $< -o $@
 $(NAME): 	$(OBJS) $(HEAD)
 		ar -rcs $(NAME) $?

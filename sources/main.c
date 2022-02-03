@@ -12,6 +12,8 @@
 
 #include <minishell.h>
 
+t_info  g_info;
+
 static char	**fill_bltn(void)
 {
 	char	**ret;

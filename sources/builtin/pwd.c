@@ -16,7 +16,7 @@ int	pwd(void)
 {
 	char	*temp;
 
-	temp = getcwd(NULL, MAX_DIR);
+	temp = getcwd(NULL, 0);
 	if (!temp)
 		return (-1);
 	ft_putendl_fd(temp, 1);

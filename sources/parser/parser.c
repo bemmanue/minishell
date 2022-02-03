@@ -19,7 +19,7 @@ void	check_correct_use_of_pipes(char *str)
 
 	word = 0;
 	pipe = 0;
-	while (*str && !g_error)
+	while (*str && !g_info.error)
 	{
 		if (*str == '|' && !word)
 			raise_error(PIPE_ERROR, NULL);

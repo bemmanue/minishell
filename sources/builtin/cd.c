@@ -19,7 +19,7 @@ static void	change_pwd(char **envp)
 	int		index;
 
 	index = 0;
-	pwd = getcwd(NULL, MAX_DIR);
+	pwd = getcwd(NULL, 0);
 	while (envp[index] && ft_strncmp(envp[index], "PWD=", ft_strlen("PWD=")))
 		index++;
 	if (envp[index])
@@ -41,7 +41,7 @@ static void	change_oldpwd(char **envp)
 	int		index;
 
 	index = 0;
-	oldpwd = getcwd(NULL, MAX_DIR);
+	oldpwd = getcwd(NULL, 0);
 	while (envp[index] && ft_strncmp(envp[index], "OLDPWD=",
 			ft_strlen("OLDPWD=")))
 		index++;
