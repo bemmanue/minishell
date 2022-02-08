@@ -18,12 +18,27 @@ typedef struct s_command
 }t_command;
 # endif
 
-# define PIPE_ERROR		1
-# define MEMORY_ERROR	2
-# define PATH_ERROR		3
-# define COMMAND_ERROR	4
-# define REDIRECT_ERROR	5
-# define QUOTE_ERROR	6
+# ifndef INFO
+#  define INFO
+typedef struct s_info
+{
+    int		std_fd[2];
+    int		error;
+    int		last_prcs;
+    char	*file;
+    char	**env;
+    char	**bltn;
+}t_info;
+# endif
+
+# define MEMORY_ERROR	"minishell: Cannot allocate memory"
+# define TOKEN_ERROR	"minishell: syntax error near unexpected token "
+# define PIPE_ERROR		"minishell: syntax error near unexpected token `|'"
+# define NEWLINE_ERROR  "minishell: syntax error near unexpected token `newline'"
+
+
+
+t_info  g_info;
 
 t_command	*parse_string(char *str);
 void		check_correct_use_of_pipes(char *str);
@@ -55,7 +70,7 @@ char		*add_full_path(char *str, char **path);
 int			is_builtin_command(char *name);
 void		free_array(char **array);
 
-void		*raise_error(int code, char *command);
+void	    *raise_error(char *message, int code);
 void		*parser_error(t_command *command);
 
 #endif

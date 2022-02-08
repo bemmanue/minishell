@@ -27,12 +27,14 @@ t_list	*split_command_line(char *str)
 			if (strchr("<>", *str))
 			{
 				new = ft_lstnew(get_redirect(str));
-				str += skip_redirect(str);
+				if (!g_info.error)
+				    str += skip_redirect(str);
 			}
 			else
 			{
 				new = ft_lstnew(get_argument(str));
-				str += skip_argument(str);
+				if (!g_info.error)
+				    str += skip_argument(str);
 			}
 			ft_lstadd_back(&list, new);
 		}
@@ -45,7 +47,7 @@ char	*get_command_line(char **str)
 	char	*command_line;
 
 	command_line = *str;
-	while (**str && **str != '|')
+	while (**str && **str != '|' && !g_info.error)
 	{
 		if (strchr("'\"", **str))
 			(*str) += skip_quotes(*str);

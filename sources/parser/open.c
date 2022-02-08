@@ -34,7 +34,7 @@ char	*insert_content(char *str, int start, int end, char *content)
 	temp = ft_strjoin(first_part, content);
 	new = ft_strjoin(temp, second_part);
 	if (!new)
-		raise_error(MEMORY_ERROR, NULL);
+		raise_error(MEMORY_ERROR, 1);
 	free_str(temp, first_part, second_part);
 	return (new);
 }
@@ -67,7 +67,7 @@ void	disclose_dollar(char **str, int *i)
 		content = ft_itoa(g_info.last_prcs);
 		if (!content)
 		{
-			raise_error(MEMORY_ERROR, NULL);
+			raise_error(MEMORY_ERROR, 1);
 			free(dollar);
 			return ;
 		}

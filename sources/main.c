@@ -57,15 +57,16 @@ int	main(int argc, char **argv, char **envp)
 	int		index;
 
 	index = 0;
-	g_info.env = ft_arrdup(envp, 0);
+	g_info.env = ft_arrdup(envp, 0); // можно отправить эту строку в init_info
 	init_info(argc, argv);
 	if (!g_info.env || !g_info.bltn)
 		return (-1);
 	envp = g_info.env;
-	str[index] = readline("minishell$ ");
-	while (str[index] && ft_strncmp(str[index], "exit", 4))
+//	set_signals();
+	str[index] = readline("minishell$ ");  // думаю, стоит выделить отдельную функцию для этого цикла, занимает слишком много места
+	while (str[index] && ft_strncmp(str[index], "exit", 4)) // ошибка в проверке на exit, работает во всех случаях, когда строка начинается на это слово
 	{
-		command_center(envp, str[index]);
+		command_center(envp, str[index]); // убрать envp из аргументов, т. к. он не используется
 		if (ft_strlen(str[index]) > 0)
 			add_history(str[index]);
 		free(str[index]);

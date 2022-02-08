@@ -25,7 +25,7 @@ int	skip_quotes(char *str)
 	while (str[i] && str[i] != quote)
 		i++;
 	if (str[i] == '\0')
-		raise_error(QUOTE_ERROR, strndup(&str[0], 1));
+		raise_error(TOKEN_ERROR, 1);
 	return (i);
 }
 
@@ -41,7 +41,7 @@ int	skip_redirect(char *str)
 	while (str[i] && strchr(" \t\v", str[i]))
 		i++;
 	if (!str[i] || strchr("<>", str[i]))
-		raise_error(REDIRECT_ERROR, strndup(&str[0], 1));
+	    raise_error(TOKEN_ERROR, 1);
 	else
 	{
 		while (str[i] && !strchr(" \t\v<>", str[i]))
