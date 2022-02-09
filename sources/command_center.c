@@ -37,23 +37,27 @@ static int  set_name(t_command *commands)
 	char	*temp1;
 	int		counter;
 
-	counter = 0;
-	temp = commands->argv[0];
-	commands->name = ft_strdup(temp);
-	temp1 = NULL;
-	free(commands->argv[0]);
-	while (temp[counter])
+	while (commands)
 	{
-		if (temp[counter] == '/')
-			temp1 = &temp[counter + 1];
-		counter++;
+		counter = 0;
+		commands->name = ft_strdup(commands->argv[0]);
+		temp = commands->name;
+		temp1 = NULL;
+		free(commands->argv[0]);
+		while (temp[counter])
+		{
+			if (temp[counter] == '/')
+				temp1 = &temp[counter + 1];
+			counter++;
+		}
+		if (!temp1)
+			commands->argv[0] = ft_strdup(temp);
+		else
+			commands->argv[0] = ft_strdup(temp1);
+		if (!commands->name || !commands->argv[0])
+			return (-1);
+		commands = commands->next;
 	}
-	if (!temp1)
-		commands->argv[0] = ft_strdup(temp);
-	else
-		commands->argv[0] = ft_strdup(temp1);
-	if (!commands->name || !commands->argv[0])
-		return (-1);
 	return (0);
 }
 

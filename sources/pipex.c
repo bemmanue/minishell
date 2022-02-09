@@ -74,7 +74,7 @@ int	pipex(t_command *commands)
 		pid = pipeline(commands, fd, NULL);
 		if (pid > 0)
 			waitpid(pid, &status, 0);
-		else
+		else if (pid < 0)
 			return (-1);
 		if (WIFEXITED(status))
 			g_info.last_prcs = WEXITSTATUS(status);
