@@ -16,6 +16,14 @@
 //лики в хирдоке, хирдок не перенапрявляет ввод, перенаправление builtin не
 //работает
 
+// проверить в основной части, не в парсере:
+//	if (!path)
+//      "No such file or directory";
+//  else if (access(name, F_OK))
+//      "command not found";
+//  else
+//      do command;
+
 # include <builtin.h>
 # include <libft.h>
 # include <parser.h>
@@ -49,6 +57,8 @@ typedef struct s_command
 }t_command;
 # endif
 
+# ifndef INFO
+#  define INFO
 typedef struct s_info
 {
 	int		std_fd[2];
@@ -58,27 +68,19 @@ typedef struct s_info
 	char	**env;
 	char	**bltn;
 }t_info;
+# endif
 
 extern t_info   g_info;
 
 int			lst_len(t_command *lst);
-
 int			command_center(char **envp, char *input);
-
 int			pipex(t_command *commands);
-
 int			last_fork(t_command *commands);
-
 void		error_pipex(void);
-
 void		error(char *str, int err);
-
 int			check_fd_ret(int fd_redir[2], int fd[2], char ***doc);
-
 void		dups(char ***doc, int fd[2]);
-
 int			chk_builtin(t_command *commands, int fd[2]);
-
 int			*redirect(char **red_arr, int fd_pair[2], char ***document);
 
 #endif

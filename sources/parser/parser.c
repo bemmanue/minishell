@@ -22,7 +22,7 @@ void	check_correct_use_of_pipes(char *str)
 	while (*str && !g_info.error)
 	{
 		if (*str == '|' && !word)
-			raise_error(PIPE_ERROR, NULL);
+		    raise_error(PIPE_ERROR, 1);
 		if (*str == '|')
 		{
 			pipe = 1;
@@ -38,7 +38,7 @@ void	check_correct_use_of_pipes(char *str)
 		str++;
 	}
 	if (pipe == 1)
-		raise_error(PIPE_ERROR, NULL);
+	    raise_error(NEWLINE_ERROR, 1);
 }
 
 t_command	*parse_string(char *str)

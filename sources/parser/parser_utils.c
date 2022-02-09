@@ -7,7 +7,7 @@ char	*expand(char *argument)
 
 	new = ft_strdup(argument);
 	if (!new)
-		raise_error(MEMORY_ERROR, NULL);
+		raise_error(MEMORY_ERROR, 1);
 	open_dollar(&new);
 	open_quotes(&new);
 	return (new);
@@ -42,27 +42,10 @@ void	free_array(char **array)
 	free(array);
 }
 
-void	*raise_error(int code, char *command)
+void	*raise_error(char *message, int code)
 {
-	if (!g_info.error)
-	{
-		g_info.error = code;
-		printf("minishell: ");
-		if (g_info.error == PIPE_ERROR)
-			printf("syntax error near unexpected token `|'\n");
-		else if (g_info.error == MEMORY_ERROR)
-			printf("memory could not be allocated\n");
-		else if (g_info.error == PATH_ERROR)
-			printf("%s: No such file or directory\n", command);
-		else if (g_info.error == COMMAND_ERROR)
-			printf("%s: command not found\n", command);
-		else if (g_info.error == REDIRECT_ERROR)
-			printf("parse error near `%s'\n", command);
-		else if (g_info.error == QUOTE_ERROR)
-			printf("parse error near `%s'\n", command);
-	}
-	if (command)
-		free(command);
+    g_info.error = code;
+    ft_putendl_fd(message, 2);
 	return (NULL);
 }
 
@@ -106,10 +89,8 @@ char	*add_full_path(char *str, char **path)
 	int		index;
 	char	*temp;
 
-	if (!str || !access(str, F_OK) || is_builtin_command(str))
+	if (!str || !path || !access(str, F_OK) || is_builtin_command(str))
 		return (str);
-	if (!path)
-		return (raise_error(PATH_ERROR, strdup(str)));
 	index = 0;
 	temp = ft_strjoin("/", str);
 	while (path[index])
@@ -125,6 +106,5 @@ char	*add_full_path(char *str, char **path)
 		index++;
 	}
 	free(temp);
-	raise_error(COMMAND_ERROR, strdup(str));
 	return (str);
 }

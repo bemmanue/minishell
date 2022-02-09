@@ -13,7 +13,7 @@ char	*get_quotes_content(char *str)
 		i++;
 	content = strndup(str, i);
 	if (!content)
-		raise_error(MEMORY_ERROR, NULL);
+		raise_error(MEMORY_ERROR, 1);
 	return (content);
 }
 
@@ -32,7 +32,7 @@ char	*get_dollar(char *str)
 		dollar = strndup(&str[1], i - 1);
 	}
 	if (!dollar)
-		raise_error(MEMORY_ERROR, NULL);
+		raise_error(MEMORY_ERROR, 1);
 	return (dollar);
 }
 
@@ -42,9 +42,9 @@ char *get_redirect(char *str)
 	int		i;
 
 	i = skip_redirect(str);
-	redirect = ft_skipnchar(str, i, " \t\v");
-	if (!redirect)
-		raise_error(MEMORY_ERROR, NULL);
+    redirect = ft_skipnchar(str, i, " \t\v");
+    if (!redirect)
+        raise_error(MEMORY_ERROR, 1);
 	return (redirect);
 }
 
@@ -56,29 +56,6 @@ char *get_argument(char *str)
 	i = skip_argument(str);
 	argument = strndup(str, i);
 	if (!argument)
-		raise_error(MEMORY_ERROR, NULL);
+		raise_error(MEMORY_ERROR, 1);
 	return (argument);
 }
-
-//char	*get_env(char **envp, char *var)
-//{
-//	int len;
-//	int	index;
-//
-//	var = ft_strjoin(var, "=");
-//	if (!var)
-//		return (raise_error(MEMORY_ERROR, NULL));
-//	len = (int)ft_strlen(var);
-//	index = 0;
-//	while (envp && envp[index])
-//	{
-//		if (!ft_strncmp(envp[index], var, len))
-//		{
-//			free(var);
-//			return (ft_strdup(envp[index] + len));
-//		}
-//		index++;
-//	}
-//	free(var);
-//	return (ft_strdup(""));
-//}

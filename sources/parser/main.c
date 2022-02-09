@@ -1,12 +1,15 @@
 
 # include "parser.h"
 
-int main(void)
+int main(int argc, char **argv, char **envp)
 {
 	t_command	*command;
 	char 		*str;
 	int 		i;
+	(void) argc;
+	(void) argv;
 
+	g_info.env = ft_arrdup(envp, 0);
 	str = readline("hello$ ");
 	command = parse_string(str);
 	while (command)
@@ -24,9 +27,10 @@ int main(void)
 			printf("rdrct = %s\n", command->rdrct[i]);
 			i++;
 		}
+		printf("next = %p\n", command->next);
 		command = command->next;
 	}
-	while (1)
-		NULL;
+//	while (1)
+//		NULL;
 	return (0);
 }
