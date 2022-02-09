@@ -61,17 +61,16 @@ static int  set_name(t_command *commands)
 	return (0);
 }
 
-int	command_center(char **envp, char *input)
+int	command_center(char *input)
 {
 	t_command	*commands;
 
-	(void)envp;                     // удалить из параметров argv
 	commands = parse_string(input);
-//    if (commands && set_name(commands))   // нейм заполняем в парсере
-//		error("minishell", errno);
+    if (commands && set_name(commands))
+		error("minishell", errno);
 	if (commands)
 	{
-		if (pipex(commands))    // сегается после того, как я начала заполнять нейм в парсере
+		if (pipex(commands))
 			g_info.last_prcs = 127;
 		free_comm(&commands);
 		dup2(g_info.std_fd[0], STDIN_FILENO);
@@ -79,6 +78,5 @@ int	command_center(char **envp, char *input)
 	}
 	errno = 0;
 	g_info.error = 0;
-	//g_info.env = envp проверить, что все работает
 	return (0);
 }

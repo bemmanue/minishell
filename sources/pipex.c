@@ -67,7 +67,7 @@ int	pipex(t_command *commands)
 	int	status;
 	int	pid;
 
-	while (lst_len(commands) - 1) // здесь сегается
+	while (lst_len(commands) - 1)
 	{
 		if (pipe(fd))
 			return (-1);

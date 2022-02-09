@@ -73,14 +73,23 @@ typedef struct s_info
 extern t_info   g_info;
 
 int			lst_len(t_command *lst);
-int			command_center(char **envp, char *input);
+
+int			command_center(char *input);
+
 int			pipex(t_command *commands);
+
 int			last_fork(t_command *commands);
+
 void		error_pipex(void);
+
 void		error(char *str, int err);
+
 int			check_fd_ret(int fd_redir[2], int fd[2], char ***doc);
+
 void		dups(char ***doc, int fd[2]);
+
 int			chk_builtin(t_command *commands, int fd[2]);
+
 int			*redirect(char **red_arr, int fd_pair[2], char ***document);
 
 #endif

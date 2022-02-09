@@ -44,7 +44,9 @@ char *get_redirect(char *str)
 	i = skip_redirect(str);
     redirect = ft_skipnchar(str, i, " \t\v");
     if (!redirect)
-        raise_error(MEMORY_ERROR, 1);
+	{
+		raise_error(MEMORY_ERROR, 1);
+	}
 	return (redirect);
 }
 
