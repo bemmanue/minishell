@@ -82,7 +82,7 @@ int	main(int argc, char **argv, char **envp)
 	str[index] = readline("minishell$ ");  // думаю, стоит выделить отдельную функцию для этого цикла, занимает слишком много места
 	while (str[index])
 	{
-		command_center(envp, str[index]); // убрать envp из аргументов, т. к. он не используется
+		command_center(str[index]);
 		if (ft_strlen(str[index]) > 0)
 			add_history(str[index]);
 		free(str[index]);

@@ -35,7 +35,6 @@ typedef struct s_info
 # define TOKEN_ERROR	"minishell: syntax error near unexpected token "
 # define NEWLINE_ERROR  "minishell: syntax error near unexpected token `newline'"
 
-t_info  g_info;
 
 t_command	*parse_string(char *str);
 void		check_correct_use_of_pipes(char *str);
