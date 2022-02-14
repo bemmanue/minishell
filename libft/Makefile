@@ -23,14 +23,13 @@ OBJS = 		${SRCS:.c=.o}
 DEPS =		${SRCS:.c=.d}
 BNS_OBJS =	${BNS:.c=.o}
 BNS_DEPS =	${BNS:.c=.d}
-HEAD =		libft.h
 CC = 		clang
 CFLAGS =	-Wall -Wextra -Werror -MMD -c
 
 all: 		$(NAME)
 .c.o:
 		$(CC) $(CFLAGS) $< -o $@
-$(NAME): 	$(OBJS) $(HEAD)
+$(NAME): 	$(OBJS)
 		ar -rcs $(NAME) $?
 bonus:
 		make OBJS="$(BNS_OBJS)" all

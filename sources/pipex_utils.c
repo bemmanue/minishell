@@ -26,19 +26,19 @@ int	chk_builtin(t_command *commands, int fd[2])
 	code = NONBLTN;
 	name = commands->name;
 	if (!ft_strncmp(name, g_info.bltn[0], 5))
-	    code = ft_echo(commands->argv);
+		code = ft_echo(commands->argv);
 	else if (!ft_strncmp(name, g_info.bltn[1], 3))
-	    code = ft_cd(commands->argv, g_info.env);
+		code = ft_cd(commands->argv, g_info.env);
 	else if (!ft_strncmp(name, g_info.bltn[2], 4))
-	    code = ft_pwd(commands->argv);
+		code = ft_pwd(commands->argv);
 	else if (!ft_strncmp(name, g_info.bltn[3], 4))
-	    code = ft_export(commands->argv, &g_info.env);
+		code = ft_export(commands->argv, &g_info.env);
 	else if (!ft_strncmp(name, g_info.bltn[4], 4))
-	    code = ft_unset(commands->argv, &g_info.env);
+		code = ft_unset(commands->argv, &g_info.env);
 	else if (!ft_strncmp(name, g_info.bltn[5], 4))
-	    code = ft_env(commands->argv, g_info.env);
+		code = ft_env(commands->argv, g_info.env);
 	else if (!ft_strncmp(name, g_info.bltn[6], 5))
-	    code = ft_exit(commands->argv);
+		code = ft_exit(commands->argv);
 	return (code);
 }
 
@@ -82,7 +82,7 @@ int	check_fd_ret(int fd_redir[2], int fd[2], char ***doc)
 		}
 		if (fd_redir[0] < 0 && fd_redir[1] != STD_VAL)
 			close(fd_redir[1]);
-		if(fd_redir[1] < 0 && fd_redir[0] != STD_VAL)
+		if (fd_redir[1] < 0 && fd_redir[0] != STD_VAL)
 			close(fd_redir[0]);
 		error_pipex();
 		return (-1);

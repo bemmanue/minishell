@@ -12,6 +12,7 @@ DEPS 			= 	$(SRCS:.c=.d)
 LIBFT			=	libft.a
 LIBFT_PATH		=	../../libft/
 LIBFTMAKE		=	$(MAKE) all -sC $(LIBFT_PATH)
+LDFLAGS			=	-L$(HOME)/.brew/opt/readline/lib
 
 CC				=	cc
 CFLAGS			=	-Wall -Wextra -Werror -MMD

@@ -48,6 +48,7 @@ add_executable(
         sources/builtin/builtin.h
         libft/ft_split.c
         libft/ft_arrdup.c
+        libft/ft_strcut.c
         libft/ft_strdup.c
         libft/ft_strlen.c
         libft/ft_exclude.c
