@@ -31,9 +31,9 @@ void	free_comm(t_command **lst)
 	}
 }
 
-int	command_center(char *input)
+int	command_center(char *input, char ***envp)
 {
-	t_command   *commands;
+	t_command	*commands;
 
 	commands = parse_string(input);
 	if (commands)
@@ -44,6 +44,7 @@ int	command_center(char *input)
 		dup2(g_info.std_fd[0], STDIN_FILENO);
 		dup2(g_info.std_fd[1], STDOUT_FILENO);
 	}
+	*envp = g_info.env;
 	errno = 0;
 	g_info.error = 0;
 	return (0);

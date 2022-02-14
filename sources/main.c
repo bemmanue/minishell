@@ -12,7 +12,7 @@
 
 #include <minishell.h>
 
-t_info  g_info;
+t_info	g_info;
 
 static char	**fill_bltn(void)
 {
@@ -39,13 +39,14 @@ static char	**fill_bltn(void)
 	return (ret);
 }
 
-static void	init_info(int argc, char **argv)
+static void	init_info(int argc, char **argv, char **envp)
 {
 	(void)argc;
 	(void)argv;
 	g_info.std_fd[0] = dup(STDIN_FILENO);
 	g_info.std_fd[1] = dup(STDOUT_FILENO);
 	g_info.bltn = fill_bltn();
+	g_info.env = ft_arrdup(envp, 0);
 	if (!g_info.bltn)
 		return ;
 	g_info.error = 0;
@@ -60,12 +61,12 @@ static void	init_info(int argc, char **argv)
 //    rl_redisplay();
 //}
 
-void	set_signals(void)
-{
+//void	set_signals(void)
+//{
 //    signal(SIGQUIT, ft_signal_cltr_c);   // cntrl '\'
 //    signal(SIGTERM, SIG_IGN);           // cntrl D
 //    signal(SIGINT, ft_signal_cltr_c);   // cntrl C
-}
+//}
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -73,16 +74,16 @@ int	main(int argc, char **argv, char **envp)
 	int		index;
 
 	index = 0;
-	g_info.env = ft_arrdup(envp, 0); // можно отправить эту строку в init_info
-	init_info(argc, argv);
+	init_info(argc, argv, envp);
 	if (!g_info.env || !g_info.bltn)
 		return (-1);
 	envp = g_info.env;
-	set_signals();
-	str[index] = readline("minishell$ ");  // думаю, стоит выделить отдельную функцию для этого цикла, занимает слишком много места
+//	set_signals();
+	str[index] = readline("minishell$ "); // думаю, стоит выделить отдельную
+	// функцию для этого цикла, занимает слишком много места
 	while (str[index])
 	{
-		command_center(str[index]);
+		command_center(str[index], &envp);
 		if (ft_strlen(str[index]) > 0)
 			add_history(str[index]);
 		free(str[index]);

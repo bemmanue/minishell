@@ -74,7 +74,7 @@ extern t_info   g_info;
 
 int			lst_len(t_command *lst);
 
-int			command_center(char *input);
+int			command_center(char *input, char ***envp);
 
 int			pipex(t_command *commands);
 

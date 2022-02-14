@@ -32,7 +32,7 @@ int	lst_len(t_command *lst)
 	while (lst)
 	{
 		ret_counter++;
-		lst = lst->next;    // сегается в этом месте либо на первом, либо на одном из последующих запросах
+		lst = lst->next;
 	}
 	return (ret_counter);
 }
