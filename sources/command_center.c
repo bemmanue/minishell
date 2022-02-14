@@ -63,7 +63,7 @@ static int  set_name(t_command *commands)
 
 int	command_center(char *input)
 {
-	t_command	*commands;
+	t_command   *commands;
 
 	commands = parse_string(input);
     if (commands && set_name(commands))

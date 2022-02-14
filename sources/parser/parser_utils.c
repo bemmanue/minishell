@@ -1,33 +1,31 @@
 
 # include "parser.h"
 
-char	*expand(char *argument)
+void	free_strs(char *s1, char *s2, char *s3)
 {
-	char	*new;
-
-	new = ft_strdup(argument);
-	if (!new)
-		raise_error(MEMORY_ERROR, 1);
-	open_dollar(&new);
-	open_quotes(&new);
-	return (new);
+    if (s1)
+        free(s1);
+    if (s2)
+        free(s2);
+    if (s3)
+        free(s3);
 }
 
-void	count_arguments(t_list *list, int *argv_number, int *rdrct_number)
+char	*insert_content(char *str, int start, int end, char *content)
 {
-	t_list	*temp;
+    char	*first_part;
+    char	*second_part;
+    char	*temp;
+    char	*new;
 
-	(*argv_number) = 0;
-	(*rdrct_number) = 0;
-	temp = list;
-	while (temp)
-	{
-		if (*temp->content == '<' || *temp->content == '>')
-			(*rdrct_number)++;
-		else
-			(*argv_number)++;
-		temp = temp->next;
-	}
+    first_part = strndup(str, start);
+    second_part = strdup(&str[end]);
+    temp = ft_strjoin(first_part, content);
+    new = ft_strjoin(temp, second_part);
+    if (!new)
+        raise_error(MEMORY_ERROR, NULL, 1);
+    free_strs(temp, first_part, second_part);
+    return (new);
 }
 
 void	free_array(char **array)
@@ -42,14 +40,30 @@ void	free_array(char **array)
 	free(array);
 }
 
-void	*raise_error(char *message, int code)
+void	*raise_error(char *message, char *str, int code)
 {
+    char    *specify;
+    char    *temp;
+
+    printf("str = %s\n", str);
     g_info.error = code;
+    if (str)
+    {
+        if (str[0] == str[1])
+            temp = strndup(str, 2);
+        else
+            temp = strndup(str, 1);
+        specify = insert_content("`'", 1, 1, temp);
+        free(temp);
+        message = ft_strjoin(message, specify);
+        if (!message)
+            raise_error(MEMORY_ERROR, NULL, 1);
+    }
     ft_putendl_fd(message, 2);
 	return (NULL);
 }
 
-void	*parser_error(t_command *command)
+void	*free_command(t_command *command)
 {
 	t_command	*temp;
 
@@ -98,8 +112,8 @@ char	*add_full_path(char *str, char **path)
 		absolute_path = ft_strjoin(path[index], temp);
 		if (!access(absolute_path, F_OK))
 		{
-			free(temp);
 			free(str);
+			free(temp);
 			return (absolute_path);
 		}
 		free(absolute_path);

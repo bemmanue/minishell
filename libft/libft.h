@@ -72,5 +72,6 @@ void	ft_putendl_fd(char *s, int fd);
 void	ft_putnbr_fd(int n, int fd);
 void	ft_putstr_fd(char *s, int fd);
 void	ft_exclude(char **array, char *str);
+char    *ft_strcut(char *str, char *set);
 
 #endif

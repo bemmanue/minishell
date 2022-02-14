@@ -41,6 +41,10 @@ add_executable(
         sources/builtin/cd_utils.c
         sources/builtin/echo.c
         sources/builtin/pwd.c
+        sources/builtin/env.c
+        sources/builtin/unset.c
+        sources/builtin/export.c
+        sources/builtin/exit.c
         sources/builtin/builtin.h
         libft/ft_split.c
         libft/ft_arrdup.c
@@ -66,7 +70,7 @@ add_executable(
         sources/parser/command.c
         sources/parser/command_line.c
         sources/parser/get.c
-        sources/parser/open.c
+        sources/parser/expand.c
         sources/parser/parser.c
         sources/parser/parser_utils.c
         sources/parser/skip.c

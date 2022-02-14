@@ -47,7 +47,7 @@
 # define NONBLTN 1000
 
 # ifndef COMMAND
-#  define COMMAND
+# define COMMAND
 typedef struct s_command
 {
 	char	*name;
@@ -58,7 +58,7 @@ typedef struct s_command
 # endif
 
 # ifndef INFO
-#  define INFO
+# define INFO
 typedef struct s_info
 {
 	int		std_fd[2];
