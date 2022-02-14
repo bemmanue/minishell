@@ -32,7 +32,7 @@ char	*get_dollar(char *str)
 		dollar = strndup(&str[1], i - 1);
 	}
 	if (!dollar)
-	    raise_error(MEMORY_ERROR, NULL,1);
+		raise_error(MEMORY_ERROR, NULL, 1);
 	return (dollar);
 }
 

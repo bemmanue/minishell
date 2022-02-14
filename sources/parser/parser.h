@@ -50,8 +50,8 @@ void		fill_command(t_command	*command, t_list *list);
 void 		*add_new_command(t_command **command, t_list *list);
 
 char		*expand(char *argv);
-void		open_quotes(char **str);
-void		open_dollar(char **str);
+void		expand_quotes(char **str);
+void		expand_dollar(char **str);
 
 char		*get_dollar(char *str);
 char 		*get_argument(char *str);

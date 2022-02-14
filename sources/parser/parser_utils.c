@@ -23,7 +23,7 @@ char	*insert_content(char *str, int start, int end, char *content)
     temp = ft_strjoin(first_part, content);
     new = ft_strjoin(temp, second_part);
     if (!new)
-        raise_error(MEMORY_ERROR, NULL, 1);
+		raise_error(MEMORY_ERROR, NULL, 1);
     free_strs(temp, first_part, second_part);
     return (new);
 }
@@ -45,7 +45,6 @@ void	*raise_error(char *message, char *str, int code)
     char    *specify;
     char    *temp;
 
-    printf("str = %s\n", str);
     g_info.error = code;
     if (str)
     {

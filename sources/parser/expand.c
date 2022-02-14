@@ -45,15 +45,17 @@ void	disclose_dollar(char **str, int *i)
 			return ;
 		}
 	}
+	else if (getenv(dollar))
+		content = ft_strdup(getenv(dollar));
 	else
-		content = getenv(dollar);
+		content = ft_strdup("");
 	temp = *str;
 	*str = insert_content(*str, *i, *i + 1 + ft_strlen(dollar), content);
-	*i += (int)ft_strlen(dollar);
+	*i += (int)ft_strlen(content);
 	free_strs(temp, dollar, content);
 }
 
-void	open_quotes(char **str)
+void	expand_quotes(char **str)
 {
 	int		i;
 
@@ -66,7 +68,7 @@ void	open_quotes(char **str)
 	}
 }
 
-void	open_dollar(char **str)
+void	expand_dollar(char **str)
 {
 	bool	double_quote;
 	int		i;
@@ -94,7 +96,7 @@ char	*expand(char *argument)
     new = ft_strdup(argument);
     if (!new)
         raise_error(MEMORY_ERROR, NULL,  1);
-    open_dollar(&new);
-    open_quotes(&new);
+    expand_dollar(&new);
+    expand_quotes(&new);
     return (new);
 }
