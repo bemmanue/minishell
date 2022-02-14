@@ -70,7 +70,7 @@ int	ft_export(char **argv, char ***envp)
 			else
 				change_env(argv[index], envp, name);
 		}
-		i++;
+		index++;
 	}
 	return (0);
 }
