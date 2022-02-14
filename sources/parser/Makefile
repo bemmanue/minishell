@@ -3,7 +3,7 @@ NAME			= 	parser
 
 SRCS			=	parser.c	parser_utils.c	command_line.c	\
 					main.c		command.c		get.c			\
-					open.c		skip.c
+					expand.c	skip.c
 
 OBJS			=	$(SRCS:.c=.o)
 

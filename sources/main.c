@@ -51,6 +51,22 @@ static void	init_info(int argc, char **argv)
 	g_info.error = 0;
 }
 
+//void	ft_signal_cltr_c(int sig)
+//{
+//    (void) sig;
+//    write(2, "\n", 1);
+//    rl_on_new_line();
+//    rl_replace_line("", 0);
+//    rl_redisplay();
+//}
+
+void	set_signals(void)
+{
+//    signal(SIGQUIT, ft_signal_cltr_c);   // cntrl '\'
+//    signal(SIGTERM, SIG_IGN);           // cntrl D
+//    signal(SIGINT, ft_signal_cltr_c);   // cntrl C
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	char	*str[1000];
@@ -62,9 +78,9 @@ int	main(int argc, char **argv, char **envp)
 	if (!g_info.env || !g_info.bltn)
 		return (-1);
 	envp = g_info.env;
-//	set_signals();
+	set_signals();
 	str[index] = readline("minishell$ ");  // думаю, стоит выделить отдельную функцию для этого цикла, занимает слишком много места
-	while (str[index] && ft_strncmp(str[index], "exit", 4)) // ошибка в проверке на exit, работает во всех случаях, когда строка начинается на это слово
+	while (str[index])
 	{
 		command_center(envp, str[index]); // убрать envp из аргументов, т. к. он не используется
 		if (ft_strlen(str[index]) > 0)

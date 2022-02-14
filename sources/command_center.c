@@ -59,7 +59,7 @@ void	free_comm(t_command **lst)
 
 int	command_center(char **envp, char *input)
 {
-	t_command	*commands;
+	t_command   *commands;
 
 	(void)envp;                     // удалить из параметров argv
 	commands = parse_string(input);

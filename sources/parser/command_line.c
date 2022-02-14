@@ -18,7 +18,7 @@ t_list	*split_command_line(char *str)
 	t_list	*new;
 
 	list = NULL;
-	while (*str && !g_info.error)
+	while (!strchr("|\0", *str) && !g_info.error)
 	{
 		if (strchr(" \t\v", *str))
 			str++;
@@ -54,6 +54,6 @@ char	*get_command_line(char **str)
 		(*str)++;
 	}
 	if (**str == '|')
-		*(*str)++ = '\0';
+	    (*str)++;
 	return (command_line);
 }

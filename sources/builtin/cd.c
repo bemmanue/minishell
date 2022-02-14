@@ -70,7 +70,7 @@ static int	change_dir(char *path, char **envp)
 	return (check);
 }
 
-int	cd(char **argv, char **envp)
+int	ft_cd(char **argv, char **envp)
 {
 	char	*home;
 	int		result;

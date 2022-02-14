@@ -12,33 +12,6 @@
 
 #include "parser.h"
 
-void	free_str(char *s1, char *s2, char *s3)
-{
-	if (s1)
-		free(s1);
-	if (s2)
-		free(s2);
-	if (s3)
-		free(s3);
-}
-
-char	*insert_content(char *str, int start, int end, char *content)
-{
-	char	*first_part;
-	char	*second_part;
-	char	*temp;
-	char	*new;
-
-	first_part = strndup(str, start);
-	second_part = strdup(&str[end]);
-	temp = ft_strjoin(first_part, content);
-	new = ft_strjoin(temp, second_part);
-	if (!new)
-		raise_error(MEMORY_ERROR, 1);
-	free_str(temp, first_part, second_part);
-	return (new);
-}
-
 void	disclose_quotes(char **str, int *i)
 {
 	char	*content;
@@ -50,7 +23,7 @@ void	disclose_quotes(char **str, int *i)
 	temp = *str;
 	*str = insert_content(*str, *i, *i + 2 + ft_strlen(content), content);
 	*i += (int)ft_strlen(content) + 2;
-	free_str(temp, content, NULL);
+	free_strs(temp, content, NULL);
 }
 
 void	disclose_dollar(char **str, int *i)
@@ -67,7 +40,7 @@ void	disclose_dollar(char **str, int *i)
 		content = ft_itoa(g_info.last_prcs);
 		if (!content)
 		{
-			raise_error(MEMORY_ERROR, 1);
+		    raise_error(MEMORY_ERROR, NULL, 1);
 			free(dollar);
 			return ;
 		}
@@ -77,7 +50,7 @@ void	disclose_dollar(char **str, int *i)
 	temp = *str;
 	*str = insert_content(*str, *i, *i + 1 + ft_strlen(dollar), content);
 	*i += (int)ft_strlen(dollar);
-	free_str(temp, dollar, content);
+	free_strs(temp, dollar, content);
 }
 
 void	open_quotes(char **str)
@@ -112,4 +85,16 @@ void	open_dollar(char **str)
 			disclose_dollar(str, &i);
 		i++;
 	}
+}
+
+char	*expand(char *argument)
+{
+    char	*new;
+
+    new = ft_strdup(argument);
+    if (!new)
+        raise_error(MEMORY_ERROR, NULL,  1);
+    open_dollar(&new);
+    open_quotes(&new);
+    return (new);
 }
