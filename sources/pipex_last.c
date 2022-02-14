@@ -1,4 +1,3 @@
-
 #include <minishell.h>
 
 static int	child(t_command *commands, int fd_out)
