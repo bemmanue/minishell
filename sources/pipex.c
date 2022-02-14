@@ -67,14 +67,14 @@ int	pipex(t_command *commands)
 	int	status;
 	int	pid;
 
-	while (lst_len(commands) - 1)
+	while (lst_len(commands) - 1) // здесь сегается
 	{
 		if (pipe(fd))
 			return (-1);
 		pid = pipeline(commands, fd, NULL);
 		if (pid > 0)
 			waitpid(pid, &status, 0);
-		else if (pid < 0)
+		else
 			return (-1);
 		if (WIFEXITED(status))
 			g_info.last_prcs = WEXITSTATUS(status);
