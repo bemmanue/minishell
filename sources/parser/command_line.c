@@ -16,6 +16,7 @@ t_list	*split_command_line(char *str)
 {
 	t_list	*list;
 	t_list	*new;
+//	char	*argument;
 
 	list = NULL;
 	while (!strchr("|\0", *str) && !g_info.error)
@@ -32,6 +33,8 @@ t_list	*split_command_line(char *str)
 			}
 			else
 			{
+//				argument = get_argument(str);
+//				if (*argument)
 				new = ft_lstnew(get_argument(str));
 				if (!g_info.error)
 				    str += skip_argument(str);

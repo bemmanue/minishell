@@ -83,7 +83,7 @@ void	expand_dollar(char **str)
 			double_quote = 1;
 		else if ((*str)[i] == '"' && double_quote)
 			double_quote = 0;
-		if ((*str)[i] == '$' && !strchr(" '\"\t\v\0", (*str)[i + 1]))
+		if ((*str)[i] == '$' && !strchr(" \t\v\0", (*str)[i + 1]))
 			disclose_dollar(str, &i);
 		i++;
 	}
