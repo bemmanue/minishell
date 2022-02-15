@@ -1,21 +1,32 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   command.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bemmanue <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/02/15 14:00:00 by bemmanue          #+#    #+#             */
+/*   Updated: 2022/02/15 14:00:00 by bemmanue         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-# include "parser.h"
+#include "parser.h"
 
 void	count_arguments(t_list *list, int *argv_number, int *rdrct_number)
 {
-    t_list	*temp;
+	t_list	*temp;
 
-    (*argv_number) = 0;
-    (*rdrct_number) = 0;
-    temp = list;
-    while (temp)
-    {
-        if (*temp->content == '<' || *temp->content == '>')
-            (*rdrct_number)++;
-        else
-            (*argv_number)++;
-        temp = temp->next;
-    }
+	(*argv_number) = 0;
+	(*rdrct_number) = 0;
+	temp = list;
+	while (temp)
+	{
+		if (*temp->content == '<' || *temp->content == '>')
+			(*rdrct_number)++;
+		else
+			(*argv_number)++;
+		temp = temp->next;
+	}
 }
 
 void	fill_command(t_command *command, t_list *list)
@@ -43,22 +54,22 @@ void	fill_command(t_command *command, t_list *list)
 
 t_command	*new_command(t_list *list)
 {
-    t_command	*command;
-    int		    argv_number;
-    int		    rdrct_number;
+	t_command	*command;
+	int			argv_number;
+	int			rdrct_number;
 
-    command = malloc(sizeof(t_command));
-    if (!command)
-        return (raise_error(MEMORY_ERROR, NULL, 1));
-    count_arguments(list, &argv_number, &rdrct_number);
-    command->name = NULL;
-    command->argv = malloc(sizeof(char *) * (argv_number + 1));
-    command->rdrct = malloc(sizeof(char *) * (rdrct_number + 1));
-    command->next = NULL;
-    if (!command->argv || !command->rdrct)
-        return (raise_error(MEMORY_ERROR, NULL, 1));
-    fill_command(command, list);
-    return (command);
+	command = malloc(sizeof(t_command));
+	if (!command)
+		return (raise_error(MEMORY_ERROR, NULL, 1));
+	count_arguments(list, &argv_number, &rdrct_number);
+	command->name = NULL;
+	command->argv = malloc(sizeof(char *) * (argv_number + 1));
+	command->rdrct = malloc(sizeof(char *) * (rdrct_number + 1));
+	command->next = NULL;
+	if (!command->argv || !command->rdrct)
+		return (raise_error(MEMORY_ERROR, NULL, 1));
+	fill_command(command, list);
+	return (command);
 }
 
 t_command	*get_last_command(t_command *command)
@@ -71,7 +82,7 @@ t_command	*get_last_command(t_command *command)
 	return (last);
 }
 
-void *add_new_command(t_command **command, t_list *list)
+void	*add_new_command(t_command **command, t_list *list)
 {
 	t_command	*last;
 

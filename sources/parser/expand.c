@@ -40,7 +40,7 @@ void	disclose_dollar(char **str, int *i)
 		content = ft_itoa(g_info.last_prcs);
 		if (!content)
 		{
-		    raise_error(MEMORY_ERROR, NULL, 1);
+			raise_error(MEMORY_ERROR, NULL, 1);
 			free(dollar);
 			return ;
 		}
@@ -83,7 +83,7 @@ void	expand_dollar(char **str)
 			double_quote = 1;
 		else if ((*str)[i] == '"' && double_quote)
 			double_quote = 0;
-		if ((*str)[i] == '$' && !strchr(" '\"\t\v\0", (*str)[i + 1]))
+		if ((*str)[i] == '$' && !strchr(" \t\v\0", (*str)[i + 1]))
 			disclose_dollar(str, &i);
 		i++;
 	}
@@ -91,12 +91,12 @@ void	expand_dollar(char **str)
 
 char	*expand(char *argument)
 {
-    char	*new;
+	char	*new;
 
-    new = ft_strdup(argument);
-    if (!new)
-        raise_error(MEMORY_ERROR, NULL,  1);
-    expand_dollar(&new);
-    expand_quotes(&new);
-    return (new);
+	new = ft_strdup(argument);
+	if (!new)
+		raise_error(MEMORY_ERROR, NULL, 1);
+	expand_dollar(&new);
+	expand_quotes(&new);
+	return (new);
 }
