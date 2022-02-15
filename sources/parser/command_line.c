@@ -12,11 +12,45 @@
 
 #include "parser.h"
 
+t_list	*add_argument(char **str)
+{
+	t_list	*new;
+
+	new = ft_lstnew(get_argument(*str));
+	*str += skip_argument(*str);
+	return (new);
+}
+
+t_list	*add_redirect(char **str)
+{
+	t_list	*new;
+
+	new = ft_lstnew(get_redirect(*str));
+	*str += skip_redirect(*str);
+	return (new);
+}
+
+t_list	*add_dollar(char **str)
+{
+	t_list	*new;
+	char	*arg;
+
+	new = NULL;
+	arg = get_dollar(*str);
+	if (*arg != '?' && !getenv(arg))
+		*str += ft_strlen(arg) + 1;
+	else
+	{
+		new = ft_lstnew(get_argument(*str));
+		*str += skip_argument(*str);
+	}
+	return (new);
+}
+
 t_list	*split_command_line(char *str)
 {
 	t_list	*list;
 	t_list	*new;
-//	char	*argument;
 
 	list = NULL;
 	while (!strchr("|\0", *str) && !g_info.error)
@@ -25,21 +59,14 @@ t_list	*split_command_line(char *str)
 			str++;
 		else
 		{
-			if (strchr("<>", *str))
-			{
-				new = ft_lstnew(get_redirect(str));
-				if (!g_info.error)
-				    str += skip_redirect(str);
-			}
+			if (*str == '$')
+				new = add_dollar(&str);
+			else if (strchr("<>", *str))
+				new = add_redirect(&str);
 			else
-			{
-//				argument = get_argument(str);
-//				if (*argument)
-				new = ft_lstnew(get_argument(str));
-				if (!g_info.error)
-				    str += skip_argument(str);
-			}
-			ft_lstadd_back(&list, new);
+				new = add_argument(&str);
+			if (new)
+				ft_lstadd_back(&list, new);
 		}
 	}
 	return (list);
@@ -57,6 +84,6 @@ char	*get_command_line(char **str)
 		(*str)++;
 	}
 	if (**str == '|')
-	    (*str)++;
+		(*str)++;
 	return (command_line);
 }

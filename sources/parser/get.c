@@ -1,5 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bemmanue <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/02/15 14:00:00 by bemmanue          #+#    #+#             */
+/*   Updated: 2022/02/15 14:00:00 by bemmanue         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-# include "parser.h"
+#include "parser.h"
 
 char	*get_quotes_content(char *str)
 {
@@ -13,7 +24,7 @@ char	*get_quotes_content(char *str)
 		i++;
 	content = strndup(str, i);
 	if (!content)
-	    raise_error(MEMORY_ERROR, NULL, 1);
+		raise_error(MEMORY_ERROR, NULL, 1);
 	return (content);
 }
 
@@ -36,19 +47,19 @@ char	*get_dollar(char *str)
 	return (dollar);
 }
 
-char *get_redirect(char *str)
+char	*get_redirect(char *str)
 {
 	char	*redirect;
 	int		i;
 
 	i = skip_redirect(str);
-    redirect = ft_skipnchar(str, i, " \t\v");
-    if (!redirect)
+	redirect = ft_skipnchar(str, i, " \t\v");
+	if (!redirect)
 		raise_error(MEMORY_ERROR, NULL, 1);
 	return (redirect);
 }
 
-char *get_argument(char *str)
+char	*get_argument(char *str)
 {
 	char	*argument;
 	int		i;
@@ -56,6 +67,6 @@ char *get_argument(char *str)
 	i = skip_argument(str);
 	argument = strndup(str, i);
 	if (!argument)
-	    raise_error(MEMORY_ERROR, NULL, 1);
+		raise_error(MEMORY_ERROR, NULL, 1);
 	return (argument);
 }

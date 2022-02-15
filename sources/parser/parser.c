@@ -21,14 +21,14 @@ void	check_correct_use_of_pipes(char *str)
 	pipe = 0;
 	while (*str && !g_info.error)
 	{
-        if (*str == '|')
+		if (*str == '|')
 		{
-            if (!word || str[1] == '|')
-                raise_error(TOKEN_ERROR, str, 1);
+			if (!word || str[1] == '|')
+				raise_error(TOKEN_ERROR, str, 1);
 			pipe = 1;
 			word = 0;
 		}
-        else if (!strchr(" \t\v", *str))
+		else if (!strchr(" \t\v", *str))
 		{
 			if (*str == '\'' || *str == '"')
 				str += skip_quotes(str);
@@ -37,7 +37,7 @@ void	check_correct_use_of_pipes(char *str)
 		str++;
 	}
 	if (pipe == 1 && word == 0 && !g_info.error)
-	    raise_error(NEWLINE_ERROR, NULL, 1);
+		raise_error(NEWL_ERROR, NULL, 1);
 }
 
 t_command	*parse_string(char *str)
@@ -57,6 +57,6 @@ t_command	*parse_string(char *str)
 		ft_lstclear(&list, free);
 	}
 	if (g_info.error)
-	    return (free_command(command));
+		return (free_command(command));
 	return (command);
 }
