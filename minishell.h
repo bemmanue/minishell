@@ -46,8 +46,14 @@
 # define HEREDOC 100
 # define NONBLTN 1000
 
+# ifndef NULL
+#  define NULL 0x00000000
+
+# endif
+
 # ifndef COMMAND
-# define COMMAND
+#  define COMMAND
+
 typedef struct s_command
 {
 	char	*name;
@@ -58,7 +64,8 @@ typedef struct s_command
 # endif
 
 # ifndef INFO
-# define INFO
+#  define INFO
+
 typedef struct s_info
 {
 	int		std_fd[2];
@@ -70,7 +77,7 @@ typedef struct s_info
 }t_info;
 # endif
 
-extern t_info   g_info;
+extern t_info	g_info;
 
 int			lst_len(t_command *lst);
 
@@ -88,7 +95,7 @@ int			check_fd_ret(int fd_redir[2], int fd[2], char ***doc);
 
 void		dups(char ***doc, int fd[2]);
 
-int			chk_builtin(t_command *commands, int fd[2]);
+int			chk_builtin(t_command *commands);
 
 int			*redirect(char **red_arr, int fd_pair[2], char ***document);
 

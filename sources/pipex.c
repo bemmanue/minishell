@@ -22,7 +22,7 @@ static int	child(int fd[2], t_command *commands, int fd_out)
 		dup2(fd_out, STDOUT_FILENO);
 	else
 		dup2(fd[INPUT_END], STDOUT_FILENO);
-	temp = chk_builtin(commands, fd);
+	temp = chk_builtin(commands);
 	if (temp == NONBLTN)
 	{
 		pid = fork();
@@ -51,7 +51,7 @@ static int	pipeline(t_command *commands, int fd[2], char **doc)
 	pid = child(fd, commands, fd_redir[1]);
 	if (pid < 0)
 		return (-1);
-	if (pid > 0)
+	if (pid >= 0)
 	{
 		close(fd[INPUT_END]);
 		if (fd_redir[0] == STD_VAL)
@@ -74,7 +74,7 @@ int	pipex(t_command *commands)
 		pid = pipeline(commands, fd, NULL);
 		if (pid > 0)
 			waitpid(pid, &status, 0);
-		else
+		else if (pid < 0)
 			return (-1);
 		if (WIFEXITED(status))
 			g_info.last_prcs = WEXITSTATUS(status);

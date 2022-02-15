@@ -17,12 +17,11 @@ void	error_pipex(void)
 	ft_putendl_fd(strerror(errno), 2);
 }
 
-int	chk_builtin(t_command *commands, int fd[2])
+int	chk_builtin(t_command *commands)
 {
 	char	*name;
 	int		code;
 
-	(void)fd;
 	code = NONBLTN;
 	name = commands->name;
 	if (!ft_strncmp(name, g_info.bltn[0], 5))
