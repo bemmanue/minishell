@@ -1,16 +1,39 @@
 
 #include <builtin.h>
 
-static int  is_unset(char *envp, char **argv)
+char	*ft_getenv(char **envp, char *var)
+{
+	int len;
+	int	index;
+
+	var = ft_strjoin(var, "=");
+	if (!var)
+		return (NULL);
+	len = (int)ft_strlen(var);
+	index = 0;
+	while (envp && envp[index])
+	{
+		if (!ft_strncmp(envp[index], var, len))
+		{
+			free(var);
+			return (ft_strdup(envp[index] + len));
+		}
+		index++;
+	}
+	free(var);
+	return (ft_strdup(""));
+}
+
+static int  is_unset(char **envp, char *str, char **argv)
 {
     char    *env;
     int     i;
 
-    env = ft_strcut(envp, "=");
+    env = ft_strcut(str, "=");
     i = 1;
     while (argv[i])
     {
-        if (getenv(argv[i]) && !ft_strncmp(argv[i], env, ft_strlen(argv[i])))
+        if (ft_getenv(envp, argv[i]) && !ft_strncmp(argv[i], env, ft_strlen(argv[i])))
             return (1);
         i++;
     }
@@ -28,11 +51,11 @@ static int  ft_count(char **argv, char **envp)
     i = 1;
     while (argv[i])
     {
-        if (getenv(argv[i]))
+        if (ft_getenv(envp, argv[i]))
             count--;
         i++;
     }
-    return (i);
+    return (count);
 }
 
 int ft_unset(char **argv, char ***envp)
@@ -48,7 +71,7 @@ int ft_unset(char **argv, char ***envp)
     temp = malloc(sizeof(char *) * (count + 1));
     while ((*envp)[i])
     {
-        if (!is_unset((*envp)[i], argv))
+        if (!is_unset(*envp, (*envp)[i], argv))
             temp[j++] = (*envp)[i];
         i++;
     }
