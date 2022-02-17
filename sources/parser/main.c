@@ -12,15 +12,20 @@
 
 #	include "parser.h"
 
-int	main(void)
+int	main(int argc, char **argv, char **envp)
 {
 	t_command	*command;
+	t_command	*temp;
 	char		*str;
 	int			i;
+	(void)argc;
+	(void)argv;
+	(void)envp;
 
-	g_info.env = ft_arrdup(getenv(), 0);
+	g_info.env = ft_arrdup(envp, 0);
 	str = readline("hello$ ");
-	command = parse_string(str);
+	temp = parse_string(str);
+	command = temp;
 	while (command)
 	{
 		printf("s = |%s|\n", command->name);
@@ -38,5 +43,8 @@ int	main(void)
 		}
 		command = command->next;
 	}
+	free_command(temp);
+	while (1)
+		NULL;
 	return (0);
 }

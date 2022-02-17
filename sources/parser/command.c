@@ -12,6 +12,25 @@
 
 #include "parser.h"
 
+void	*free_command(t_command *command)
+{
+	t_command	*temp;
+
+	while (command)
+	{
+		temp = command;
+		command = command->next;
+		if (temp->name)
+			free(temp->name);
+		if (temp->argv)
+			free_array(temp->argv);
+		if (temp->rdrct)
+			free_array(temp->rdrct);
+		free(temp);
+	}
+	return (NULL);
+}
+
 void	count_arguments(t_list *list, int *argv_number, int *rdrct_number)
 {
 	t_list	*temp;

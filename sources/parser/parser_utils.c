@@ -73,21 +73,6 @@ void	*raise_error(char *message, char *str, int code)
 	return (NULL);
 }
 
-void	*free_command(t_command *command)
-{
-	t_command	*temp;
-
-	while (command)
-	{
-		temp = command;
-		command = command->next;
-		free_array(temp->argv);
-		free_array(temp->rdrct);
-		free(temp);
-	}
-	return (NULL);
-}
-
 int	is_builtin_command(char *name)
 {
 	if (!strncmp("echo", name, ft_strlen(name)))

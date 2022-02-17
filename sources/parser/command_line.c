@@ -33,17 +33,20 @@ t_list	*add_redirect(char **str)
 t_list	*add_dollar(char **str)
 {
 	t_list	*new;
-	char	*arg;
+	char	*dollar;
 
 	new = NULL;
-	arg = get_dollar(*str);
-	if (*arg != '?' && !getenv(arg))
-		*str += ft_strlen(arg) + 1;
-	else
+	dollar = get_dollar(*str);
+	if (!dollar)
+		return (NULL);
+	if (*dollar == '?' || getenv(dollar))
 	{
 		new = ft_lstnew(get_argument(*str));
 		*str += skip_argument(*str);
 	}
+	else
+		*str += ft_strlen(dollar) + 1;
+	free(dollar);
 	return (new);
 }
 

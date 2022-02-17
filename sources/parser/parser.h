@@ -42,7 +42,7 @@ typedef struct s_info
 }t_info;
 # endif
 
-//t_info g_info;
+t_info g_info;
 
 # define MEMORY_ERROR	"minishell: Cannot allocate memory"
 # define TOKEN_ERROR	"minishell: syntax error near unexpected token "
