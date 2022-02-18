@@ -18,10 +18,10 @@ int	main(int argc, char **argv, char **envp)
 	t_command	*temp;
 	char		*str;
 	int			i;
+
 	(void)argc;
 	(void)argv;
 	(void)envp;
-
 	g_info.env = ft_arrdup(envp, 0);
 	str = readline("hello$ ");
 	temp = parse_string(str);

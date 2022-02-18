@@ -47,18 +47,20 @@
 # define NONBLTN 1000
 
 # ifndef COMMAND
-# define COMMAND
+#  define COMMAND
+
 typedef struct s_command
 {
 	char	*name;
 	char	**argv;
 	char	**rdrct;
 	void	*next;
-}t_command;
+}			t_command;
 # endif
 
 # ifndef INFO
-# define INFO
+#  define INFO
+
 typedef struct s_info
 {
 	int		std_fd[2];
@@ -67,10 +69,10 @@ typedef struct s_info
 	char	*file;
 	char	**env;
 	char	**bltn;
-}t_info;
+}			t_info;
 # endif
 
-extern t_info   g_info;
+extern t_info	g_info;
 
 int			lst_len(t_command *lst);
 

@@ -42,14 +42,13 @@ typedef struct s_info
 }t_info;
 # endif
 
-t_info g_info;
+//t_info g_info;
 
 # define MEMORY_ERROR	"minishell: Cannot allocate memory"
 # define TOKEN_ERROR	"minishell: syntax error near unexpected token "
-# define NEWL_ERROR  "minishell: syntax error near unexpected token `newline'"
+# define NEWL_ERROR  	"minishell: syntax error near unexpected token `newline'"
 
 t_command	*parse_string(char *str);
-
 char		*get_command_line(char **str);
 void		split_command_line(char *str, t_list *list[2]);
 
@@ -70,7 +69,6 @@ int			skip_quotes(char *str);
 int			skip_redirect(char *str);
 int			skip_argument(char *str);
 
-//void		free_array(char **array);
 int			is_builtin_command(char *name);
 char		*add_full_path(char *str, char **path);
 void		free_strs(char *s1, char *s2, char *s3);

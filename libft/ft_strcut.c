@@ -12,25 +12,25 @@
 
 #include "libft.h"
 
-char    *ft_strcut(char *str, char *set)
+char	*ft_strcut(char *str, char *set)
 {
-    char    *new;
-    int     i;
+	char	*new;
+	int		i;
 
-    if (!str || !set)
-        return (NULL);
-    i = 0;
-    while (str[i] && !ft_strchr(set, str[i]))
-        i++;
-    new = malloc(sizeof(char) * (i + 1));
-    if (!new)
-        return (NULL);
-    i = 0;
-    while (str[i] && !ft_strchr(set, str[i]))
-    {
-        new[i] = str[i];
-        i++;
-    }
-    new[i] = '\0';
-    return (new);
+	if (!str || !set)
+		return (NULL);
+	i = 0;
+	while (str[i] && !ft_strchr(set, str[i]))
+		i++;
+	new = malloc(sizeof(char) * (i + 1));
+	if (!new)
+		return (NULL);
+	i = 0;
+	while (str[i] && !ft_strchr(set, str[i]))
+	{
+		new[i] = str[i];
+		i++;
+	}
+	new[i] = '\0';
+	return (new);
 }
