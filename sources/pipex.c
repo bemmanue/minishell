@@ -54,7 +54,7 @@ static int	pipeline(t_command *commands, int fd[2])
 	if (pid >= 0)
 	{
 		close(fd[INPUT_END]);
-		if (fd_redir[0] == STD_VAL)
+		if (fd_redir[1] == STD_VAL)
 			dup2(fd[OUTPUT_END], STDIN_FILENO);
 		close(fd[OUTPUT_END]);
 	}
@@ -76,7 +76,7 @@ int	pipex(t_command *commands)
 			waitpid(pid, &status, 0);
 		else if (pid < 0)
 			return (-1);
-		if (WIFEXITED(status))
+		if (pid && WIFEXITED(status))
 			g_info.last_prcs = WEXITSTATUS(status);
 		commands = commands->next;
 	}

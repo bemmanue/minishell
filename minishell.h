@@ -42,6 +42,7 @@
 # define NO_WRIT -3
 # define MEM_ERR -4
 # define OPN_ERR -5
+# define HEREDOC 100
 # define STD_VAL 200
 # define NONBLTN 1000
 

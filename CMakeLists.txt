@@ -48,6 +48,11 @@ add_executable(
         sources/builtin/builtin.h
         libft/ft_split.c
         libft/ft_arrdup.c
+        libft/ft_strrchr.c
+        libft/ft_isdigit.c
+        libft/ft_atoul.c
+        libft/ft_atol.c
+        libft/ft_lstsize.c
         libft/ft_strcut.c
         libft/ft_strdup.c
         libft/ft_strlen.c

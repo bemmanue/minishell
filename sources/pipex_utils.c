@@ -43,9 +43,17 @@ int	chk_builtin(t_command *commands)
 
 void	dups(int fd_redir[2])
 {
-	if (fd_redir[0] != STD_VAL)
+	int	fd;
+
+	if (fd_redir[0] != STD_VAL && fd_redir[0] != HEREDOC)
 		dup2(fd_redir[0], STDIN_FILENO);
-	if (fd_redir[0] != STD_VAL)
+	else if (fd_redir[0] == HEREDOC)
+	{
+		fd = open(g_info.minidir, O_RDONLY);
+		dup2(fd, STDIN_FILENO);
+		close(fd);
+	}
+	if (fd_redir[0] != STD_VAL && fd_redir[0] != HEREDOC)
 		close(fd_redir[0]);
 	if (fd_redir[1] != STD_VAL)
 	{

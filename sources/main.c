@@ -39,7 +39,6 @@ static char	**fill_bltn(void)
 	return (ret);
 }
 
-
 static int	fill_minidir(char **argv)
 {
 	char	*temp;

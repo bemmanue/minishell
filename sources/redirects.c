@@ -17,19 +17,21 @@ static int	here_doc(char *delimiter)
 	char	*str;
 	int		fd;
 
+	dup2(g_info.std_fd[0], STDIN_FILENO);
+	dup2(g_info.std_fd[1], STDOUT_FILENO);
 	fd = open(g_info.minidir, O_CREAT | O_WRONLY | O_TRUNC, 0622);
 	delimiter += 2;
-	printf("%s\n%s\n%d\n", delimiter, g_info.minidir, fd);
 	str = readline("> ");
 	while (str && ft_strncmp(str, delimiter, ft_strlen(delimiter)))
 	{
+		ft_putendl_fd(str, fd);
 		free(str);
-
 		str = readline("> ");
 	}
 	if (str)
 		free(str);
-	return (fd);
+	close(fd);
+	return (HEREDOC);
 }
 
 static int	input(char *str, int fd)
