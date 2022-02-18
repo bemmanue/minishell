@@ -49,7 +49,7 @@ int	skip_redirect(char *str)
 	arrow = str[i++];
 	if (str[i] == arrow)
 		i++;
-	while (!strchr("|\0", str[i]) && strchr(" \t\v", str[i]))
+	while (str[i] && strchr(" \t\v", str[i]))
 		i++;
 	if (!str[i])
 		raise_error(NEWL_ERROR, NULL, 1);
@@ -57,7 +57,7 @@ int	skip_redirect(char *str)
 		raise_error(TOKEN_ERROR, &str[i], 1);
 	else
 	{
-		while (str[i] && !strchr(" |\t\v<>", str[i]))
+		while (str[i] && !strchr(" <>|\t\v", str[i]))
 		{
 			if (str[i] == '\'' || str[i] == '"')
 				i += skip_quotes(&str[i]);
