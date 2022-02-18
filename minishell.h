@@ -46,6 +46,11 @@
 # define HEREDOC 100
 # define NONBLTN 1000
 
+# ifndef NULL
+#  define NULL 0x00000000
+
+# endif
+
 # ifndef COMMAND
 #  define COMMAND
 
@@ -90,7 +95,7 @@ int			check_fd_ret(int fd_redir[2], int fd[2], char ***doc);
 
 void		dups(char ***doc, int fd[2]);
 
-int			chk_builtin(t_command *commands, int fd[2]);
+int			chk_builtin(t_command *commands);
 
 int			*redirect(char **red_arr, int fd_pair[2], char ***document);
 

@@ -13,8 +13,8 @@
 #ifndef BUILTIN_H
 # define BUILTIN_H
 
-# include <fcntl.h>
 # include <stdio.h>
+# include <fcntl.h>
 # include <libft.h>
 
 # define ARG_ERROR  "too many arguments"
