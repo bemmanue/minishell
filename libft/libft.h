@@ -77,6 +77,7 @@ void		*ft_memmove(void *dst, const void *src, size_t len);
 void		*ft_memccpy(void *dst, const void *src, int c, size_t n);
 
 void		*free_arr(char ***arr);
+int			ft_arrlen(char **array);
 char		**ft_arrdup(char **arr, int add);
 void		ft_exclude(char **array, char *str);
 
