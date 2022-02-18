@@ -52,22 +52,6 @@ static void	init_info(int argc, char **argv, char **envp)
 	g_info.error = 0;
 }
 
-//void	ft_signal_cltr_c(int sig)
-//{
-//    (void) sig;
-//    write(2, "\n", 1);
-//    rl_on_new_line();
-//    rl_replace_line("", 0);
-//    rl_redisplay();
-//}
-
-//void	set_signals(void)
-//{
-//    signal(SIGQUIT, ft_signal_cltr_c);   // cntrl '\'
-//    signal(SIGTERM, SIG_IGN);           // cntrl D
-//    signal(SIGINT, ft_signal_cltr_c);   // cntrl C
-//}
-
 int	main(int argc, char **argv, char **envp)
 {
 	char	*str[1000];
@@ -79,8 +63,7 @@ int	main(int argc, char **argv, char **envp)
 		return (-1);
 	envp = g_info.env;
 //	set_signals();
-	str[index] = readline("minishell$ "); // думаю, стоит выделить отдельную
-	// функцию для этого цикла, занимает слишком много места
+	str[index] = readline("minishell$ ");
 	while (str[index])
 	{
 		command_center(str[index], &envp);

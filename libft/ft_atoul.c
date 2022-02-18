@@ -1,28 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strdup.c                                        :+:      :+:    :+:   */
+/*   ft_atoul.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bemmanue <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/04/24 17:26:50 by bemmanue          #+#    #+#             */
-/*   Updated: 2021/04/24 18:04:16 by bemmanue         ###   ########.fr       */
+/*   Created: 2022/02/18 18:23:17 by bemmanue          #+#    #+#             */
+/*   Updated: 2022/02/18 18:23:31 by bemmanue         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strdup(const char *s1)
+uint64_t	ft_atoul(const char *str)
 {
-	size_t	size;
-	char	*copy;
+	uint64_t	nbr;
+	int			dgt;
 
-	if (!s1)
-		return (NULL);
-	size = ft_strlen(s1) + 1;
-	copy = malloc(size);
-	if (copy == NULL)
-		return (NULL);
-	ft_memcpy(copy, s1, size);
-	return (copy);
+	nbr = 0;
+	while ((*str >= 9 && *str <= 13) || *str == ' ')
+		str++;
+	while (*str >= '0' && *str <= '9')
+	{
+		nbr *= 10;
+		dgt = *str++ - 48;
+		nbr += dgt;
+	}
+	return (nbr);
 }

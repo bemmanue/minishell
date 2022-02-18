@@ -60,7 +60,7 @@ typedef struct s_command
 	char	**argv;
 	char	**rdrct;
 	void	*next;
-}t_command;
+}			t_command;
 # endif
 
 # ifndef INFO
@@ -74,7 +74,7 @@ typedef struct s_info
 	char	*file;
 	char	**env;
 	char	**bltn;
-}t_info;
+}			t_info;
 # endif
 
 extern t_info	g_info;

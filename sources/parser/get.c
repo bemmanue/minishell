@@ -50,12 +50,17 @@ char	*get_dollar(char *str)
 char	*get_redirect(char *str)
 {
 	char	*redirect;
+	char	*temp;
 	int		i;
 
 	i = skip_redirect(str);
-	redirect = ft_skipnchar(str, i, " \t\v");
+	temp = strndup(str, i);
+	if (!temp)
+		return (raise_error(MEMORY_ERROR, NULL, 1));
+	redirect = ft_skipnchar(temp, i, " \t\v");
 	if (!redirect)
 		raise_error(MEMORY_ERROR, NULL, 1);
+	free(temp);
 	return (redirect);
 }
 

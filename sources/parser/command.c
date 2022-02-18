@@ -12,59 +12,59 @@
 
 #include "parser.h"
 
-void	count_arguments(t_list *list, int *argv_number, int *rdrct_number)
+void	*free_command(t_command *command)
 {
-	t_list	*temp;
+	t_command	*temp;
 
-	(*argv_number) = 0;
-	(*rdrct_number) = 0;
-	temp = list;
-	while (temp)
+	while (command)
 	{
-		if (*temp->content == '<' || *temp->content == '>')
-			(*rdrct_number)++;
-		else
-			(*argv_number)++;
-		temp = temp->next;
+		temp = command;
+		command = command->next;
+		if (temp->name)
+			free(temp->name);
+		if (temp->argv)
+			free_arr(&temp->argv);
+		if (temp->rdrct)
+			free_arr(&temp->rdrct);
+		free(temp);
 	}
+	return (NULL);
 }
 
-void	fill_command(t_command *command, t_list *list)
+void	fill_command(t_command *command, t_list *list[2])
 {
-	int		argv_index;
-	int		rdrct_index;
+	int		index;
 	char	**path;
 
 	path = ft_split(getenv("PATH"), ':');
-	argv_index = 0;
-	rdrct_index = 0;
-	while (list)
+	index = 0;
+	while (list[0])
 	{
-		if (strchr("<>", *list->content))
-			command->rdrct[rdrct_index++] = expand(list->content);
-		else
-			command->argv[argv_index++] = expand(list->content);
-		list = list->next;
+		command->argv[index++] = expand(list[0]->content);
+		list[0] = list[0]->next;
 	}
-	command->argv[argv_index] = NULL;
-	command->rdrct[rdrct_index] = NULL;
+	command->argv[index] = NULL;
+	index = 0;
+	while (list[1])
+	{
+		command->rdrct[index++] = expand(list[1]->content);
+		list[1] = list[1]->next;
+	}
+	command->rdrct[index] = NULL;
 	command->name = add_full_path(ft_strdup(command->argv[0]), path);
-	free_array(path);
+	free_arr(&path);
 }
 
-t_command	*new_command(t_list *list)
+t_command	*new_command(t_list *list[2])
 {
 	t_command	*command;
-	int			argv_number;
-	int			rdrct_number;
 
 	command = malloc(sizeof(t_command));
 	if (!command)
 		return (raise_error(MEMORY_ERROR, NULL, 1));
-	count_arguments(list, &argv_number, &rdrct_number);
 	command->name = NULL;
-	command->argv = malloc(sizeof(char *) * (argv_number + 1));
-	command->rdrct = malloc(sizeof(char *) * (rdrct_number + 1));
+	command->argv = malloc(sizeof(char *) * (ft_lstsize(list[0]) + 1));
+	command->rdrct = malloc(sizeof(char *) * (ft_lstsize(list[1])  + 1));
 	command->next = NULL;
 	if (!command->argv || !command->rdrct)
 		return (raise_error(MEMORY_ERROR, NULL, 1));
@@ -82,7 +82,7 @@ t_command	*get_last_command(t_command *command)
 	return (last);
 }
 
-void	*add_new_command(t_command **command, t_list *list)
+void	*add_new_command(t_command **command, t_list *list[2])
 {
 	t_command	*last;
 

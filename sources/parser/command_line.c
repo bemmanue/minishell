@@ -12,64 +12,63 @@
 
 #include "parser.h"
 
-t_list	*add_argument(char **str)
+void	add_argument(char **str, t_list **list)
 {
 	t_list	*new;
 
 	new = ft_lstnew(get_argument(*str));
+	if (new)
+		ft_lstadd_back(list, new);
 	*str += skip_argument(*str);
-	return (new);
 }
 
-t_list	*add_redirect(char **str)
+void	add_redirect(char **str, t_list **list)
 {
 	t_list	*new;
 
+	printf("redirect = %s\n", get_redirect(*str));
 	new = ft_lstnew(get_redirect(*str));
+	if (new)
+		ft_lstadd_back(list, new);
 	*str += skip_redirect(*str);
-	return (new);
 }
 
-t_list	*add_dollar(char **str)
+void	add_dollar(char **str, t_list **list)
 {
 	t_list	*new;
-	char	*arg;
+	char	*dollar;
 
 	new = NULL;
-	arg = get_dollar(*str);
-	if (*arg != '?' && !getenv(arg))
-		*str += ft_strlen(arg) + 1;
-	else
+	dollar = get_dollar(*str);
+	if (!dollar)
+		return ;
+	if (*dollar == '?' || getenv(dollar))
 	{
 		new = ft_lstnew(get_argument(*str));
+		if (new)
+			ft_lstadd_back(list, new);
 		*str += skip_argument(*str);
 	}
-	return (new);
+	else
+		*str += ft_strlen(dollar) + 1;
+	free(dollar);
 }
 
-t_list	*split_command_line(char *str)
+void	split_command_line(char *str, t_list *list[2])
 {
-	t_list	*list;
-	t_list	*new;
-
-	list = NULL;
+	list[0] = NULL;
+	list[1] = NULL;
 	while (!strchr("|\0", *str) && !g_info.error)
 	{
 		if (strchr(" \t\v", *str))
 			str++;
+		else if (strchr("<>", *str))
+			add_redirect(&str, &list[1]);
+		else if (*str == '$')
+			add_dollar(&str, &list[0]);
 		else
-		{
-			if (*str == '$')
-				new = add_dollar(&str);
-			else if (strchr("<>", *str))
-				new = add_redirect(&str);
-			else
-				new = add_argument(&str);
-			if (new)
-				ft_lstadd_back(&list, new);
-		}
+			add_argument(&str, &list[0]);
 	}
-	return (list);
 }
 
 char	*get_command_line(char **str)
