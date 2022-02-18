@@ -28,6 +28,7 @@ int		ft_exit(char **argv);
 int		ft_export(char **argv, char ***envp);
 int		ft_unset(char **argv, char ***envp);
 
+char	*ft_getenv(char **envp, char *var);
 char	*get_str(char **envp, char *reference);
 void	err_msg(char *str);
 void	*freedom(char ***arr);
