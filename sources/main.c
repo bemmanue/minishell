@@ -39,10 +39,28 @@ static char	**fill_bltn(void)
 	return (ret);
 }
 
+static int	fill_minidir(char **argv)
+{
+	char	*temp;
+	char	*temp1;
+
+	temp = getcwd(NULL, 0);
+	temp1 = ft_strrchr(argv[0], '/');
+	ft_bzero(temp1, ft_strlen(temp1));
+	chdir(argv[0]);
+	g_info.minidir = getcwd(NULL, 0);
+	chdir(temp);
+	temp1 = g_info.minidir;
+	g_info.minidir = ft_strjoin(temp1, "/.tmp");
+	free(temp);
+	free(temp1);
+	return (0);
+}
+
 static void	init_info(int argc, char **argv, char **envp)
 {
 	(void)argc;
-	(void)argv;
+	fill_minidir(argv);
 	g_info.std_fd[0] = dup(STDIN_FILENO);
 	g_info.std_fd[1] = dup(STDOUT_FILENO);
 	g_info.bltn = fill_bltn();
