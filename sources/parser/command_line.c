@@ -26,7 +26,6 @@ void	add_redirect(char **str, t_list **list)
 {
 	t_list	*new;
 
-	printf("redirect = %s\n", get_redirect(*str));
 	new = ft_lstnew(get_redirect(*str));
 	if (new)
 		ft_lstadd_back(list, new);

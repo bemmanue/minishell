@@ -31,6 +31,22 @@ void	free_comm(t_command **lst)
 	}
 }
 
+//void	ft_signal_cltr_c(int sig)
+//{
+//    (void) sig;
+//    write(2, "\n", 1);
+//    rl_on_new_line();
+//    rl_replace_line("", 0);
+//    rl_redisplay();
+//}
+
+//void	set_signals(void)
+//{
+//    signal(SIGQUIT, ft_signal_cltr_c);   // cntrl '\'
+//    signal(SIGTERM, SIG_IGN);           // cntrl D
+//    signal(SIGINT, ft_signal_cltr_c);   // cntrl C
+//}
+
 int	command_center(char *input, char ***envp)
 {
 	t_command	*commands;
@@ -47,5 +63,7 @@ int	command_center(char *input, char ***envp)
 	*envp = g_info.env;
 	errno = 0;
 	g_info.error = 0;
+	if (!access(g_info.minidir, F_OK))
+		unlink(g_info.minidir);
 	return (0);
 }

@@ -43,13 +43,7 @@
 # define MEM_ERR -4
 # define OPN_ERR -5
 # define STD_VAL 200
-# define HEREDOC 100
 # define NONBLTN 1000
-
-# ifndef NULL
-#  define NULL 0x00000000
-
-# endif
 
 # ifndef COMMAND
 #  define COMMAND
@@ -63,6 +57,11 @@ typedef struct s_command
 }			t_command;
 # endif
 
+# ifndef NULL
+#  define NULL 0x00000000
+
+# endif
+
 # ifndef INFO
 #  define INFO
 
@@ -72,6 +71,7 @@ typedef struct s_info
 	int		error;
 	int		last_prcs;
 	char	*file;
+	char	*minidir;
 	char	**env;
 	char	**bltn;
 }			t_info;
@@ -91,12 +91,12 @@ void		error_pipex(void);
 
 void		error(char *str, int err);
 
-int			check_fd_ret(int fd_redir[2], int fd[2], char ***doc);
+int			check_fd_ret(int fd_redir[2], int fd[2]);
 
-void		dups(char ***doc, int fd[2]);
+void		dups(int fd[2]);
 
 int			chk_builtin(t_command *commands);
 
-int			*redirect(char **red_arr, int fd_pair[2], char ***document);
+int			*redirect(char **red_arr, int fd_pair[2]);
 
 #endif

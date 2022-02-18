@@ -37,12 +37,11 @@ typedef struct s_info
 	int		error;
 	int		last_prcs;
 	char	*file;
+	char	*minidir;
 	char	**env;
 	char	**bltn;
 }t_info;
 # endif
-
-//t_info g_info;
 
 # define MEMORY_ERROR	"minishell: Cannot allocate memory"
 # define TOKEN_ERROR	"minishell: syntax error near unexpected token "

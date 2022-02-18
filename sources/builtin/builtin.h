@@ -17,7 +17,7 @@
 # include <fcntl.h>
 # include <libft.h>
 
-# define ARG_ERROR  "too many arguments"
+# define ARG_ERROR "too many arguments"
 # define NUM_ERROR	"numeric argument required"
 
 int		ft_echo(char **argv);

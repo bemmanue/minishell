@@ -40,13 +40,13 @@ static int	child(int fd[2], t_command *commands, int fd_out)
 	return (pid);
 }
 
-static int	pipeline(t_command *commands, int fd[2], char **doc)
+static int	pipeline(t_command *commands, int fd[2])
 {
 	pid_t	pid;
 	int		fd_redir[2];
 
-	redirect(commands->rdrct, fd_redir, &doc);
-	if (check_fd_ret(fd_redir, fd, &doc))
+	redirect(commands->rdrct, fd_redir);
+	if (check_fd_ret(fd_redir, fd))
 		return (-1);
 	pid = child(fd, commands, fd_redir[1]);
 	if (pid < 0)
@@ -71,7 +71,7 @@ int	pipex(t_command *commands)
 	{
 		if (pipe(fd))
 			return (-1);
-		pid = pipeline(commands, fd, NULL);
+		pid = pipeline(commands, fd);
 		if (pid > 0)
 			waitpid(pid, &status, 0);
 		else if (pid < 0)
