@@ -44,7 +44,7 @@ int	main(int argc, char **argv, char **envp)
 		command = command->next;
 	}
 	free_command(temp);
-	while (1)
-		NULL;
+//	while (1)
+//		NULL;
 	return (0);
 }

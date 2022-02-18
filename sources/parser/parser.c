@@ -44,7 +44,7 @@ t_command	*parse_string(char *str)
 {
 	t_command	*command;
 	char		*command_line;
-	t_list		*list;
+	t_list		*list[2];
 
 	g_info.error = 0;
 	command = NULL;
@@ -52,9 +52,10 @@ t_command	*parse_string(char *str)
 	while (*str && !g_info.error)
 	{
 		command_line = get_command_line(&str);
-		list = split_command_line(command_line);
+		split_command_line(command_line, list);
 		add_new_command(&command, list);
-		ft_lstclear(&list, free);
+		ft_lstclear(&list[0], free);
+		ft_lstclear(&list[1], free);
 	}
 	if (g_info.error)
 		return (free_command(command));

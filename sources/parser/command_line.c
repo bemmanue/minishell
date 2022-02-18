@@ -50,12 +50,12 @@ t_list	*add_dollar(char **str)
 	return (new);
 }
 
-t_list	*split_command_line(char *str)
+void	split_command_line(char *str, t_list *list[2])
 {
-	t_list	*list;
 	t_list	*new;
 
-	list = NULL;
+	list[0] = NULL;
+	list[1] = NULL;
 	while (!strchr("|\0", *str) && !g_info.error)
 	{
 		if (strchr(" \t\v", *str))
@@ -63,16 +63,25 @@ t_list	*split_command_line(char *str)
 		else
 		{
 			if (*str == '$')
+			{
 				new = add_dollar(&str);
+				if (new)
+					ft_lstadd_back(&list[0], new);
+			}
 			else if (strchr("<>", *str))
+			{
 				new = add_redirect(&str);
+				if (new)
+					ft_lstadd_back(&list[1], new);
+			}
 			else
+			{
 				new = add_argument(&str);
-			if (new)
-				ft_lstadd_back(&list, new);
+				if (new)
+					ft_lstadd_back(&list[0], new);
+			}
 		}
 	}
-	return (list);
 }
 
 char	*get_command_line(char **str)

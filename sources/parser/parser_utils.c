@@ -39,37 +39,25 @@ char	*insert_content(char *str, int start, int end, char *content)
 	return (new);
 }
 
-void	free_array(char **array)
-{
-	int	i;
-
-	i = 0;
-	if (!array)
-		return ;
-	while (array[i])
-		free(array[i++]);
-	free(array);
-}
-
 void	*raise_error(char *message, char *str, int code)
 {
 	char	*specify;
-	char	*temp;
 
 	g_info.error = code;
+	ft_putendl_fd(message, 2);
 	if (str)
 	{
 		if (str[0] == str[1])
-			temp = strndup(str, 2);
+			specify = strndup(str, 2);
 		else
-			temp = strndup(str, 1);
-		specify = insert_content("`'", 1, 1, temp);
-		free(temp);
-		message = ft_strjoin(message, specify);
-		if (!message)
-			raise_error(MEMORY_ERROR, NULL, 1);
+			specify = strndup(str, 1);
+		if (specify)
+			return (raise_error(MEMORY_ERROR, NULL, 1));
+		ft_putstr_fd("`", 2);
+		ft_putstr_fd(specify, 2);
+		ft_putstr_fd("'", 2);
+		free(specify);
 	}
-	ft_putendl_fd(message, 2);
 	return (NULL);
 }
 

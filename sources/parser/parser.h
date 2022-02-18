@@ -51,13 +51,13 @@ t_info g_info;
 t_command	*parse_string(char *str);
 
 char		*get_command_line(char **str);
-t_list		*split_command_line(char *str);
+void		split_command_line(char *str, t_list *list[2]);
 
-t_command	*new_command(t_list *list);
+t_command	*new_command(t_list *list[2]);
 void		*free_command(t_command *command);
 t_command	*get_last_command(t_command *command);
-void		fill_command(t_command	*command, t_list *list);
-void		*add_new_command(t_command **command, t_list *list);
+void		fill_command(t_command *command, t_list *list[2]);
+void		*add_new_command(t_command **command, t_list *list[2]);
 
 char		*expand(char *argv);
 
@@ -70,12 +70,11 @@ int			skip_quotes(char *str);
 int			skip_redirect(char *str);
 int			skip_argument(char *str);
 
-void		free_array(char **array);
+//void		free_array(char **array);
 int			is_builtin_command(char *name);
 char		*add_full_path(char *str, char **path);
 void		free_strs(char *s1, char *s2, char *s3);
 void		*raise_error(char *message, char *str, int code);
 char		*insert_content(char *str, int start, int end, char *content);
-void		count_arguments(t_list *list, int *argv_number, int *rdrct_number);
 
 #endif
