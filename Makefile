@@ -23,7 +23,8 @@ SRCS		=	sources/redirects.c				sources/command_center.c		\
 				sources/parser/parser.c			sources/parser/parser_utils.c	\
 				sources/parser/command_line.c	sources/parser/command.c		\
 				sources/parser/get.c			sources/parser/expand.c			\
-				sources/parser/skip.c			sources/builtin/unset.c
+				sources/parser/skip.c			sources/builtin/unset.c			\
+				sources/signals.c
 
 OBJS		=	$(SRCS:.c=.o)
 

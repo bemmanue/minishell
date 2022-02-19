@@ -99,4 +99,6 @@ int			chk_builtin(t_command *commands);
 
 int			*redirect(char **red_arr, int fd_pair[2], char ***document);
 
+void		set_signals(void);
+
 #endif
