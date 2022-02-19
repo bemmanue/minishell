@@ -12,44 +12,37 @@
 
 #include <minishell.h>
 
-static int	here_doc(char *delimiter, char ***doc)
+static int	here_doc(char *delimiter)
 {
 	char	*str;
-	char	**dup_doc;
-	int		index;
+	int		fd;
 
-	index = 0;
-	dup_doc = ft_calloc(256 + 1, sizeof (char *));
-	*doc = dup_doc;
-	if (!dup_doc)
-		return (MEM_ERR);
+	dup2(g_info.std_fd[0], STDIN_FILENO);
+	dup2(g_info.std_fd[1], STDOUT_FILENO);
+	fd = open(g_info.minidir, O_CREAT | O_WRONLY | O_TRUNC, 0622);
 	delimiter += 2;
 	str = readline("> ");
 	while (str && ft_strncmp(str, delimiter, ft_strlen(delimiter)))
 	{
-		dup_doc[index] = ft_strdup(str);
+		ft_putendl_fd(str, fd);
 		free(str);
-		if (!dup_doc[index])
-		{
-			free_arr(doc);
-			return (MEM_ERR);
-		}
 		str = readline("> ");
 	}
 	if (str)
 		free(str);
+	close(fd);
 	return (HEREDOC);
 }
 
-static int	input(char *str, char ***doc, int fd)
+static int	input(char *str, int fd)
 {
 	int	check;
 
 	check = 0;
-	if (fd != STD_VAL && fd != HEREDOC)
+	if (fd != STD_VAL)
 		close(fd);
-	if (*doc)
-		free_arr(doc);
+	if (!access(g_info.minidir, F_OK))
+		unlink(g_info.minidir);
 	if (str[1] != '<')
 	{
 		if (access(&str[1], F_OK))
@@ -64,7 +57,7 @@ static int	input(char *str, char ***doc, int fd)
 			check = OPN_ERR;
 	}
 	else
-		check = here_doc(str, doc);
+		check = here_doc(str);
 	if (check < 0)
 		g_info.error = check;
 	return (check);
@@ -96,25 +89,23 @@ static int	output(char *str, int fd)
 	return (check);
 }
 
-int	*redirect(char **red_arr, int fd_pair[2], char ***document)
+int	*redirect(char **red_arr, int fd_pair[2])
 {
 	int		counter;
 
 	fd_pair[0] = STD_VAL;
 	fd_pair[1] = STD_VAL;
-	if (*document)
-		free_arr(document);
 	if (!red_arr)
 		return (fd_pair);
 	counter = 0;
 	while (red_arr[counter])
 	{
 		if (red_arr[counter][0] == '<')
-			fd_pair[0] = input(red_arr[counter], document, fd_pair[0]);
+			fd_pair[0] = input(red_arr[counter], fd_pair[0]);
 		else if (red_arr[counter][0] == '>')
 			fd_pair[1] = output(red_arr[counter], fd_pair[1]);
 		if (fd_pair[0] < 0 || fd_pair[1] < 0)
-			return (free_arr(document));
+			return (NULL);
 		counter++;
 	}
 	return (fd_pair);
