@@ -29,7 +29,7 @@ void	ft_signal_cltr_d(int sig)
 
 void	set_signals(void)
 {
-	signal(SIGQUIT, SIG_IGN);	// cntrl '\'
+	signal(SIGQUIT, SIG_IGN);			// cntrl '\'
 	signal(SIGTERM, ft_signal_cltr_d);	// cntrl D
 	signal(SIGINT, ft_signal_cltr_c);	// cntrl C
 }

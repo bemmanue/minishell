@@ -12,54 +12,50 @@
 
 #include <builtin.h>
 
-void	change_env(char *new, char ***envp, char *name)
+char	**change_env(char *new_str, char **envp, char *name)
 {
 	int		index;
-	char	**temp;
-	char	*name2;
+	char	**new;
 
 	index = 0;
-	temp = malloc(sizeof(char *) * (ft_arrlen(*envp) + 1));
-	while ((*envp)[index])
+	new = malloc(sizeof(char *) * (ft_arrlen(envp) + 1));
+	while (envp[index])
 	{
-		name2 = ft_strcut((*envp)[index], "=");
-		if (!ft_strncmp(name, name2, ft_strlen(name) + 1))
-			temp[index] = ft_strdup(new);
+		if (!ft_strncmp(name, envp[index], ft_strlen(name)))
+			new[index] = ft_strdup(new_str);
 		else
-			temp[index] = ft_strdup((*envp)[index]);
-		free(name2);
+			new[index] = ft_strdup(envp[index]);
 		index++;
 	}
-	temp[index] = NULL;
-	free_arr(envp);
-	*envp = temp;
-
+	new[index] = NULL;
+	return (new);
 }
 
-void	add_env(char *new, char ***envp)
+char	**add_env(char *new_str, char **envp)
 {
 	int		count;
 	int		index;
-	char	**temp;
+	char	**new;
 
-	count = ft_arrlen(*envp) + 1;
-	temp = malloc(sizeof(char *) * (count + 1));
+	count = ft_arrlen(envp) + 1;
+	new = malloc(sizeof(char *) * (count + 1));
 	index = 0;
-	while ((*envp)[index])
+	while (envp[index])
 	{
-		temp[index] = ft_strdup((*envp)[index]);
+		new[index] = ft_strdup(envp[index]);
 		index++;
 	}
-	temp[index++] = ft_strdup(new);
-	temp[index] = NULL;
-	free_arr(envp);
-	*envp = temp;
+	new[index++] = ft_strdup(new_str);
+	new[index] = NULL;
+	return (new);
 }
 
 int	ft_export(char **argv, char ***envp)
 {
+	char	**new;
 	char	*name;
 	int		index;
+	char	*env;
 
 	index = 1;
 	while (argv[index])
@@ -67,11 +63,17 @@ int	ft_export(char **argv, char ***envp)
 		if (ft_strchr(argv[index], '='))
 		{
 			name = ft_strcut(argv[index], "=");
-			if (!ft_getenv(*envp, name))
-				add_env(argv[index], envp);
+			env = ft_getenv(*envp, name);
+			if (!env)
+				new = add_env(argv[index], *envp);
 			else
-				change_env(argv[index], envp, name);
+			{
+				new = change_env(argv[index], *envp, name);
+				free(env);
+			}
 			free(name);
+			free_arr(envp);
+			*envp = new;
 		}
 		index++;
 	}
