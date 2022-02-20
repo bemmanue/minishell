@@ -52,7 +52,7 @@ int	chk_builtin(t_command *commands)
 	else if (!ft_strncmp(name, g_info.bltn[1], 3))
 		code = ft_cd(commands->argv, g_info.env);
 	else if (!ft_strncmp(name, g_info.bltn[2], 4))
-		code = ft_pwd(commands->argv);
+		code = ft_pwd();
 	else if (!ft_strncmp(name, g_info.bltn[3], 4))
 		code = ft_export(commands->argv, &g_info.env);
 	else if (!ft_strncmp(name, g_info.bltn[4], 4))

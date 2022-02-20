@@ -28,7 +28,7 @@ void	check_correct_use_of_pipes(char *str)
 			pipe = 1;
 			word = 0;
 		}
-		else if (!strchr(" \t\v", *str))
+		else if (!ft_strchr(" \t\v", *str))
 		{
 			if (*str == '\'' || *str == '"')
 				str += skip_quotes(str);
