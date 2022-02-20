@@ -69,6 +69,7 @@ int	pipex(t_command *commands)
 	{
 		if (pipe(fd))
 			return (-1);
+		fill_fd(fd, 2);
 		pid = pipeline(commands, fd);
 		if (pid > 0)
 			waitpid(pid, &status, 0);

@@ -15,7 +15,6 @@
 
 # include <include.h>
 
-// проверить в основной части, не в парсере:
 //	if (!path)
 //      "No such file or directory";
 //  else if (access(name, F_OK))
@@ -51,5 +50,6 @@ int			check_fd_ret(int fd_redir[2], int fd[2]);
 int			*redirect(char **red_arr, int fd_pair[2]);
 int			command_center(char *input, char ***envp);
 void		rl_replace_line(const char *buffer, int val);
+void		fill_fd(int *fd_arr, int count);
 
 #endif

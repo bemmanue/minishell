@@ -15,13 +15,36 @@
 void	error(char *str, int err)
 {
 	ft_putstr_fd("minishell: ", 2);
-	ft_putstr_fd(str, 2);
-	ft_putstr_fd(": ", 2);
+	if (str)
+	{
+		ft_putstr_fd(str, 2);
+		ft_putstr_fd(": ", 2);
+	}
 	if (!err)
+	{
 		ft_putendl_fd(strerror(errno), 2);
+		err = 255;
+	}
 	else
-		ft_putendl_fd(strerror(err), 2);
-	exit(-1);
+		ft_putendl_fd("command not found", 2);
+	exit(err);
+}
+
+void	fill_fd(int *fd_arr, int count)
+{
+	int	temp;
+
+	temp = 0;
+	while (!g_info.filed[temp] && temp < 32)
+		temp++;
+	while (count-- > 0)
+	{
+		if (temp == 32)
+			break ;
+		g_info.filed[temp] = *fd_arr;
+		temp++;
+		fd_arr++;
+	}
 }
 
 int	command_len(t_command *command)

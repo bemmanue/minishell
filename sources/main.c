@@ -67,22 +67,16 @@ static void	init_info(int argc, char **argv, char **envp)
 	g_info.std_fd[1] = dup(STDOUT_FILENO);
 	g_info.bltn = fill_bltn();
 	g_info.env = ft_arrdup(envp, 0);
-	if (!g_info.bltn)
-		return ;
 	g_info.error = 0;
+	g_info.filed = ft_calloc(32, sizeof (int));
 }
 
-int	main(int argc, char **argv, char **envp)
+int	prompt(char **envp)
 {
 	char	*str[1000];
 	int		index;
 
 	index = 0;
-	init_info(argc, argv, envp);
-	if (!g_info.env || !g_info.bltn)
-		return (-1);
-	envp = g_info.env;
-	set_signals();
 	str[index] = readline("minishell$ ");
 	while (str[index])
 	{
@@ -97,5 +91,17 @@ int	main(int argc, char **argv, char **envp)
 	}
 	if (str[index])
 		free(str[index]);
+	return (0);
+}
+
+int	main(int argc, char **argv, char **envp)
+{
+
+	init_info(argc, argv, envp);
+	if (!g_info.env || !g_info.bltn || !g_info.filed)
+		error(NULL, 0);
+	envp = g_info.env;
+	set_signals();
+	prompt(envp);
 	return (0);
 }
