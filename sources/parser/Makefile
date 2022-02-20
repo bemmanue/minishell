@@ -3,7 +3,7 @@ NAME			= 	parser
 
 SRCS			=	parser.c	parser_utils.c	command_line.c	\
 					main.c		command.c		get.c			\
-					open.c		skip.c
+					expand.c	skip.c
 
 OBJS			=	$(SRCS:.c=.o)
 
@@ -12,6 +12,7 @@ DEPS 			= 	$(SRCS:.c=.d)
 LIBFT			=	libft.a
 LIBFT_PATH		=	../../libft/
 LIBFTMAKE		=	$(MAKE) all -sC $(LIBFT_PATH)
+LDFLAGS			=	-L$(HOME)/.brew/opt/readline/lib
 
 CC				=	cc
 CFLAGS			=	-Wall -Wextra -Werror -MMD

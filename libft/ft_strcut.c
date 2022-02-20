@@ -1,28 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strdup.c                                        :+:      :+:    :+:   */
+/*   ft_strldup.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bemmanue <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/04/24 17:26:50 by bemmanue          #+#    #+#             */
-/*   Updated: 2021/04/24 18:04:16 by bemmanue         ###   ########.fr       */
+/*   Created: 2022/02/14 00:59:53 by bemmanue          #+#    #+#             */
+/*   Updated: 2022/02/14 01:15:23 by bemmanue         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strdup(const char *s1)
+char	*ft_strcut(char *str, char *set)
 {
-	size_t	size;
-	char	*copy;
+	char	*new;
+	int		i;
 
-	if (!s1)
+	if (!str || !set)
 		return (NULL);
-	size = ft_strlen(s1) + 1;
-	copy = malloc(size);
-	if (copy == NULL)
+	i = 0;
+	while (str[i] && !ft_strchr(set, str[i]))
+		i++;
+	new = malloc(sizeof(char) * (i + 1));
+	if (!new)
 		return (NULL);
-	ft_memcpy(copy, s1, size);
-	return (copy);
+	i = 0;
+	while (str[i] && !ft_strchr(set, str[i]))
+	{
+		new[i] = str[i];
+		i++;
+	}
+	new[i] = '\0';
+	return (new);
 }

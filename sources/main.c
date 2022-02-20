@@ -12,6 +12,8 @@
 
 #include <minishell.h>
 
+t_info	g_info;
+
 static char	**fill_bltn(void)
 {
 	char	**ret;
@@ -37,13 +39,34 @@ static char	**fill_bltn(void)
 	return (ret);
 }
 
-static void	init_info(int argc, char **argv)
+static int	fill_minidir(char **argv)
+{
+	char	*temp;
+	char	*temp1;
+
+	temp = getcwd(NULL, 0);
+	temp1 = ft_strrchr(argv[0], '/');
+	ft_bzero(temp1, ft_strlen(temp1));
+	chdir(argv[0]);
+	g_info.minidir = getcwd(NULL, 0);
+	chdir(temp);
+	temp1 = g_info.minidir;
+	g_info.minidir = ft_strjoin(temp1, "/.tmp");
+	free(temp);
+	free(temp1);
+	if (!access(g_info.minidir, F_OK))
+		unlink(g_info.minidir);
+	return (0);
+}
+
+static void	init_info(int argc, char **argv, char **envp)
 {
 	(void)argc;
-	(void)argv;
+	fill_minidir(argv);
 	g_info.std_fd[0] = dup(STDIN_FILENO);
 	g_info.std_fd[1] = dup(STDOUT_FILENO);
 	g_info.bltn = fill_bltn();
+	g_info.env = ft_arrdup(envp, 0);
 	if (!g_info.bltn)
 		return ;
 	g_info.error = 0;
@@ -55,17 +78,17 @@ int	main(int argc, char **argv, char **envp)
 	int		index;
 
 	index = 0;
-	g_info.env = ft_arrdup(envp, 0);
-	init_info(argc, argv);
+	init_info(argc, argv, envp);
 	if (!g_info.env || !g_info.bltn)
 		return (-1);
 	envp = g_info.env;
+//	set_signals();
 	str[index] = readline("minishell$ ");
-	while (str[index] && ft_strncmp(str[index], "exit", 4))
+	while (str[index])
 	{
+		command_center(str[index], &envp);
 		if (ft_strlen(str[index]) > 0)
 			add_history(str[index]);
-		command_center(envp, str[index]);
 		free(str[index]);
 		index++;
 		if (index == 1000)

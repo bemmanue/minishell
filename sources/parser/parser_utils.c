@@ -1,81 +1,62 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parser_utils.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bemmanue <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/02/15 14:00:00 by bemmanue          #+#    #+#             */
+/*   Updated: 2022/02/15 14:00:00 by bemmanue         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-# include "parser.h"
+#include "parser.h"
 
-char	*expand(char *argument)
+void	free_strs(char *s1, char *s2, char *s3)
 {
+	if (s1)
+		free(s1);
+	if (s2)
+		free(s2);
+	if (s3)
+		free(s3);
+}
+
+char	*insert_content(char *str, int start, int end, char *content)
+{
+	char	*first_part;
+	char	*second_part;
+	char	*temp;
 	char	*new;
 
-	new = ft_strdup(argument);
+	first_part = strndup(str, start);
+	second_part = strdup(&str[end]);
+	temp = ft_strjoin(first_part, content);
+	new = ft_strjoin(temp, second_part);
 	if (!new)
-		raise_error(MEMORY_ERROR, NULL);
-	open_dollar(&new);
-	open_quotes(&new);
+		raise_error(MEMORY_ERROR, NULL, 1);
+	free_strs(temp, first_part, second_part);
 	return (new);
 }
 
-void	count_arguments(t_list *list, int *argv_number, int *rdrct_number)
+void	*raise_error(char *message, char *str, int code)
 {
-	t_list	*temp;
+	char	*specify;
 
-	(*argv_number) = 0;
-	(*rdrct_number) = 0;
-	temp = list;
-	while (temp)
+	g_info.error = code;
+	ft_putendl_fd(message, 2);
+	if (str)
 	{
-		if (*temp->content == '<' || *temp->content == '>')
-			(*rdrct_number)++;
+		if (str[0] == str[1])
+			specify = strndup(str, 2);
 		else
-			(*argv_number)++;
-		temp = temp->next;
-	}
-}
-
-void	free_array(char **array)
-{
-	int	i;
-
-	i = 0;
-	if (!array)
-		return ;
-	while (array[i])
-		free(array[i++]);
-	free(array);
-}
-
-void	*raise_error(int code, char *command)
-{
-	if (!g_info.error)
-	{
-		g_info.error = code;
-		printf("minishell: ");
-		if (g_info.error == PIPE_ERROR)
-			printf("syntax error near unexpected token `|'\n");
-		else if (g_info.error == MEMORY_ERROR)
-			printf("memory could not be allocated\n");
-		else if (g_info.error == PATH_ERROR)
-			printf("%s: No such file or directory\n", command);
-		else if (g_info.error == COMMAND_ERROR)
-			printf("%s: command not found\n", command);
-		else if (g_info.error == REDIRECT_ERROR)
-			printf("parse error near `%s'\n", command);
-		else if (g_info.error == QUOTE_ERROR)
-			printf("parse error near `%s'\n", command);
-	}
-	free(command);
-	return (NULL);
-}
-
-void	*parser_error(t_command *command)
-{
-	t_command	*temp;
-
-	while (command)
-	{
-		temp = command;
-		command = command->next;
-		free_array(temp->argv);
-		free_array(temp->rdrct);
-		free(temp);
+			specify = strndup(str, 1);
+		if (specify)
+			return (raise_error(MEMORY_ERROR, NULL, 1));
+		ft_putstr_fd("`", 2);
+		ft_putstr_fd(specify, 2);
+		ft_putstr_fd("'", 2);
+		free(specify);
 	}
 	return (NULL);
 }
@@ -105,10 +86,8 @@ char	*add_full_path(char *str, char **path)
 	int		index;
 	char	*temp;
 
-	if (!str || !access(str, F_OK) || is_builtin_command(str))
+	if (!str || !path || !access(str, F_OK) || is_builtin_command(str))
 		return (str);
-	if (!path)
-		return (raise_error(PATH_ERROR, strdup(str)));
 	index = 0;
 	temp = ft_strjoin("/", str);
 	while (path[index])
@@ -116,14 +95,13 @@ char	*add_full_path(char *str, char **path)
 		absolute_path = ft_strjoin(path[index], temp);
 		if (!access(absolute_path, F_OK))
 		{
-			free(temp);
 			free(str);
+			free(temp);
 			return (absolute_path);
 		}
 		free(absolute_path);
 		index++;
 	}
 	free(temp);
-	return (raise_error(COMMAND_ERROR, strdup(str)));
-//	return (str);
+	return (str);
 }

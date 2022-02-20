@@ -1,5 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bemmanue <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/02/15 14:00:00 by bemmanue          #+#    #+#             */
+/*   Updated: 2022/02/15 14:00:00 by bemmanue         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-# include "parser.h"
+#include "parser.h"
 
 char	*get_quotes_content(char *str)
 {
@@ -13,7 +24,7 @@ char	*get_quotes_content(char *str)
 		i++;
 	content = strndup(str, i);
 	if (!content)
-		raise_error(MEMORY_ERROR, NULL);
+		raise_error(MEMORY_ERROR, NULL, 1);
 	return (content);
 }
 
@@ -32,23 +43,28 @@ char	*get_dollar(char *str)
 		dollar = strndup(&str[1], i - 1);
 	}
 	if (!dollar)
-		raise_error(MEMORY_ERROR, NULL);
+		raise_error(MEMORY_ERROR, NULL, 1);
 	return (dollar);
 }
 
-char *get_redirect(char *str)
+char	*get_redirect(char *str)
 {
 	char	*redirect;
+	char	*temp;
 	int		i;
 
 	i = skip_redirect(str);
-	redirect = ft_skipnchar(str, i, " \t\v");
+	temp = strndup(str, i);
+	if (!temp)
+		return (raise_error(MEMORY_ERROR, NULL, 1));
+	redirect = ft_skipnchar(temp, i, " \t\v");
 	if (!redirect)
-		raise_error(MEMORY_ERROR, NULL);
+		raise_error(MEMORY_ERROR, NULL, 1);
+	free(temp);
 	return (redirect);
 }
 
-char *get_argument(char *str)
+char	*get_argument(char *str)
 {
 	char	*argument;
 	int		i;
@@ -56,29 +72,6 @@ char *get_argument(char *str)
 	i = skip_argument(str);
 	argument = strndup(str, i);
 	if (!argument)
-		raise_error(MEMORY_ERROR, NULL);
+		raise_error(MEMORY_ERROR, NULL, 1);
 	return (argument);
 }
-
-//char	*get_env(char **envp, char *var)
-//{
-//	int len;
-//	int	index;
-//
-//	var = ft_strjoin(var, "=");
-//	if (!var)
-//		return (raise_error(MEMORY_ERROR, NULL));
-//	len = (int)ft_strlen(var);
-//	index = 0;
-//	while (envp && envp[index])
-//	{
-//		if (!ft_strncmp(envp[index], var, len))
-//		{
-//			free(var);
-//			return (ft_strdup(envp[index] + len));
-//		}
-//		index++;
-//	}
-//	free(var);
-//	return (ft_strdup(""));
-//}

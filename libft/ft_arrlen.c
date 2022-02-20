@@ -1,31 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   ft_arrlen.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dwillard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/14 20:57:17 by dwillard          #+#    #+#             */
-/*   Updated: 2022/01/14 20:57:18 by dwillard         ###   ########.fr       */
+/*   Created: 2022/02/18 18:16:00 by dwillard          #+#    #+#             */
+/*   Updated: 2022/02/18 18:44:00 by dwillard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <builtin.h>
+#include "libft.h"
 
-int	ft_pwd(char **argv)
+int	ft_arrlen(char **array)
 {
-	char	*temp;
+	int	i;
 
-	temp = getcwd(NULL, 0);
-	if (!temp)
-		return (-1);
-	if (argv && argv[1])
-	{
-		ft_putstr_fd("minishell: pwd: ", STDERR_FILENO);
-		ft_putendl_fd(ARG_ERROR, STDERR_FILENO);
-		return (-1);
-	}
-	ft_putendl_fd(temp, 1);
-	free(temp);
-	return (0);
+	if (!array)
+		return (0);
+	i = 0;
+	while (array[i])
+		i++;
+	return (i);
 }

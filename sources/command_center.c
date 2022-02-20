@@ -30,11 +30,26 @@ void	free_comm(t_command **lst)
 	}
 }
 
-int	command_center(char **envp, char *input)
+//void	ft_signal_cltr_c(int sig)
+//{
+//    (void) sig;
+//    write(2, "\n", 1);
+//    rl_on_new_line();
+//    rl_replace_line("", 0);
+//    rl_redisplay();
+//}
+
+//void	set_signals(void)
+//{
+//    signal(SIGQUIT, ft_signal_cltr_c);   // cntrl '\'
+//    signal(SIGTERM, SIG_IGN);           // cntrl D
+//    signal(SIGINT, ft_signal_cltr_c);   // cntrl C
+//}
+
+int	command_center(char *input, char ***envp)
 {
 	t_command	*commands;
 
-	(void)envp;
 	commands = parse_string(input);
 	if (commands)
 	{
@@ -44,8 +59,10 @@ int	command_center(char **envp, char *input)
 		dup2(g_info.std_fd[0], STDIN_FILENO);
 		dup2(g_info.std_fd[1], STDOUT_FILENO);
 	}
+	*envp = g_info.env;
 	errno = 0;
 	g_info.error = 0;
-	//g_info.env = envp проверить, что все работает
+	if (!access(g_info.minidir, F_OK))
+		unlink(g_info.minidir);
 	return (0);
 }

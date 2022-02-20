@@ -13,16 +13,17 @@
 
 NAME		=	minishell
 
-SRCS		=	sources/redirects.c				sources/command_center.c\
-				sources/main.c					sources/pipex.c\
-				sources/shell_utils.c			sources/pipex_utils.c\
-				sources/pipex_last.c			\
-				sources/builtin/cd.c			sources/builtin/cd_utils.c\
-				sources/builtin/pwd.c			sources/builtin/echo.c\
-				sources/parser/parser.c			sources/parser/parser_utils.c\
-				sources/parser/command_line.c	sources/parser/command.c\
-				sources/parser/get.c			sources/parser/open.c\
-				sources/parser/skip.c
+SRCS		=	sources/redirects.c				sources/command_center.c		\
+				sources/main.c					sources/pipex.c					\
+				sources/shell_utils.c			sources/pipex_utils.c			\
+				sources/pipex_last.c			sources/builtin/env.c			\
+				sources/builtin/exit.c			sources/builtin/export.c		\
+				sources/builtin/cd.c			sources/builtin/cd_utils.c		\
+				sources/builtin/pwd.c			sources/builtin/echo.c			\
+				sources/parser/parser.c			sources/parser/parser_utils.c	\
+				sources/parser/command_line.c	sources/parser/command.c		\
+				sources/parser/get.c			sources/parser/expand.c			\
+				sources/parser/skip.c			sources/builtin/unset.c
 
 OBJS		=	$(SRCS:.c=.o)
 
@@ -31,7 +32,7 @@ DEPS 		= 	$(SRCS:.c=.d)
 LIBFT		=	libft.a
 LIBFT_PATH	=	./libft/
 LIBFTMAKE	=	$(MAKE) all -sC $(LIBFT_PATH)
-LDFLAGS		=	-L$(HOME)/.brew/opt/readline/lib
+LDFLAGS		=	-L$(HOME)/.brew/opt/readline/lib -I .brew/opt/readline/include
 
 CC			=	cc
 CFLAGS		=	-Wall -Wextra -Werror -MMD

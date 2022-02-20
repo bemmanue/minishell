@@ -1,31 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dwillard <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: bemmanue <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/14 20:57:17 by dwillard          #+#    #+#             */
-/*   Updated: 2022/01/14 20:57:18 by dwillard         ###   ########.fr       */
+/*   Created: 2022/02/15 15:00:00 by bemmanue          #+#    #+#             */
+/*   Updated: 2022/02/15 15:00:00 by bemmanue         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <builtin.h>
 
-int	ft_pwd(char **argv)
+int	ft_env(char **argv, char **envp)
 {
-	char	*temp;
+	int	i;
 
-	temp = getcwd(NULL, 0);
-	if (!temp)
-		return (-1);
 	if (argv && argv[1])
 	{
-		ft_putstr_fd("minishell: pwd: ", STDERR_FILENO);
+		ft_putstr_fd("minishell: env: ", STDERR_FILENO);
 		ft_putendl_fd(ARG_ERROR, STDERR_FILENO);
 		return (-1);
 	}
-	ft_putendl_fd(temp, 1);
-	free(temp);
+	i = 0;
+	while (envp && envp[i])
+	{
+		ft_putendl_fd(envp[i], STDOUT_FILENO);
+		i++;
+	}
 	return (0);
 }

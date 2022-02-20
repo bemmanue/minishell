@@ -17,61 +17,43 @@ void	error_pipex(void)
 	ft_putendl_fd(strerror(errno), 2);
 }
 
-static int	do_builtins(int code, t_command *commands)
-{
-	if (!code)
-		return (echo(commands->argv));
-	if (code == 1)
-			return (cd(commands->argv, g_info.env));
-	if (code == 2)
-		return (pwd());
-	return (NONBLTN);
-}
-
-int	chk_builtin(t_command *commands, int fd[2], int fd_out)
+int	chk_builtin(t_command *commands)
 {
 	char	*name;
 	int		code;
 
-	code = 0;
+	code = NONBLTN;
 	name = commands->name;
-	while (code < 7
-		&& ft_strncmp(name, g_info.bltn[code], ft_strlen(g_info.bltn[code])))
-		code++;
-	if (code == 7)
-		return (NONBLTN);
-	else
-	{
-		if (fd_out == STD_VAL && fd)
-			dup2(fd[OUTPUT_END], STDIN_FILENO);
-		if (fd)
-			close(fd[OUTPUT_END]);
-		code = do_builtins(code, commands);
-		if (fd)
-			close(fd[INPUT_END]);
-	}
+	if (!ft_strncmp(name, g_info.bltn[0], 5))
+		code = ft_echo(commands->argv);
+	else if (!ft_strncmp(name, g_info.bltn[1], 3))
+		code = ft_cd(commands->argv, g_info.env);
+	else if (!ft_strncmp(name, g_info.bltn[2], 4))
+		code = ft_pwd(commands->argv);
+	else if (!ft_strncmp(name, g_info.bltn[3], 4))
+		code = ft_export(commands->argv, &g_info.env);
+	else if (!ft_strncmp(name, g_info.bltn[4], 4))
+		code = ft_unset(commands->argv, &g_info.env);
+	else if (!ft_strncmp(name, g_info.bltn[5], 4))
+		code = ft_env(commands->argv, g_info.env);
+	else if (!ft_strncmp(name, g_info.bltn[6], 5))
+		code = ft_exit(commands->argv);
 	return (code);
 }
 
-void	dups(char ***doc, int fd_redir[2])
+void	dups(int fd_redir[2])
 {
-	char	**heredoc;
-	int		counter;
+	int	fd;
 
-	counter = 0;
-	heredoc = *doc;
-	if (fd_redir[0] != HEREDOC && fd_redir[0] != STD_VAL)
+	if (fd_redir[0] != STD_VAL && fd_redir[0] != HEREDOC)
 		dup2(fd_redir[0], STDIN_FILENO);
 	else if (fd_redir[0] == HEREDOC)
 	{
-		while (heredoc[counter])
-		{
-			ft_putendl_fd(heredoc[counter], STDIN_FILENO);
-			counter++;
-		}
-		free_arr(doc);
+		fd = open(g_info.minidir, O_RDONLY);
+		dup2(fd, STDIN_FILENO);
+		close(fd);
 	}
-	if (fd_redir[0] != HEREDOC && fd_redir[0] != STD_VAL)
+	if (fd_redir[0] != STD_VAL && fd_redir[0] != HEREDOC)
 		close(fd_redir[0]);
 	if (fd_redir[1] != STD_VAL)
 	{
@@ -80,12 +62,10 @@ void	dups(char ***doc, int fd_redir[2])
 	}
 }
 
-int	check_fd_ret(int fd_redir[2], int fd[2], char ***doc)
+int	check_fd_ret(int fd_redir[2], int fd[2])
 {
 	if (fd_redir[0] < 0 || fd_redir[1] < 0)
 	{
-		if (*doc)
-			free_arr(doc);
 		if (fd)
 		{
 			close(fd[INPUT_END]);
@@ -99,6 +79,6 @@ int	check_fd_ret(int fd_redir[2], int fd[2], char ***doc)
 		return (-1);
 	}
 	if (fd_redir[0] != STD_VAL || fd_redir[1] != STD_VAL)
-		dups(doc, fd_redir);
+		dups(fd_redir);
 	return (0);
 }

@@ -1,28 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strdup.c                                        :+:      :+:    :+:   */
+/*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bemmanue <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/04/24 17:26:50 by bemmanue          #+#    #+#             */
-/*   Updated: 2021/04/24 18:04:16 by bemmanue         ###   ########.fr       */
+/*   Created: 2022/02/18 18:00:00 by bemmanue          #+#    #+#             */
+/*   Updated: 2022/02/18 18:00:00 by bemmanue         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include <minishell.h>
 
-char	*ft_strdup(const char *s1)
-{
-	size_t	size;
-	char	*copy;
+//void	ft_signal_cltr_c(int sig)
+//{
+//    (void) sig;
+//    write(2, "\n", 1);
+//    rl_on_new_line();
+//    rl_replace_line("", 0);
+//    rl_redisplay();
+//}
 
-	if (!s1)
-		return (NULL);
-	size = ft_strlen(s1) + 1;
-	copy = malloc(size);
-	if (copy == NULL)
-		return (NULL);
-	ft_memcpy(copy, s1, size);
-	return (copy);
-}
+//void	set_signals(void)
+//{
+//    signal(SIGQUIT, ft_signal_cltr_c);   // cntrl '\'
+//    signal(SIGTERM, SIG_IGN);           // cntrl D
+//    signal(SIGINT, ft_signal_cltr_c);   // cntrl C
+//}

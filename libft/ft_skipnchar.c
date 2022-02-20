@@ -16,19 +16,20 @@ static char	*write_new(const char *str, int n, char *skip, int new_len)
 {
 	char	*new;
 	int		str_index;
-	int 	new_index;
+	int		new_index;
 
 	str_index = 0;
 	new_index = 0;
 	new = malloc(sizeof(char) * (new_len + 1));
 	if (!new)
 		return (NULL);
-	while (str_index < n)
+	while (str[str_index] && str_index < n)
 	{
 		if (!ft_strchr(skip, str[str_index]))
 			new[new_index++] = str[str_index];
 		str_index++;
 	}
+	new[new_index] = '\0';
 	return (new);
 }
 
@@ -39,7 +40,7 @@ static int	count_new_len(const char *str, int n, char *skip)
 
 	i = 0;
 	new_len = 0;
-	while (i < n)
+	while (str[i] && i < n)
 	{
 		if (!ft_strchr(skip, str[i]))
 			new_len++;

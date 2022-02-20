@@ -12,56 +12,52 @@
 
 #include <minishell.h>
 
-static void	exec_cmd(int fd[2], int fd_out, t_command *commands)
-{
-	(void)fd_out;
-	close(fd[OUTPUT_END]);
-//	if (fd_out == STD_VAL)
-//		dup2(fd[INPUT_END], STDOUT_FILENO);
-	close(fd[INPUT_END]);
-	g_info.last_prcs = execve(commands->name, commands->argv, g_info.env);
-	error(commands->name, 0);
-}
-
 static int	child(int fd[2], t_command *commands, int fd_out)
 {
 	int	temp;
 	int	pid;
 
 	pid = 0;
-	if (fd_out == STD_VAL)
+	if (fd_out != STD_VAL)
+		dup2(fd_out, STDOUT_FILENO);
+	else
 		dup2(fd[INPUT_END], STDOUT_FILENO);
-	temp = chk_builtin(commands, fd, fd_out);
+	temp = chk_builtin(commands);
 	if (temp == NONBLTN)
 	{
 		pid = fork();
 		if (pid)
 			return (pid);
-		exec_cmd(fd, fd_out, commands);
+		close(fd[OUTPUT_END]);
+		if (fd_out == STD_VAL)
+			dup2(fd[INPUT_END], STDOUT_FILENO);
+		close(fd[INPUT_END]);
+		g_info.last_prcs = execve(commands->name, commands->argv, g_info.env);
+		error(commands->name, 0);
 	}
 	else
 		g_info.last_prcs = temp;
 	return (pid);
 }
 
-static int	pipeline(t_command *commands, int fd[2], char **doc)
+static int	pipeline(t_command *commands, int fd[2])
 {
 	pid_t	pid;
 	int		fd_redir[2];
 
-	redirect(commands->rdrct, fd_redir, &doc);
-	if (check_fd_ret(fd_redir, fd, &doc))
+	redirect(commands->rdrct, fd_redir);
+	if (check_fd_ret(fd_redir, fd))
 		return (-1);
 	pid = child(fd, commands, fd_redir[1]);
-	if (pid > 0)
+	if (pid < 0)
+		return (-1);
+	if (pid >= 0)
 	{
 		close(fd[INPUT_END]);
-		if (fd_redir[0] == STD_VAL)
+		if (fd_redir[1] == STD_VAL)
 			dup2(fd[OUTPUT_END], STDIN_FILENO);
 		close(fd[OUTPUT_END]);
 	}
-	if (pid < 0)
-		return (-1);
 	return (pid);
 }
 
@@ -75,16 +71,12 @@ int	pipex(t_command *commands)
 	{
 		if (pipe(fd))
 			return (-1);
-		pid = pipeline(commands, fd, NULL);
+		pid = pipeline(commands, fd);
 		if (pid > 0)
 			waitpid(pid, &status, 0);
 		else if (pid < 0)
-		{
-			close(fd[INPUT_END]);
-			close(fd[OUTPUT_END]);
 			return (-1);
-		}
-		if (WIFEXITED(status))
+		if (pid && WIFEXITED(status))
 			g_info.last_prcs = WEXITSTATUS(status);
 		commands = commands->next;
 	}

@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <minishell.h>
+#include <builtin.h>
 
 static void	ft_putstr(char *str, int flag)
 {
@@ -33,7 +33,7 @@ static void	ft_cycle(int flag, int index, char **argv)
 	}
 }
 
-int	echo(char **argv)
+int	ft_echo(char **argv)
 {
 	int	argc;
 

@@ -41,9 +41,19 @@ add_executable(
         sources/builtin/cd_utils.c
         sources/builtin/echo.c
         sources/builtin/pwd.c
+        sources/builtin/env.c
+        sources/builtin/unset.c
+        sources/builtin/export.c
+        sources/builtin/exit.c
         sources/builtin/builtin.h
         libft/ft_split.c
         libft/ft_arrdup.c
+        libft/ft_strrchr.c
+        libft/ft_isdigit.c
+        libft/ft_atoul.c
+        libft/ft_atol.c
+        libft/ft_lstsize.c
+        libft/ft_strcut.c
         libft/ft_strdup.c
         libft/ft_strlen.c
         libft/ft_exclude.c
@@ -62,11 +72,12 @@ add_executable(
         libft/ft_lstnew.c
         libft/ft_skipnchar.c
         libft/ft_itoa.c
+        libft/ft_strcut.c
         libft/libft.h
         sources/parser/command.c
         sources/parser/command_line.c
         sources/parser/get.c
-        sources/parser/open.c
+        sources/parser/expand.c
         sources/parser/parser.c
         sources/parser/parser_utils.c
         sources/parser/skip.c
