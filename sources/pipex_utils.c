@@ -12,9 +12,29 @@
 
 #include <minishell.h>
 
-void	error_pipex(void)
+static void	err_utils(void)
 {
-	ft_putendl_fd(strerror(errno), 2);
+	if (g_info.error == (uint8_t)NO_FILE)
+		ft_putendl_fd("No such file or directory", 2);
+	if (g_info.error == (uint8_t)NO_READ)
+		ft_putendl_fd("Permission denied", 2);
+	if (g_info.error == (uint8_t)NO_WRIT)
+		ft_putendl_fd("Permission denied", 2);
+	if (g_info.error == (uint8_t)MEM_ERR)
+		ft_putendl_fd("Memory error", 2);
+	if (g_info.error == (uint8_t)OPN_ERR)
+		ft_putendl_fd("Permission denied", 2);
+}
+
+void	error_pipex(char *str)
+{
+	ft_putstr_fd("minishell: ", 2);
+	ft_putstr_fd(str, 2);
+	ft_putstr_fd(": ", 2);
+	if (!g_info.error)
+		ft_putendl_fd(strerror(errno), 2);
+	else
+		err_utils();
 }
 
 int	chk_builtin(t_command *commands)
@@ -38,6 +58,8 @@ int	chk_builtin(t_command *commands)
 		code = ft_env(commands->argv, g_info.env);
 	else if (!ft_strncmp(name, g_info.bltn[6], 5))
 		code = ft_exit(commands->argv);
+	if (code != NONBLTN)
+		g_info.last_prcs = code;
 	return (code);
 }
 

@@ -37,7 +37,7 @@
 extern t_info	g_info;
 
 void		dups(int fd[2]);
-void		error_pipex(void);
+void		error_pipex(char *str);
 void		set_signals(void);
 void		signal_in_pipes(void);
 void		signal_in_child(void);

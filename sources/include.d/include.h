@@ -13,26 +13,6 @@
 #ifndef INCLUDE_H
 # define INCLUDE_H
 
-
-typedef struct s_command
-{
-	char	*name;
-	char	**argv;
-	char	**rdrct;
-	void	*next;
-}			t_command;
-
-typedef struct s_info
-{
-	int		std_fd[2];
-	int		error;
-	int		last_prcs;
-	int		*filed;
-	char	*minidir;
-	char	**env;
-	char	**bltn;
-}			t_info;
-
 # include <libft.h>
 # include <stdio.h>
 # include <fcntl.h>
@@ -44,6 +24,28 @@ typedef struct s_info
 # include <errno.h>
 # include <err.h>
 # include <stdbool.h>
+# include <inttypes.h>
+
+typedef struct s_command
+{
+	char	*name;
+	char	**argv;
+	char	**rdrct;
+	void	*next;
+}			t_command;
+
+typedef struct s_info
+{
+	uint8_t		error;
+	uint8_t 	last_prcs;
+	int32_t		std_fd[2];
+	int32_t 	*filed;
+	t_command	*commands;
+	char		*minidir;
+	char		**env;
+	char		**bltn;
+}				t_info;
+
 # include <minishell.h>
 # include <builtin.h>
 # include <parser.h>
