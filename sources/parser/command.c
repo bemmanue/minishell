@@ -35,20 +35,23 @@ void	fill_command(t_command *command, t_list *list[2])
 {
 	int		index;
 	char	**path;
+	t_list	*temp;
 
 	path = ft_split(getenv("PATH"), ':');
 	index = 0;
-	while (list[0])
+	temp = list[0];
+	while (temp)
 	{
-		command->argv[index++] = expand(list[0]->content);
-		list[0] = list[0]->next;
+		command->argv[index++] = expand(temp->content);
+		temp = temp->next;
 	}
 	command->argv[index] = NULL;
 	index = 0;
-	while (list[1])
+	temp = list[1];
+	while (temp)
 	{
-		command->rdrct[index++] = expand(list[1]->content);
-		list[1] = list[1]->next;
+		command->rdrct[index++] = expand(temp->content);
+		temp = temp->next;
 	}
 	command->rdrct[index] = NULL;
 	command->name = add_full_path(ft_strdup(command->argv[0]), path);

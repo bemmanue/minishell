@@ -82,7 +82,7 @@ int	main(int argc, char **argv, char **envp)
 	if (!g_info.env || !g_info.bltn)
 		return (-1);
 	envp = g_info.env;
-//	set_signals();
+	set_signals();
 	str[index] = readline("minishell$ ");
 	while (str[index])
 	{

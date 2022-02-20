@@ -38,6 +38,7 @@ add_executable(
         sources/pipex.c
         sources/shell_utils.c
         sources/redirects.c
+        sources/signals.c
         sources/pipex_utils.c
         sources/builtin/cd.c
         sources/builtin/cd_utils.c
@@ -48,6 +49,7 @@ add_executable(
         sources/builtin/export.c
         sources/builtin/exit.c
         libft/ft_split.c
+        libft/ft_arrlen.c
         libft/ft_arrdup.c
         libft/ft_strrchr.c
         libft/ft_isdigit.c

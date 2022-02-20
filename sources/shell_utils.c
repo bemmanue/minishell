@@ -24,15 +24,17 @@ void	error(char *str, int err)
 	exit(-1);
 }
 
-int	lst_len(t_command *lst)
+int	command_len(t_command *command)
 {
-	int		ret_counter;
+	t_command	*temp;
+	int			count;
 
-	ret_counter = 0;
-	while (lst)
+	temp = command;
+	count = 0;
+	while (temp)
 	{
-		ret_counter++;
-		lst = lst->next;
+		count++;
+		temp = temp->next;
 	}
-	return (ret_counter);
+	return (count);
 }
