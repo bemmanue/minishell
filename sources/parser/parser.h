@@ -20,6 +20,7 @@
 
 # ifndef COMMAND
 #  define COMMAND
+
 typedef struct s_command
 {
 	char	*name;
@@ -31,6 +32,7 @@ typedef struct s_command
 
 # ifndef INFO
 #  define INFO
+
 typedef struct s_info
 {
 	int		std_fd[2];
@@ -43,9 +45,9 @@ typedef struct s_info
 }t_info;
 # endif
 
-# define MEMORY_ERROR	"minishell: Cannot allocate memory"
-# define TOKEN_ERROR	"minishell: syntax error near unexpected token "
-# define NEWL_ERROR  	"minishell: syntax error near unexpected token `newline'"
+# define MEMORY_ERROR "minishell: Cannot allocate memory"
+# define TOKEN_ERROR "minishell: syntax error near unexpected token "
+# define NEWL_ERROR "minishell: syntax error near unexpected token `newline'"
 
 t_command	*parse_string(char *str);
 char		*get_command_line(char **str);

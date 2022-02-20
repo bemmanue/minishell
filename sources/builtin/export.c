@@ -33,7 +33,6 @@ void	change_env(char *new, char ***envp, char *name)
 	temp[index] = NULL;
 	free_arr(envp);
 	*envp = temp;
-
 }
 
 void	add_env(char *new, char ***envp)

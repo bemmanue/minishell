@@ -64,7 +64,7 @@ t_command	*new_command(t_list *list[2])
 		return (raise_error(MEMORY_ERROR, NULL, 1));
 	command->name = NULL;
 	command->argv = malloc(sizeof(char *) * (ft_lstsize(list[0]) + 1));
-	command->rdrct = malloc(sizeof(char *) * (ft_lstsize(list[1])  + 1));
+	command->rdrct = malloc(sizeof(char *) * (ft_lstsize(list[1]) + 1));
 	command->next = NULL;
 	if (!command->argv || !command->rdrct)
 		return (raise_error(MEMORY_ERROR, NULL, 1));

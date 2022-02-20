@@ -13,9 +13,6 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-//лики в хирдоке, хирдок не перенапрявляет ввод, перенаправление builtin не
-//работает
-
 // проверить в основной части, не в парсере:
 //	if (!path)
 //      "No such file or directory";

@@ -44,7 +44,8 @@ static int	is_unset(char **envp, char *str, char **argv)
 	i = 1;
 	while (argv[i])
 	{
-		if (ft_getenv(envp, argv[i]) && !ft_strncmp(argv[i], env, ft_strlen(argv[i])))
+		if (ft_getenv(envp, argv[i])
+			&& !ft_strncmp(argv[i], env, ft_strlen(argv[i])))
 			return (1);
 		i++;
 	}

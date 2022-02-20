@@ -32,7 +32,7 @@ int	ft_isnumeric(char *str)
 
 int	ft_exit(char **argv)
 {
-	int64_t	code;
+	uint8_t	code;
 
 	if (argv && argv[1])
 	{
