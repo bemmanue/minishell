@@ -15,7 +15,6 @@
 
 # include <include.h>
 
-// проверить в основной части, не в парсере:
 //	if (!path)
 //      "No such file or directory";
 //  else if (access(name, F_OK))

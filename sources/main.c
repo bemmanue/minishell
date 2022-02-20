@@ -98,7 +98,7 @@ int	main(int argc, char **argv, char **envp)
 {
 
 	init_info(argc, argv, envp);
-	if (!g_info.env || !g_info.bltn || !g_info.last_prcs)
+	if (!g_info.env || !g_info.bltn || !g_info.filed)
 		error(NULL, 0);
 	envp = g_info.env;
 	set_signals();

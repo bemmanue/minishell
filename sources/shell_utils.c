@@ -26,7 +26,7 @@ void	error(char *str, int err)
 		err = 255;
 	}
 	else
-		ft_putendl_fd(strerror(err), 2);
+		ft_putendl_fd("command not found", 2);
 	exit(err);
 }
 
