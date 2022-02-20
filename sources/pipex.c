@@ -12,6 +12,19 @@
 
 #include <minishell.h>
 
+static int	get_err(char *str)
+{
+	char	*temp;
+
+	temp = ft_getenv(g_info.env, "PATH");
+	if (!temp)
+		return (0);
+	free(temp);
+	if (!ft_isalpha(*str))
+		return (0);
+	return (127);
+}
+
 static int	child(int fd[2], t_command *commands, int fd_out)
 {
 	int	pid;
@@ -32,7 +45,7 @@ static int	child(int fd[2], t_command *commands, int fd_out)
 			dup2(fd[INPUT_END], STDOUT_FILENO);
 		close(fd[INPUT_END]);
 		g_info.last_prcs = execve(commands->name, commands->argv, g_info.env);
-		error(commands->name, 0);
+		error(commands->name, get_err(commands->name));
 	}
 	return (pid);
 }

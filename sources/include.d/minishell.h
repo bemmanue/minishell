@@ -15,13 +15,6 @@
 
 # include <include.h>
 
-//	if (!path)
-//      "No such file or directory";
-//  else if (access(name, F_OK))
-//      "command not found";
-//  else
-//      do command;
-
 # define INPUT_END 1
 # define OUTPUT_END 0
 # define NO_FILE -1
