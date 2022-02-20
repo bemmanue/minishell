@@ -28,6 +28,7 @@ static int	child(int fd[2], t_command *commands, int fd_out)
 		pid = fork();
 		if (pid)
 			return (pid);
+		signal_in_child();
 		close(fd[OUTPUT_END]);
 		if (fd_out == STD_VAL)
 			dup2(fd[INPUT_END], STDOUT_FILENO);
@@ -67,7 +68,8 @@ int	pipex(t_command *commands)
 	int	status;
 	int	pid;
 
-	while (lst_len(commands) - 1)
+	signal_in_pipes();
+	while (command_len(commands) - 1)
 	{
 		if (pipe(fd))
 			return (-1);

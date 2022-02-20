@@ -14,7 +14,7 @@
 
 int	ft_isnumeric(char *str)
 {
-	unsigned long long	i;
+	int	i;
 
 	i = 0;
 	if (ft_strchr("-+", *str))
