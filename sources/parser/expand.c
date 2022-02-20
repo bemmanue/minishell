@@ -31,10 +31,12 @@ void	disclose_dollar(char **str, int *i)
 	char	*dollar;
 	char	*content;
 	char	*temp;
+	char	*env;
 
 	dollar = get_dollar(&(*str)[*i]);
 	if (!dollar)
 		return ;
+	env = ft_getenv(g_info.env, dollar);
 	if (*dollar == '?')
 	{
 		content = ft_itoa(g_info.last_prcs);
@@ -44,9 +46,10 @@ void	disclose_dollar(char **str, int *i)
 			free(dollar);
 			return ;
 		}
+		free(env);
 	}
-	else if (ft_getenv(g_info.env, dollar))
-		content = ft_strdup(ft_getenv(g_info.env, dollar));
+	else if (env)
+		content = env;
 	else
 		content = ft_strdup("");
 	temp = *str;

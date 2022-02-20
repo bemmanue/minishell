@@ -36,17 +36,20 @@ void	add_dollar(char **str, t_list **list)
 {
 	t_list	*new;
 	char	*dollar;
+	char	*env;
 
 	new = NULL;
 	dollar = get_dollar(*str);
 	if (!dollar)
 		return ;
-	if (*dollar == '?' || ft_getenv(g_info.env, dollar))
+	env = ft_getenv(g_info.env, dollar);
+	if (*dollar == '?' || env)
 	{
 		new = ft_lstnew(get_argument(*str));
 		if (new)
 			ft_lstadd_back(list, new);
 		*str += skip_argument(*str);
+		free(env);
 	}
 	else
 		*str += ft_strlen(dollar) + 1;
