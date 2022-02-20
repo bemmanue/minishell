@@ -27,12 +27,13 @@ typedef struct s_info
 	int		std_fd[2];
 	int		error;
 	int		last_prcs;
-	char	*file;
+	int		*filed;
 	char	*minidir;
 	char	**env;
 	char	**bltn;
 }			t_info;
 
+# include <libft.h>
 # include <stdio.h>
 # include <fcntl.h>
 # include <readline/readline.h>
@@ -46,6 +47,5 @@ typedef struct s_info
 # include <minishell.h>
 # include <builtin.h>
 # include <parser.h>
-# include <libft.h>
 
 #endif

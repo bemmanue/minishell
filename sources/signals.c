@@ -28,7 +28,7 @@ void	set_signals(void)
 	signal(SIGINT, ft_signal_cltr_c);	// cntrl C
 }
 
-void	ft_signal_in_child(void)
+void	signal_in_child(void)
 {
 	signal(SIGTERM, SIG_DFL);
 	signal(SIGINT, SIG_DFL);
