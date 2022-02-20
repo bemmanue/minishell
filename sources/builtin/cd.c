@@ -63,7 +63,10 @@ static int	change_dir(char *path, char **envp)
 
 	change_oldpwd(envp);
 	if (!path)
+	{
 		check = 1;
+		err_msg(NULL, 1);
+	}
 	else
 		check = chdir(path);
 	change_pwd(envp);
@@ -80,7 +83,7 @@ int	ft_cd(char **argv, char **envp)
 		result = change_dir(home, envp);
 	else
 		result = change_dir(argv[1], envp);
-	if (result && argv)
-		err_msg(argv[1]);
+	if (result && argv[1])
+		err_msg(argv[1], 0);
 	return (result);
 }

@@ -12,10 +12,16 @@
 
 #include <builtin.h>
 
-void	err_msg(char *str)
+void	err_msg(char *str, int option)
 {
-	ft_putstr_fd("cd: no such file or directory: ", 2);
-	ft_putendl_fd(str, 2);
+	ft_putstr_fd("minishell: cd: ", 2);
+	if (!option)
+	{
+		ft_putstr_fd("no such file or directory: ", 2);
+		ft_putendl_fd(str, 2);
+	}
+	else
+		ft_putendl_fd("$HOME not set", 2);
 }
 
 char	*get_str(char **envp, char *reference)

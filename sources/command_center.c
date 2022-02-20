@@ -12,50 +12,17 @@
 
 #include <minishell.h>
 
-void	free_comm(t_command **lst)
-{
-	t_command	*temp1;
-	t_command	*temp2;
-
-	temp1 = *lst;
-	while (temp1)
-	{
-		temp2 = temp1->next;
-		if (temp1->argv)
-			free_arr(&(temp1->argv));
-		if (temp1->rdrct)
-			free_arr(&(temp1->rdrct));
-		free(temp1);
-		temp1 = temp2;
-	}
-}
-
-//void	ft_signal_cltr_c(int sig)
-//{
-//    (void) sig;
-//    write(2, "\n", 1);
-//    rl_on_new_line();
-//    rl_replace_line("", 0);
-//    rl_redisplay();
-//}
-
-//void	set_signals(void)
-//{
-//    signal(SIGQUIT, ft_signal_cltr_c);   // cntrl '\'
-//    signal(SIGTERM, SIG_IGN);           // cntrl D
-//    signal(SIGINT, ft_signal_cltr_c);   // cntrl C
-//}
-
 int	command_center(char *input, char ***envp)
 {
 	t_command	*commands;
 
 	commands = parse_string(input);
+	g_info.commands = commands;
 	if (commands)
 	{
 		if (pipex(commands))
 			g_info.last_prcs = 127;
-		free_comm(&commands);
+		free_command(commands);
 		dup2(g_info.std_fd[0], STDIN_FILENO);
 		dup2(g_info.std_fd[1], STDOUT_FILENO);
 	}

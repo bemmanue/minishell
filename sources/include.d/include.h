@@ -13,6 +13,18 @@
 #ifndef INCLUDE_H
 # define INCLUDE_H
 
+# include <libft.h>
+# include <stdio.h>
+# include <fcntl.h>
+# include <readline/readline.h>
+# include <readline/history.h>
+# include <sys/wait.h>
+# include <string.h>
+# include <signal.h>
+# include <errno.h>
+# include <err.h>
+# include <stdbool.h>
+# include <inttypes.h>
 
 typedef struct s_command
 {
@@ -24,28 +36,18 @@ typedef struct s_command
 
 typedef struct s_info
 {
-	int		std_fd[2];
-	int		error;
-	int		last_prcs;
-	char	*file;
-	char	*minidir;
-	char	**env;
-	char	**bltn;
-}			t_info;
+	uint8_t		error;
+	uint8_t 	last_prcs;
+	int32_t		std_fd[2];
+	int32_t 	*filed;
+	t_command	*commands;
+	char		*minidir;
+	char		**env;
+	char		**bltn;
+}				t_info;
 
-# include <stdio.h>
-# include <fcntl.h>
-# include <readline/readline.h>
-# include <readline/history.h>
-# include <sys/wait.h>
-# include <string.h>
-# include <signal.h>
-# include <errno.h>
-# include <err.h>
-# include <stdbool.h>
 # include <minishell.h>
 # include <builtin.h>
 # include <parser.h>
-# include <libft.h>
 
 #endif
