@@ -54,6 +54,8 @@ static int	fill_minidir(char **argv)
 	g_info.minidir = ft_strjoin(temp1, "/.tmp");
 	free(temp);
 	free(temp1);
+	if (!access(g_info.minidir, F_OK))
+		unlink(g_info.minidir);
 	return (0);
 }
 
