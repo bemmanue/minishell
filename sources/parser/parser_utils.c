@@ -44,18 +44,20 @@ void	*raise_error(char *message, char *str, int code)
 	char	*specify;
 
 	g_info.error = code;
-	ft_putendl_fd(message, 2);
-	if (str)
+	if (!str)
+		ft_putendl_fd(message, 2);
+	else
 	{
+		ft_putstr_fd(message, 2);
 		if (str[0] == str[1])
 			specify = ft_strndup(str, 2);
 		else
 			specify = ft_strndup(str, 1);
-		if (specify)
+		if (!specify)
 			return (raise_error(MEMORY_ERROR, NULL, 1));
 		ft_putstr_fd("`", 2);
 		ft_putstr_fd(specify, 2);
-		ft_putstr_fd("'", 2);
+		ft_putendl_fd("'", 2);
 		free(specify);
 	}
 	return (NULL);
@@ -86,10 +88,10 @@ char	*add_full_path(char *str, char **path)
 	int		index;
 	char	*temp;
 
-	if (!str || !path || !access(str, F_OK) || is_builtin_command(str))
+	if (!str || *str == '/' || !path || !access(str, F_OK) || is_builtin_command(str))
 		return (str);
-	index = 0;
 	temp = ft_strjoin("/", str);
+	index = 0;
 	while (path[index])
 	{
 		absolute_path = ft_strjoin(path[index], temp);

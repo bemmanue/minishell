@@ -71,6 +71,21 @@ static void	init_info(int argc, char **argv, char **envp)
 	g_info.filed = ft_calloc(32, sizeof (int));
 }
 
+void	cancel_cmd(int signo)
+{
+	(void)signo;
+	write(1, "\n", 1);
+}
+
+void	ft_signal_c(int sig)
+{
+	(void) sig;
+	write(2, "\n", 1);
+	rl_replace_line("", 0);
+	rl_on_new_line();
+	rl_redisplay();
+}
+
 int	prompt(char **envp)
 {
 	char	*str[1000];
@@ -87,7 +102,9 @@ int	prompt(char **envp)
 		index++;
 		if (index == 1000)
 			index = 0;
+		signal(SIGINT, ft_signal_c);
 		str[index] = readline("minishell$ ");
+		signal(SIGINT, cancel_cmd);
 	}
 	if (str[index])
 		free(str[index]);
@@ -96,8 +113,10 @@ int	prompt(char **envp)
 
 int	main(int argc, char **argv, char **envp)
 {
+	int	rl_catch_signals;
 
 	init_info(argc, argv, envp);
+	rl_catch_signals = 0;
 	if (!g_info.env || !g_info.bltn || !g_info.filed)
 		error(NULL, 0);
 	envp = g_info.env;
