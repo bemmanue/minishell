@@ -45,8 +45,8 @@ void	disclose_dollar(char **str, int *i)
 			return ;
 		}
 	}
-	else if (getenv(dollar))
-		content = ft_strdup(getenv(dollar));
+	else if (ft_getenv(g_info.env, dollar))
+		content = ft_strdup(ft_getenv(g_info.env, dollar));
 	else
 		content = ft_strdup("");
 	temp = *str;
@@ -62,7 +62,7 @@ void	expand_quotes(char **str)
 	i = 0;
 	while (!g_info.error && (*str)[i])
 	{
-		if (strchr("'\"", (*str)[i]))
+		if (ft_strchr("'\"", (*str)[i]))
 			disclose_quotes(str, &i);
 		i++;
 	}
@@ -83,7 +83,7 @@ void	expand_dollar(char **str)
 			double_quote = 1;
 		else if ((*str)[i] == '"' && double_quote)
 			double_quote = 0;
-		if ((*str)[i] == '$' && !strchr(" \t\v\0", (*str)[i + 1]))
+		if ((*str)[i] == '$' && !ft_strchr(" \t\v\0", (*str)[i + 1]))
 			disclose_dollar(str, &i);
 		i++;
 	}

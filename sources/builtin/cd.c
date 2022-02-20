@@ -73,16 +73,16 @@ static int	change_dir(char *path, char **envp)
 	return (check);
 }
 
-int	ft_cd(char **argv, char **envp)
+int	ft_cd(char **argv)
 {
 	char	*home;
 	int		result;
 
-	home = get_str(envp, "HOME=");
+	home = get_str(g_info.env, "HOME=");
 	if (!argv[1])
-		result = change_dir(home, envp);
+		result = change_dir(home, g_info.env);
 	else
-		result = change_dir(argv[1], envp);
+		result = change_dir(argv[1], g_info.env);
 	if (result && argv[1])
 		err_msg(argv[1], 0);
 	return (result);

@@ -12,30 +12,6 @@
 
 #include <builtin.h>
 
-char	*ft_getenv(char **envp, char *name)
-{
-	char	*variable;
-	int		len;
-	int		index;
-
-	variable = ft_strjoin(name, "=");
-	if (!variable)
-		return (NULL);
-	len = (int)ft_strlen(variable);
-	index = 0;
-	while (envp && envp[index])
-	{
-		if (!ft_strncmp(envp[index], variable, len))
-		{
-			free(variable);
-			return (ft_strdup(envp[index] + len));
-		}
-		index++;
-	}
-	free(variable);
-	return (NULL);
-}
-
 static int	is_unset(char *name, char **argv)
 {
 	char	*variable;
@@ -58,24 +34,24 @@ static int	is_unset(char *name, char **argv)
 	return (0);
 }
 
-char	**do_unset(char **argv, char **envp, int unset_number)
+char	**do_unset(char **argv, int unset_number)
 {
 	char	**new;
 	int		count;
 	int		envp_index;
 	int		new_index;
 
-	count = ft_arrlen(envp) - unset_number;
+	count = ft_arrlen(g_info.env) - unset_number;
 	new = malloc(sizeof(char *) * (count + 1));
 	if (!new)
 		return (NULL);
 	envp_index = 0;
 	new_index = 0;
-	while (envp[envp_index])
+	while (g_info.env[envp_index])
 	{
-		if (!is_unset(envp[envp_index], argv))
+		if (!is_unset(g_info.env[envp_index], argv))
 		{
-			new[new_index] = ft_strdup(envp[envp_index]);
+			new[new_index] = ft_strdup(g_info.env[envp_index]);
 			new_index++;
 		}
 		envp_index++;
@@ -84,18 +60,17 @@ char	**do_unset(char **argv, char **envp, int unset_number)
 	return (new);
 }
 
-int	count_unset(char **argv, char **envp)
+int	count_unset(char **argv)
 {
 	int		count;
 	int		index;
 	char	*env;
-	(void)envp;
 
 	count = 0;
 	index = 1;
 	while (argv && argv[index])
 	{
-		env = ft_getenv(envp, argv[index]);
+		env = ft_getenv(g_info.env, argv[index]);
 		if (env)
 		{
 			count++;
@@ -106,17 +81,17 @@ int	count_unset(char **argv, char **envp)
 	return (count);
 }
 
-int	ft_unset(char **argv, char ***envp)
+int	ft_unset(char **argv)
 {
 	char	**new;
 	int		unset_number;
 
-	unset_number = count_unset(argv, *envp);
+	unset_number = count_unset(argv);
 	if (unset_number)
 	{
-		new = do_unset(argv, *envp, unset_number);
-		free_arr(envp);
-		*envp = new;
+		new = do_unset(argv, unset_number);
+		free_arr(&g_info.env);
+		g_info.env = new;
 	}
 	return (0);
 }

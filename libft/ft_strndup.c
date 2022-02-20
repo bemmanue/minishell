@@ -23,7 +23,7 @@ char	*ft_strndup(const char *s1, size_t n)
 	len = ft_strlen(s1);
 	if (n > len)
 		n = len;
-	new = malloc(sizeof(char) * n + 1);
+	new = malloc(sizeof (char) * (n + 1));
 	if (!new)
 		return (NULL);
 	index = 0;

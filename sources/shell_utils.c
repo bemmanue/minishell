@@ -38,3 +38,27 @@ int	command_len(t_command *command)
 	}
 	return (count);
 }
+
+char	*ft_getenv(char **envp, char *name)
+{
+	char	*variable;
+	int		len;
+	int		index;
+
+	variable = ft_strjoin(name, "=");
+	if (!variable)
+		return (NULL);
+	len = (int)ft_strlen(variable);
+	index = 0;
+	while (envp && envp[index])
+	{
+		if (!ft_strncmp(envp[index], variable, len))
+		{
+			free(variable);
+			return (ft_strdup(envp[index] + len));
+		}
+		index++;
+	}
+	free(variable);
+	return (NULL);
+}
