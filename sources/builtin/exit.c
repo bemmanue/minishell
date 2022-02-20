@@ -12,6 +12,20 @@
 
 #include <builtin.h>
 
+static void	num_error(char *argv)
+{
+	ft_putstr_fd("bash: exit: ", STDERR_FILENO);
+	ft_putstr_fd(argv, STDERR_FILENO);
+	ft_putstr_fd(": ", STDERR_FILENO);
+	ft_putendl_fd(NUM_ERROR, STDERR_FILENO);
+}
+
+static void	args_error(void)
+{
+	ft_putstr_fd("bash: exit: ", STDERR_FILENO);
+	ft_putendl_fd(ARG_ERROR, STDERR_FILENO);
+}
+
 int	ft_isnumeric(char *str)
 {
 	int	i;
@@ -38,17 +52,13 @@ int	ft_exit(char **argv)
 	{
 		if (!ft_isnumeric(argv[1]))
 		{
-			ft_putstr_fd("bash: exit: ", STDERR_FILENO);
-			ft_putstr_fd(argv[1], STDERR_FILENO);
-			ft_putstr_fd(": ", STDERR_FILENO);
-			ft_putendl_fd(NUM_ERROR, STDERR_FILENO);
+			num_error(argv[1]);
 			exit(255);
 		}
 		else if (argv[2])
 		{
-			ft_putstr_fd("bash: exit: ", STDERR_FILENO);
-			ft_putendl_fd(ARG_ERROR, STDERR_FILENO);
-			return (0);
+			args_error();
+			return (255);
 		}
 		else
 		{
@@ -58,4 +68,5 @@ int	ft_exit(char **argv)
 	}
 	else
 		exit(EXIT_SUCCESS);
+	return (0);
 }
