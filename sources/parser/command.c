@@ -36,8 +36,11 @@ void	fill_command(t_command *command, t_list *list[2])
 	int		index;
 	char	**path;
 	t_list	*temp;
+	char	*env;
 
-	path = ft_split(getenv("PATH"), ':');
+	env = ft_getenv(g_info.env, "PATH");
+	path = ft_split(env, ':');
+	free(env);
 	index = 0;
 	temp = list[0];
 	while (temp)

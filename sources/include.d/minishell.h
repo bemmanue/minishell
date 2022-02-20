@@ -38,6 +38,7 @@ int			pipex(t_command *commands);
 int			last_fork(t_command *commands);
 int			command_len(t_command *command);
 int			chk_builtin(t_command *commands);
+char		*ft_getenv(char **envp, char *name);
 int			check_fd_ret(int fd_redir[2], int fd[2]);
 int			*redirect(char **red_arr, int fd_pair[2]);
 int			command_center(char *input, char ***envp);

@@ -12,7 +12,7 @@
 
 #include <builtin.h>
 
-char	**change_env(char *new_str, char **envp, char *name)
+void	change_env(char *new_str, char **envp, char *name)
 {
 	int		index;
 	char	**new;
@@ -28,10 +28,11 @@ char	**change_env(char *new_str, char **envp, char *name)
 		index++;
 	}
 	new[index] = NULL;
-	return (new);
+	free_arr(&g_info.env);
+	g_info.env = new;
 }
 
-char	**add_env(char *new_str, char **envp)
+void	add_env(char *new_str, char **envp)
 {
 	int		count;
 	int		index;
@@ -47,12 +48,12 @@ char	**add_env(char *new_str, char **envp)
 	}
 	new[index++] = ft_strdup(new_str);
 	new[index] = NULL;
-	return (new);
+	free_arr(&g_info.env);
+	g_info.env = new;
 }
 
-int	ft_export(char **argv, char ***envp)
+int	ft_export(char **argv)
 {
-	char	**new;
 	char	*name;
 	int		index;
 	char	*env;
@@ -63,17 +64,15 @@ int	ft_export(char **argv, char ***envp)
 		if (ft_strchr(argv[index], '='))
 		{
 			name = ft_strcut(argv[index], "=");
-			env = ft_getenv(*envp, name);
+			env = ft_getenv(g_info.env, name);
 			if (!env)
-				new = add_env(argv[index], *envp);
+				add_env(argv[index], g_info.env);
 			else
 			{
-				new = change_env(argv[index], *envp, name);
+				change_env(argv[index], g_info.env, name);
 				free(env);
 			}
 			free(name);
-			free_arr(envp);
-			*envp = new;
 		}
 		index++;
 	}

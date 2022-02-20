@@ -22,7 +22,7 @@ char	*get_quotes_content(char *str)
 	quote = *str++;
 	while (str[i] && str[i] != quote)
 		i++;
-	content = strndup(str, i);
+	content = ft_strndup(str, i);
 	if (!content)
 		raise_error(MEMORY_ERROR, NULL, 1);
 	return (content);
@@ -38,9 +38,9 @@ char	*get_dollar(char *str)
 		dollar = ft_strdup("?");
 	else
 	{
-		while (!strchr(" $'\"\t\v\0", str[i]))
+		while (!ft_strchr(" $'\"\t\v\0", str[i]))
 			i++;
-		dollar = strndup(&str[1], i - 1);
+		dollar = ft_strndup(&str[1], i - 1);
 	}
 	if (!dollar)
 		raise_error(MEMORY_ERROR, NULL, 1);
@@ -54,7 +54,7 @@ char	*get_redirect(char *str)
 	int		i;
 
 	i = skip_redirect(str);
-	temp = strndup(str, i);
+	temp = ft_strndup(str, i);
 	if (!temp)
 		return (raise_error(MEMORY_ERROR, NULL, 1));
 	redirect = ft_skipnchar(temp, i, " \t\v");
@@ -70,7 +70,7 @@ char	*get_argument(char *str)
 	int		i;
 
 	i = skip_argument(str);
-	argument = strndup(str, i);
+	argument = ft_strndup(str, i);
 	if (!argument)
 		raise_error(MEMORY_ERROR, NULL, 1);
 	return (argument);

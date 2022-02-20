@@ -12,7 +12,7 @@
 
 #include <builtin.h>
 
-int	ft_env(char **argv, char **envp)
+int	ft_env(char **argv)
 {
 	int	i;
 
@@ -23,9 +23,9 @@ int	ft_env(char **argv, char **envp)
 		return (-1);
 	}
 	i = 0;
-	while (envp && envp[i])
+	while (g_info.env && g_info.env[i])
 	{
-		ft_putendl_fd(envp[i], STDOUT_FILENO);
+		ft_putendl_fd(g_info.env[i], STDOUT_FILENO);
 		i++;
 	}
 	return (0);

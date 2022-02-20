@@ -29,8 +29,8 @@ char	*insert_content(char *str, int start, int end, char *content)
 	char	*temp;
 	char	*new;
 
-	first_part = strndup(str, start);
-	second_part = strdup(&str[end]);
+	first_part = ft_strndup(str, start);
+	second_part = ft_strdup(&str[end]);
 	temp = ft_strjoin(first_part, content);
 	new = ft_strjoin(temp, second_part);
 	if (!new)
@@ -48,9 +48,9 @@ void	*raise_error(char *message, char *str, int code)
 	if (str)
 	{
 		if (str[0] == str[1])
-			specify = strndup(str, 2);
+			specify = ft_strndup(str, 2);
 		else
-			specify = strndup(str, 1);
+			specify = ft_strndup(str, 1);
 		if (specify)
 			return (raise_error(MEMORY_ERROR, NULL, 1));
 		ft_putstr_fd("`", 2);
@@ -63,19 +63,19 @@ void	*raise_error(char *message, char *str, int code)
 
 int	is_builtin_command(char *name)
 {
-	if (!strncmp("echo", name, ft_strlen(name)))
+	if (!ft_strncmp("echo", name, ft_strlen(name)))
 		return (1);
-	if (!strncmp("cd", name, ft_strlen(name)))
+	if (!ft_strncmp("cd", name, ft_strlen(name)))
 		return (1);
-	if (!strncmp("pwd", name, ft_strlen(name)))
+	if (!ft_strncmp("pwd", name, ft_strlen(name)))
 		return (1);
-	if (!strncmp("export", name, ft_strlen(name)))
+	if (!ft_strncmp("export", name, ft_strlen(name)))
 		return (1);
-	if (!strncmp("unset", name, ft_strlen(name)))
+	if (!ft_strncmp("unset", name, ft_strlen(name)))
 		return (1);
-	if (!strncmp("env", name, ft_strlen(name)))
+	if (!ft_strncmp("env", name, ft_strlen(name)))
 		return (1);
-	if (!strncmp("exit", name, ft_strlen(name)))
+	if (!ft_strncmp("exit", name, ft_strlen(name)))
 		return (1);
 	return (0);
 }
