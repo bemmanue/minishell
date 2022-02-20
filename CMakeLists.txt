@@ -15,22 +15,24 @@ project(minishell C)
 
 set(
         CMAKE_C_STANDARD 99
-        minishell.h
+        sources/include.d/minishell.h
         libft/libft.h
-        sources/builtin/builtin.h
-        sources/parser/parser.h
+        sources/include.d/builtin.h
+        sources/include.d/parser.h
+        sources/include.d/include.h
     )
 
 include_directories(
-        .
+        sources/include.d
         libft
-        sources/builtin
-        sources/parser
 )
 
 add_executable(
         minishell
-        minishell.h
+        sources/include.d/minishell.h
+        sources/include.d/builtin.h
+        sources/include.d/parser.h
+        sources/include.d/include.h
         sources/command_center.c
         sources/main.c
         sources/pipex.c
@@ -45,7 +47,6 @@ add_executable(
         sources/builtin/unset.c
         sources/builtin/export.c
         sources/builtin/exit.c
-        sources/builtin/builtin.h
         libft/ft_split.c
         libft/ft_arrdup.c
         libft/ft_strrchr.c
@@ -81,7 +82,6 @@ add_executable(
         sources/parser/parser.c
         sources/parser/parser_utils.c
         sources/parser/skip.c
-        sources/parser/parser.h
         sources/pipex_last.c)
 
 target_link_libraries(minishell readline)

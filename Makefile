@@ -6,7 +6,7 @@
 #    By: dwillard <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/17 18:22:10 by dwillard          #+#    #+#              #
-#    Updated: 2022/01/17 18:22:12 by dwillard         ###   ########.fr        #
+#    Updated: 2022/02/20 13:54:02 by dwillard         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,10 +39,10 @@ CFLAGS		=	-Wall -Wextra -Werror -MMD
 
 all:			lib $(NAME) $(BUILTIN)
 .c.o:
-				$(CC) $(CFLAGS) -I. -Ilibft -Isources/builtin -Isources/parser -c $< -o $@
+				$(CC) $(CFLAGS) -Ilibft -Isources/include.d -c $< -o $@
 
 $(NAME):		$(OBJS)
-				$(CC) $(CFLAGS) $(OBJS) -I. -Ilibft -Isources/builtin -Isources/parser \
+				$(CC) $(CFLAGS) $(OBJS) -Ilibft -Isources/include.d \
 -L$(LIBFT_PATH) -lft $(LDFLAGS) -lreadline -o $(NAME)
 
 lib:
