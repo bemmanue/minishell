@@ -96,7 +96,6 @@ int	prompt(char **envp)
 
 int	main(int argc, char **argv, char **envp)
 {
-
 	init_info(argc, argv, envp);
 	if (!g_info.env || !g_info.bltn || !g_info.filed)
 		error(NULL, 0);

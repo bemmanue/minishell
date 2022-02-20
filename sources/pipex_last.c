@@ -22,7 +22,7 @@ static int	get_err(char *str)
 	free(temp);
 	if (!ft_isalpha(*str))
 		return (0);
-	return (1);
+	return (127);
 }
 
 static int	child(t_command *commands, int fd_out)
