@@ -22,8 +22,7 @@ static int	child(t_command *commands, int fd_out)
 		dup2(fd_out, STDOUT_FILENO);
 	else
 		dup2(g_info.std_fd[1], STDOUT_FILENO);
-	temp = chk_builtin(commands);
-	if (temp == NONBLTN)
+	if (chk_builtin(commands) == NONBLTN)
 	{
 		pid = fork();
 		if (pid)
@@ -31,8 +30,6 @@ static int	child(t_command *commands, int fd_out)
 		g_info.last_prcs = execve(commands->name, commands->argv, g_info.env);
 		error(commands->name, 0);
 	}
-	else
-		g_info.last_prcs = temp;
 	return (pid);
 }
 

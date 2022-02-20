@@ -12,6 +12,21 @@
 
 #include <minishell.h>
 
+static void	empty_fd_arr(void)
+{
+	int	temp;
+
+	temp = 0;
+	while (g_info.filed[temp])
+	{
+		if (temp == 32)
+			break ;
+		close(g_info.filed[temp]);
+		temp++;
+	}
+	ft_bzero(g_info.filed, 32 * sizeof (int));
+}
+
 int	command_center(char *input, char ***envp)
 {
 	t_command	*commands;
@@ -25,6 +40,7 @@ int	command_center(char *input, char ***envp)
 		free_command(commands);
 		dup2(g_info.std_fd[0], STDIN_FILENO);
 		dup2(g_info.std_fd[1], STDOUT_FILENO);
+		empty_fd_arr();
 	}
 	*envp = g_info.env;
 	errno = 0;

@@ -36,9 +36,6 @@ static int	here_doc(char *delimiter)
 
 static int	input(char *str, int fd)
 {
-	int	check;
-
-	check = 0;
 	if (fd != STD_VAL)
 		close(fd);
 	if (!access(g_info.minidir, F_OK))
@@ -46,21 +43,23 @@ static int	input(char *str, int fd)
 	if (str[1] != '<')
 	{
 		if (access(&str[1], F_OK))
-			check = NO_FILE;
-		if (access (&str[1], R_OK) && !check)
-			check = NO_READ;
-		if (check)
-			g_info.error = check;
-		if (!check)
-			check = open(&str[1], O_RDONLY);
-		if (check < 0)
-			check = OPN_ERR;
+			fd = NO_FILE;
+		if (access (&str[1], R_OK) && !fd)
+			fd = NO_READ;
+		if (fd)
+			g_info.error = fd;
+		if (!fd)
+			fd = open(&str[1], O_RDONLY);
+		if (fd < 0)
+			fd = OPN_ERR;
 	}
 	else
-		check = here_doc(str);
-	if (check < 0)
-		g_info.error = check;
-	return (check);
+		fd = here_doc(str);
+	if (fd < 0)
+		g_info.error = fd;
+	else
+		fill_fd(&fd, 1);
+	return (fd);
 }
 
 static int	output(char *str, int fd)
@@ -86,6 +85,8 @@ static int	output(char *str, int fd)
 		check = OPN_ERR;
 		g_info.error = check;
 	}
+	else
+		fill_fd(&check, 1);
 	return (check);
 }
 
@@ -108,5 +109,6 @@ int	*redirect(char **red_arr, int fd_pair[2])
 			return (NULL);
 		counter++;
 	}
+	fill_fd(fd_pair, 2);
 	return (fd_pair);
 }

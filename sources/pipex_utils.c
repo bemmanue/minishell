@@ -29,8 +29,11 @@ static void	err_utils(void)
 void	error_pipex(char *str)
 {
 	ft_putstr_fd("minishell: ", 2);
-	ft_putstr_fd(str, 2);
-	ft_putstr_fd(": ", 2);
+	if (str)
+	{
+		ft_putstr_fd(str, 2);
+		ft_putstr_fd(": ", 2);
+	}
 	if (!g_info.error)
 		ft_putendl_fd(strerror(errno), 2);
 	else
@@ -97,7 +100,7 @@ int	check_fd_ret(int fd_redir[2], int fd[2])
 			close(fd_redir[1]);
 		if (fd_redir[1] < 0 && fd_redir[0] != STD_VAL)
 			close(fd_redir[0]);
-		error_pipex();
+		error_pipex(NULL);
 		return (-1);
 	}
 	if (fd_redir[0] != STD_VAL || fd_redir[1] != STD_VAL)
