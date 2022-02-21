@@ -12,41 +12,6 @@
 
 #include <minishell.h>
 
-static void	cancel_cmd(int signo)
-{
-	(void)signo;
-	write(1, "\n", 1);
-	exit(130);
-}
-
-static int	here_doc(char *delimiter)
-{
-	char	*str;
-	int		fd;
-	pid_t 	pid;
-
-	dup2(g_info.std_fd[0], STDIN_FILENO);
-	dup2(g_info.std_fd[1], STDOUT_FILENO);
-	pid = fork();
-	if (pid > 0)
-		return (pid);
-	fd = open(g_info.minidir, O_CREAT | O_WRONLY | O_TRUNC, 0622);
-	delimiter += 2;
-	str = readline("> ");
-	while (str && ft_strncmp(str, delimiter, ft_strlen(delimiter)))
-	{
-		ft_putendl_fd(str, fd);
-		free(str);
-		signal(SIGINT, ft_signal_c);
-		signal(SIGINT, cancel_cmd);
-		str = readline("> ");
-	}
-	if (str)
-		free(str);
-	close(fd);
-	exit(0);
-}
-
 static int	input(char *str, int fd)
 {
 	if (fd != STD_VAL)
@@ -67,13 +32,10 @@ static int	input(char *str, int fd)
 			fd = OPN_ERR;
 	}
 	else
-	{
-		fd = here_doc(str);
-		waitpid(fd, NULL, 0);
-	}
+		fd = control(str);
 	if (fd < 0)
 		g_info.error = fd;
-	else
+	else if (fd != HEREDOC)
 		fill_fd(&fd, 1);
 	return (fd);
 }
@@ -124,7 +86,8 @@ int	*redirect(char **red_arr, int fd_pair[2])
 		if (fd_pair[0] < 0 || fd_pair[1] < 0)
 			return (NULL);
 		counter++;
+		if (fd_pair[0] == SIG_END)
+			return (&fd_pair[0]);
 	}
-	fill_fd(fd_pair, 2);
 	return (fd_pair);
 }

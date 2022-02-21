@@ -85,6 +85,6 @@ add_executable(
         sources/parser/parser_utils.c
         sources/parser/skip.c
         sources/pipex_last.c
-)
+        sources/here_doc.c)
 
 target_link_libraries(minishell readline)

@@ -77,21 +77,13 @@ static void	cancel_cmd(int signo)
 	write(1, "\n", 1);
 }
 
-void	ft_signal_c(int sig)
-{
-	(void) sig;
-	write(2, "\n", 1);
-	rl_replace_line("", 0);
-	rl_on_new_line();
-	rl_redisplay();
-}
-
 int	prompt(char **envp)
 {
 	char	*str[1000];
 	int		index;
 
 	index = 0;
+	set_signals();
 	str[index] = readline("minishell$ ");
 	while (str[index])
 	{
@@ -102,7 +94,8 @@ int	prompt(char **envp)
 		index++;
 		if (index == 1000)
 			index = 0;
-		signal(SIGINT, ft_signal_c);
+		signal(SIGINT, ft_signal_cltr_c);
+		set_signals();
 		str[index] = readline("minishell$ ");
 		signal(SIGINT, cancel_cmd);
 	}

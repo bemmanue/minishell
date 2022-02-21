@@ -50,7 +50,8 @@ static int	pipeline(t_command *commands)
 	pid_t	pid;
 	int		fd_redir[2];
 
-	redirect(commands->rdrct, fd_redir);
+	if (*redirect(commands->rdrct, fd_redir) == SIG_END)
+		return (1);
 	if (check_fd_ret(fd_redir, NULL))
 		return (-1);
 	pid = child(commands, fd_redir[1]);
@@ -68,5 +69,7 @@ int	last_fork(t_command *commands)
 	pid = pipeline(commands);
 	if (pid < 0)
 		return (-1);
+	if (pid == 1)
+		return (1);
 	return (0);
 }

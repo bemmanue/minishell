@@ -30,13 +30,18 @@ static void	empty_fd_arr(void)
 int	command_center(char *input, char ***envp)
 {
 	t_command	*commands;
+	int			ret;
 
 	commands = parse_string(input);
 	g_info.commands = commands;
 	if (commands)
 	{
-		if (pipex(commands))
+		ret = pipex(commands);
+		if (ret == 1)
+			g_info.last_prcs = 1;
+		else if (ret)
 			g_info.last_prcs = 127;
+		get_exit(commands);
 		free_command(commands);
 		dup2(g_info.std_fd[0], STDIN_FILENO);
 		dup2(g_info.std_fd[1], STDOUT_FILENO);
