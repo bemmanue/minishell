@@ -35,7 +35,7 @@ void	fill_fd(int *fd_arr, int count)
 	int	temp;
 
 	temp = 0;
-	while (!g_info.filed[temp] && temp < 32)
+	while (g_info.filed[temp] && temp < 32)
 		temp++;
 	while (count-- > 0)
 	{

@@ -58,6 +58,8 @@ add_executable(
         libft/ft_lstsize.c
         libft/ft_strcut.c
         libft/ft_strdup.c
+        libft/ft_strndup.c
+        libft/ft_isalpha.c
         libft/ft_strlen.c
         libft/ft_exclude.c
         libft/ft_strjoin.c

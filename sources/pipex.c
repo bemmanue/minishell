@@ -30,9 +30,7 @@ static int	child(int fd[2], t_command *commands, int fd_out)
 	int	pid;
 
 	pid = 0;
-	if (fd_out != STD_VAL)
-		dup2(fd_out, STDOUT_FILENO);
-	else
+	if (fd_out == STD_VAL)
 		dup2(fd[INPUT_END], STDOUT_FILENO);
 	if (chk_builtin(commands) == NONBLTN)
 	{
@@ -64,8 +62,7 @@ static int	pipeline(t_command *commands, int fd[2])
 	if (pid >= 0)
 	{
 		close(fd[INPUT_END]);
-		if (fd_redir[1] == STD_VAL)
-			dup2(fd[OUTPUT_END], STDIN_FILENO);
+		dup2(fd[OUTPUT_END], STDIN_FILENO);
 		close(fd[OUTPUT_END]);
 	}
 	return (pid);
@@ -97,7 +94,6 @@ int	pipex(t_command *commands)
 	{
 		if (pipe(fd))
 			return (-1);
-		fill_fd(fd, 2);
 		pid = pipeline(commands, fd);
 		if (pid == 1)
 			return (1);
