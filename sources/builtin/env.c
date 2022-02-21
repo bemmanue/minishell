@@ -22,6 +22,12 @@ int	ft_env(char **argv)
 		ft_putendl_fd(ARG_ERROR, STDERR_FILENO);
 		return (-1);
 	}
+	if (!ft_getenv(g_info.env, "PATH"))
+	{
+		ft_putstr_fd("minishell: env: ", STDERR_FILENO);
+		ft_putendl_fd("No such file or directory", STDERR_FILENO);
+		return (127);
+	}
 	i = 0;
 	while (g_info.env && g_info.env[i])
 	{

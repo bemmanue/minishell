@@ -3,7 +3,7 @@ NAME			= 	parser
 
 SRCS			=	parser.c	parser_utils.c	command_line.c	\
 					main.c		command.c		get.c			\
-					expand.c	skip.c
+					expand.c	skip.c			../shell_utils.c
 
 OBJS			=	$(SRCS:.c=.o)
 
@@ -17,13 +17,13 @@ LDFLAGS			=	-L$(HOME)/.brew/opt/readline/lib
 CC				=	cc
 CFLAGS			=	-Wall -Wextra -Werror -MMD
 
-all:				lib $(NAME)
+all:				lib $(NAME) clean
 
 .c.o:
-					$(CC) $(CFLAGS) -I. -I../.. -I../builtin -I$(LIBFT_PATH) -c $< -o $@
+					$(CC) $(CFLAGS) -I../include.d -I$(LIBFT_PATH) -c $< -o $@
 
 $(NAME):			$(OBJS)
-					$(CC) $(OBJS) -I. -I../.. -I../builtin -I$(LIBFT_PATH) -L$(LIBFT_PATH)\
+					$(CC) $(OBJS) -I../include.d -I$(LIBFT_PATH) -L$(LIBFT_PATH)\
 					-lft $(LDFLAGS) -lreadline	-o $(NAME)
 
 lib:

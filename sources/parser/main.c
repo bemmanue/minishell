@@ -12,6 +12,8 @@
 
 #	include "parser.h"
 
+t_info	g_info;
+
 int	main(int argc, char **argv, char **envp)
 {
 	t_command	*command;

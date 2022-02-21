@@ -88,7 +88,8 @@ char	*add_full_path(char *str, char **path)
 	int		index;
 	char	*temp;
 
-	if (!str || *str == '/' || !path || !access(str, F_OK) || is_builtin_command(str))
+	if (!str || *str == '/' || !path || !access(str, F_OK)
+		|| is_builtin_command(str))
 		return (str);
 	temp = ft_strjoin("/", str);
 	index = 0;

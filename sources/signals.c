@@ -23,9 +23,9 @@ void	ft_signal_cltr_c(int sig)
 
 void	set_signals(void)
 {
-	signal(SIGQUIT, SIG_IGN);			// cntrl '\'
-	signal(SIGTERM, SIG_IGN);			// cntrl D
-	signal(SIGINT, ft_signal_cltr_c);	// cntrl C
+	signal(SIGQUIT, SIG_IGN); // cntrl '\'
+	signal(SIGTERM, SIG_IGN); // cntrl D
+	signal(SIGINT, ft_signal_cltr_c); // cntrl C
 }
 
 void	signal_in_child(void)

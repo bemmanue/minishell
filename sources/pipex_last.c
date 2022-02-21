@@ -14,12 +14,8 @@
 
 static int	get_err(char *str)
 {
-	char	*temp;
-
-	temp = ft_getenv(g_info.env, "PATH");
-	if (!temp)
+	if (!ft_getenv(g_info.env, "PATH"))
 		return (0);
-	free(temp);
 	if (!ft_isalpha(*str))
 		return (0);
 	return (127);

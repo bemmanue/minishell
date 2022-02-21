@@ -56,7 +56,6 @@ int	ft_export(char **argv)
 {
 	char	*name;
 	int		index;
-	char	*env;
 
 	index = 1;
 	while (argv[index])
@@ -64,14 +63,10 @@ int	ft_export(char **argv)
 		if (ft_strchr(argv[index], '='))
 		{
 			name = ft_strcut(argv[index], "=");
-			env = ft_getenv(g_info.env, name);
-			if (!env)
+			if (!ft_getenv(g_info.env, name))
 				add_env(argv[index], g_info.env);
 			else
-			{
 				change_env(argv[index], g_info.env, name);
-				free(env);
-			}
 			free(name);
 		}
 		index++;

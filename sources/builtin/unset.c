@@ -64,18 +64,13 @@ int	count_unset(char **argv)
 {
 	int		count;
 	int		index;
-	char	*env;
 
 	count = 0;
 	index = 1;
 	while (argv && argv[index])
 	{
-		env = ft_getenv(g_info.env, argv[index]);
-		if (env)
-		{
+		if (ft_getenv(g_info.env, argv[index]))
 			count++;
-			free(env);
-		}
 		index++;
 	}
 	return (count);

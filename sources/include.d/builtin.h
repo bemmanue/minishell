@@ -16,7 +16,7 @@
 # include <include.h>
 
 # define ARG_ERROR "too many arguments"
-# define NUM_ERROR	"numeric argument required"
+# define NUM_ERROR "numeric argument required"
 
 int		ft_pwd(void);
 int		ft_cd(char **argv);

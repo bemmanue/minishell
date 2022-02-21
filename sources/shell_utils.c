@@ -78,7 +78,7 @@ char	*ft_getenv(char **envp, char *name)
 		if (!ft_strncmp(envp[index], variable, len))
 		{
 			free(variable);
-			return (ft_strdup(envp[index] + len));
+			return (envp[index] + len);
 		}
 		index++;
 	}
