@@ -31,6 +31,7 @@ typedef struct s_command
 	char	*name;
 	char	**argv;
 	char	**rdrct;
+	pid_t	pid;
 	void	*next;
 }			t_command;
 

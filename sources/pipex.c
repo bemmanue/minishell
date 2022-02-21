@@ -71,13 +71,30 @@ static int	pipeline(t_command *commands, int fd[2])
 	return (pid);
 }
 
+static int	get_exit(t_command *commands)
+{
+	int	status;
+
+	status = 0;
+	while (commands)
+	{
+		waitpid(commands->pid, &status, 0);
+		if (WIFEXITED(status))
+			g_info.last_prcs = WEXITSTATUS(status);
+		commands = commands->next;
+	}
+	return (0);
+}
+
 int	pipex(t_command *commands)
 {
-	int	fd[2];
-	int	status;
-	int	pid;
+	int			fd[2];
+	int			status;
+	int			pid;
+	t_command	*temp;
 
 	signal_in_pipes();
+	temp = commands;
 	while (command_len(commands) - 1)
 	{
 		if (pipe(fd))
@@ -85,7 +102,7 @@ int	pipex(t_command *commands)
 		fill_fd(fd, 2);
 		pid = pipeline(commands, fd);
 		if (pid > 0)
-			waitpid(pid, &status, 0);
+			commands->pid = pid;
 		else if (pid < 0)
 			return (-1);
 		if (pid && WIFEXITED(status))
@@ -93,5 +110,6 @@ int	pipex(t_command *commands)
 		commands = commands->next;
 	}
 	last_fork(commands);
+	get_exit(temp);
 	return (0);
 }

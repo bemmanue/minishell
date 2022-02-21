@@ -49,7 +49,6 @@ static int	pipeline(t_command *commands)
 {
 	pid_t	pid;
 	int		fd_redir[2];
-	int		status;
 
 	redirect(commands->rdrct, fd_redir);
 	if (check_fd_ret(fd_redir, NULL))
@@ -58,11 +57,7 @@ static int	pipeline(t_command *commands)
 	if (pid < 0)
 		return (-1);
 	else if (pid > 0)
-	{
-		waitpid(pid, &status, 0);
-		if (WIFEXITED(status))
-			g_info.last_prcs = WEXITSTATUS(status);
-	}
+		commands->pid = pid;
 	return (pid);
 }
 
