@@ -70,6 +70,8 @@ static int	change_dir(char *path, char **envp)
 	else
 		check = chdir(path);
 	change_pwd(envp);
+	if (check)
+		check = 1;
 	return (check);
 }
 

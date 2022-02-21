@@ -40,22 +40,26 @@ CFLAGS		=	-Wall -Wextra -Werror -MMD
 
 all:			lib $(NAME) $(BUILTIN)
 .c.o:
-				$(CC) $(CFLAGS) -Ilibft -Isources/include.d -c $< -o $@
+				@$(CC) $(CFLAGS) -Ilibft -Isources/include.d -c $< -o $@
+				@printf "\033[0;33mObject %-40.100s [\033[0;32m✔\033[0;33m]\r" $@
 
 $(NAME):		$(OBJS)
-				$(CC) $(CFLAGS) $(OBJS) -Ilibft -Isources/include.d \
+				@$(CC) $(CFLAGS) $(OBJS) -Ilibft -Isources/include.d \
 -L$(LIBFT_PATH) -lft $(LDFLAGS) -lreadline -o $(NAME)
+				@printf '\033[1;32m%-100.100s\n\033[0m' '${NAME} compile success!'
 
 lib:
 			$(LIBFTMAKE)
 
 clean:
-			$(MAKE)	clean -sC $(LIBFT_PATH)
-			rm -rf $(OBJS) $(DEPS)
+			@$(MAKE)	clean -sC $(LIBFT_PATH)
+			@rm -rf $(OBJS) $(DEPS)
+			@printf '\033[1;35mDelete objects success!\n\033[0m'
 
 fclean:		clean
-			$(MAKE)	fclean -sC $(LIBFT_PATH)
-			rm -rf $(NAME)
+			@$(MAKE)	fclean -sC $(LIBFT_PATH)
+			@rm -rf ${NAME}
+			@printf '\033[1;35mDelete ${NAME} success!\n\033[0m'
 
 re:			fclean all
 .PHONY:		all lib bonus clean fclean re

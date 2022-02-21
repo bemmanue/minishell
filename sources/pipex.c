@@ -75,9 +75,12 @@ int	get_exit(t_command *commands)
 	status = 0;
 	while (commands)
 	{
-		waitpid(commands->pid, &status, 0);
-		if (WIFEXITED(status))
-			g_info.last_prcs = WEXITSTATUS(status);
+		if (commands->pid > 0)
+		{
+			waitpid(commands->pid, &status, 0);
+			if (WIFEXITED(status))
+				g_info.last_prcs = WEXITSTATUS(status);
+		}
 		commands = commands->next;
 	}
 	return (0);
