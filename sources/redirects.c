@@ -12,13 +12,24 @@
 
 #include <minishell.h>
 
+static void	cancel_cmd(int signo)
+{
+	(void)signo;
+	write(1, "\n", 1);
+	exit(130);
+}
+
 static int	here_doc(char *delimiter)
 {
 	char	*str;
 	int		fd;
+	pid_t 	pid;
 
 	dup2(g_info.std_fd[0], STDIN_FILENO);
 	dup2(g_info.std_fd[1], STDOUT_FILENO);
+	pid = fork();
+	if (pid > 0)
+		return (pid);
 	fd = open(g_info.minidir, O_CREAT | O_WRONLY | O_TRUNC, 0622);
 	delimiter += 2;
 	str = readline("> ");
@@ -26,12 +37,14 @@ static int	here_doc(char *delimiter)
 	{
 		ft_putendl_fd(str, fd);
 		free(str);
+		signal(SIGINT, ft_signal_c);
+		signal(SIGINT, cancel_cmd);
 		str = readline("> ");
 	}
 	if (str)
 		free(str);
 	close(fd);
-	return (HEREDOC);
+	exit(0);
 }
 
 static int	input(char *str, int fd)
@@ -54,7 +67,10 @@ static int	input(char *str, int fd)
 			fd = OPN_ERR;
 	}
 	else
+	{
 		fd = here_doc(str);
+		waitpid(fd, NULL, 0);
+	}
 	if (fd < 0)
 		g_info.error = fd;
 	else

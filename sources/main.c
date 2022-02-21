@@ -71,7 +71,7 @@ static void	init_info(int argc, char **argv, char **envp)
 	g_info.filed = ft_calloc(32, sizeof (int));
 }
 
-void	cancel_cmd(int signo)
+static void	cancel_cmd(int signo)
 {
 	(void)signo;
 	write(1, "\n", 1);
