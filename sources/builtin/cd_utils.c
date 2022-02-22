@@ -46,13 +46,14 @@ char	*get_str(char **envp, char *reference)
 void	*freedom(char ***arr)
 {
 	char	**temp;
+	int		index;
 
 	temp = *arr;
-	while (temp)
+	while (temp[index])
 	{
-		free(*temp);
-		temp += sizeof(char *);
+		free(temp[index]);
+		index++;
 	}
-	free(*arr);
+	free(temp);
 	return (NULL);
 }

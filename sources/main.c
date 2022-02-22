@@ -66,7 +66,7 @@ static void	init_info(int argc, char **argv, char **envp)
 	g_info.std_fd[0] = dup(STDIN_FILENO);
 	g_info.std_fd[1] = dup(STDOUT_FILENO);
 	g_info.bltn = fill_bltn();
-	g_info.env = ft_arrdup(envp, 0);
+	g_info.env = ft_arrdup(envp, 10);
 	g_info.error = 0;
 	g_info.filed = ft_calloc(32, sizeof (int));
 }

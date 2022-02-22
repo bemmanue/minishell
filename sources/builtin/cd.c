@@ -14,7 +14,6 @@
 
 static void	change_pwd(char **envp)
 {
-	char	**temp;
 	char	*pwd;
 	int		index;
 
@@ -24,19 +23,12 @@ static void	change_pwd(char **envp)
 		index++;
 	if (envp[index])
 		free(envp[index]);
-	else
-	{
-		temp = envp;
-		envp = ft_arrdup(envp, 1);
-		freedom(&temp);
-	}
 	envp[index] = ft_strjoin("PWD=", pwd);
 	free(pwd);
 }
 
 static void	change_oldpwd(char **envp)
 {
-	char	**temp;
 	char	*oldpwd;
 	int		index;
 
@@ -47,12 +39,6 @@ static void	change_oldpwd(char **envp)
 		index++;
 	if (envp[index])
 		free(envp[index]);
-	else
-	{
-		temp = envp;
-		envp = ft_arrdup(envp, 1);
-		freedom(&temp);
-	}
 	envp[index] = ft_strjoin("OLDPWD=", oldpwd);
 	free(oldpwd);
 }
