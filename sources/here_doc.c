@@ -12,7 +12,7 @@
 
 #include <minishell.h>
 
-static void	cancel_cmd(int signo)
+static void	cancel_cmd_doc(int signo)
 {
 	(void)signo;
 	write(1, "\n", 1);
@@ -24,7 +24,7 @@ static void	get_readstr(char **str, int fd)
 	ft_putendl_fd(*str, fd);
 	free(*str);
 	set_signals();
-	signal(SIGINT, cancel_cmd);
+	signal(SIGINT, cancel_cmd_doc);
 	*str = readline("> ");
 }
 
@@ -60,6 +60,9 @@ int	control(char *delim)
 	pid = here_doc(delim);
 	waitpid(pid, &status, 0);
 	if (WEXITSTATUS(status) == 130)
+	{
+		g_info.last_prcs = 131;
 		return (SIG_END);
+	}
 	return (HEREDOC);
 }

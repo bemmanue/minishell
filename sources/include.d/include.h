@@ -28,6 +28,7 @@
 
 typedef struct s_command
 {
+	int		fd_redirs[2];
 	char	*name;
 	char	**argv;
 	char	**rdrct;

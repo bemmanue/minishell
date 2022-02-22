@@ -30,6 +30,12 @@ void	error(char *str, int err)
 	exit(err);
 }
 
+void	cancel_cmd(int signo)
+{
+	(void)signo;
+	write(1, "\n", 1);
+}
+
 void	fill_fd(int *fd_arr, int count)
 {
 	int	temp;

@@ -44,10 +44,9 @@ static int	child(t_command *commands, int fd_out)
 static int	pipeline(t_command *commands)
 {
 	pid_t	pid;
-	int		fd_redir[2];
+	int		*fd_redir;
 
-	if (*redirect(commands->rdrct, fd_redir) == SIG_END)
-		return (1);
+	fd_redir = commands->fd_redirs;
 	if (check_fd_ret(fd_redir, NULL))
 		return (-1);
 	pid = child(commands, fd_redir[1]);

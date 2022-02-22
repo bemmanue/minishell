@@ -71,12 +71,6 @@ static void	init_info(int argc, char **argv, char **envp)
 	g_info.filed = ft_calloc(32, sizeof (int));
 }
 
-static void	cancel_cmd(int signo)
-{
-	(void)signo;
-	write(1, "\n", 1);
-}
-
 int	prompt(char **envp)
 {
 	char	*str[1000];
@@ -106,7 +100,7 @@ int	prompt(char **envp)
 
 int	main(int argc, char **argv, char **envp)
 {
-	int	rl_catch_signals;
+//	int	rl_catch_signals;
 
 	init_info(argc, argv, envp);
 	rl_catch_signals = 0;

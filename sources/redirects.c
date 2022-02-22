@@ -35,7 +35,7 @@ static int	input(char *str, int fd)
 		fd = control(str);
 	if (fd < 0)
 		g_info.error = fd;
-	else if (fd != HEREDOC)
+	else if (fd != HEREDOC && fd != SIG_END)
 		fill_fd(&fd, 1);
 	return (fd);
 }
@@ -87,7 +87,7 @@ int	*redirect(char **red_arr, int fd_pair[2])
 			return (NULL);
 		counter++;
 		if (fd_pair[0] == SIG_END)
-			return (&fd_pair[0]);
+			return (NULL);
 	}
 	return (fd_pair);
 }
