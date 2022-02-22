@@ -23,7 +23,8 @@
 # define MEM_ERR -4
 # define OPN_ERR -5
 # define HEREDOC 100
-# define SIG_END 131
+# define SIG_END 130
+# define SIG_BCK 131
 # define STD_VAL 200
 # define NONBLTN 1000
 

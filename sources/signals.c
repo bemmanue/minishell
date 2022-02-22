@@ -15,17 +15,18 @@
 void	ft_signal_cltr_c(int sig)
 {
 	(void) sig;
-	write(2, "\n", 1);
+	write(2, "^C\n", 3);
 	rl_replace_line("", 0);
-//	rl_on_new_line();
+	rl_on_new_line();
 	rl_redisplay();
+	g_info.last_prcs = 130;
 }
 
 void	set_signals(void)
 {
-	signal(SIGQUIT, SIG_IGN); // cntrl '\'
-	signal(SIGTERM, SIG_IGN); // cntrl D
-	signal(SIGINT, ft_signal_cltr_c); // cntrl C
+	signal(SIGQUIT, SIG_IGN);			// cntrl '\'
+	signal(SIGTERM, SIG_IGN);			// cntrl D
+	signal(SIGINT, ft_signal_cltr_c);	// cntrl C
 }
 
 void	signal_in_child(void)

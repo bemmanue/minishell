@@ -12,6 +12,25 @@
 
 #include <minishell.h>
 
+void	print_msg(int *stat)
+{
+	int	status;
+
+	status = *stat;
+	if (WIFSIGNALED(status) && WTERMSIG(status) == 3)
+	{
+		ft_putstr_fd("Quit\n", STDOUT_FILENO);
+		g_info.last_prcs = SIG_BCK;
+	}
+	else if (WIFSIGNALED(status) && WTERMSIG(status) == 2)
+	{
+		write(STDOUT_FILENO, "\n", 1);
+		g_info.last_prcs = SIG_END;
+	}
+	else if (!WIFSIGNALED(status))
+		g_info.last_prcs = WEXITSTATUS(status);
+}
+
 int	get_exit(t_command *commands)
 {
 	int	status;
@@ -24,6 +43,8 @@ int	get_exit(t_command *commands)
 			waitpid(commands->pid, &status, 0);
 			if (WIFEXITED(status))
 				g_info.last_prcs = WEXITSTATUS(status);
+			else
+				print_msg(&status);
 		}
 		commands = commands->next;
 	}
@@ -78,10 +99,10 @@ int	command_center(char *input, char ***envp)
 			else if (ret)
 				g_info.last_prcs = 127;
 		}
-		get_exit(g_info.commands);
-		free_command(g_info.commands);
 		dup2(g_info.std_fd[0], STDIN_FILENO);
 		dup2(g_info.std_fd[1], STDOUT_FILENO);
+		get_exit(g_info.commands);
+		free_command(g_info.commands);
 		empty_fd_arr();
 	}
 	*envp = g_info.env;

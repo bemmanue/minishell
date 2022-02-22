@@ -16,7 +16,7 @@ static void	cancel_cmd_doc(int signo)
 {
 	(void)signo;
 	write(1, "\n", 1);
-	exit(130);
+	exit(SIG_END);
 }
 
 static void	get_readstr(char **str, int fd)
@@ -59,9 +59,9 @@ int	control(char *delim)
 
 	pid = here_doc(delim);
 	waitpid(pid, &status, 0);
-	if (WEXITSTATUS(status) == 130)
+	if (WEXITSTATUS(status) == SIG_END)
 	{
-		g_info.last_prcs = 131;
+		g_info.last_prcs = SIG_END;
 		return (SIG_END);
 	}
 	return (HEREDOC);
