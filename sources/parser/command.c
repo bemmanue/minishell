@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parser.h"
+#include <parser.h>
 
 void	*free_command(t_command *command)
 {

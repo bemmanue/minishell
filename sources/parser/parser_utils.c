@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parser.h"
+#include <parser.h>
 
 void	free_strs(char *s1, char *s2, char *s3)
 {

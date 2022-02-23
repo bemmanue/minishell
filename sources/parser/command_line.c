@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parser.h"
+#include <parser.h>
 
 void	add_argument(char **str, t_list **list)
 {

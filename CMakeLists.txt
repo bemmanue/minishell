@@ -33,13 +33,13 @@ add_executable(
         sources/include.d/builtin.h
         sources/include.d/parser.h
         sources/include.d/include.h
-        sources/command_center.c
-        sources/main.c
-        sources/pipex.c
-        sources/shell_utils.c
-        sources/redirects.c
-        sources/signals.c
-        sources/pipex_utils.c
+        sources/shell/command_center.c
+        sources/shell/main.c
+        sources/pipex/pipex.c
+        sources/shell/shell_utils.c
+        sources/pipex/redirects.c
+        sources/shell/signals.c
+        sources/pipex/pipex_utils.c
         sources/builtin/cd.c
         sources/builtin/cd_utils.c
         sources/builtin/echo.c
@@ -86,7 +86,7 @@ add_executable(
         sources/parser/parser.c
         sources/parser/parser_utils.c
         sources/parser/skip.c
-        sources/pipex_last.c
-        sources/here_doc.c)
+        sources/pipex/pipex_last.c
+        sources/pipex/here_doc.c)
 
 target_link_libraries(minishell readline)

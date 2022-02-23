@@ -10,57 +10,59 @@
 #                                                                              #
 # **************************************************************************** #
 
-
 NAME		=	minishell
 
-SRCS		=	sources/redirects.c				sources/command_center.c		\
-				sources/main.c					sources/pipex.c					\
-				sources/shell_utils.c			sources/pipex_utils.c			\
-				sources/pipex_last.c			sources/builtin/env.c			\
-				sources/builtin/exit.c			sources/builtin/export.c		\
-				sources/builtin/cd.c			sources/builtin/cd_utils.c		\
-				sources/builtin/pwd.c			sources/builtin/echo.c			\
-				sources/parser/parser.c			sources/parser/parser_utils.c	\
-				sources/parser/command_line.c	sources/parser/command.c		\
-				sources/parser/get.c			sources/parser/expand.c			\
-				sources/parser/skip.c			sources/builtin/unset.c			\
-				sources/signals.c				sources/here_doc.c
+SRC_DIR		=	sources/
+SRCS		=	pipex/redirects.c		shell/command_center.c	\
+				shell/main.c			pipex/pipex.c			\
+				shell/shell_utils.c		pipex/pipex_utils.c		\
+				pipex/pipex_last.c		builtin/env.c			\
+				builtin/exit.c			builtin/export.c		\
+				builtin/cd.c			builtin/cd_utils.c		\
+				builtin/pwd.c			builtin/echo.c			\
+				parser/parser.c			parser/parser_utils.c	\
+				parser/command_line.c	parser/command.c		\
+				parser/get.c			parser/expand.c			\
+				parser/skip.c			builtin/unset.c			\
+				shell/signals.c			pipex/here_doc.c
 
-OBJS		=	$(SRCS:.c=.o)
+VPATH		=	$(SRC_DIR)
+INCLUDES	=	sources/include.d/
 
-DEPS 		= 	$(SRCS:.c=.d)
+OBJ_DIR		:=	build_files
+OBJS 		=	$(patsubst %,$(OBJ_DIR)/%,$(SRCS:.c=.o))
+DEPS		=	$(OBJS:.o=.d)
 
-LIBFT		=	libft.a
-LIBFT_PATH	=	./libft/
-LIBFTMAKE	=	$(MAKE) all -sC $(LIBFT_PATH)
+LIBFT		=	libft/
+LIBFTMAKE	=	$(MAKE) all -sC $(LIBFT)
 LDFLAGS		=	-L$(HOME)/.brew/opt/readline/lib -I .brew/opt/readline/include
 
 CC			=	cc
 CFLAGS		=	-Wall -Wextra -Werror -MMD
 
 all:			lib $(NAME) $(BUILTIN)
-.c.o:
-				@$(CC) $(CFLAGS) -Ilibft -Isources/include.d -c $< -o $@
+
+$(OBJ_DIR)/%.o:	%.c
+				@$(CC) -I$(LIBFT) -I$(INCLUDES) $(CFLAGS) -c $< -o $@
 				@printf "\033[0;33mObject %-40.100s [\033[0;32m✔\033[0;33m]\r" $@
 
 $(NAME):		$(OBJS)
-				@$(CC) $(CFLAGS) $(OBJS) -Ilibft -Isources/include.d \
--L$(LIBFT_PATH) -lft $(LDFLAGS) -lreadline -o $(NAME)
+				@$(CC) $(CFLAGS) $(OBJS) -Ilibft -L$(LIBFT) -lft -I$(INCLUDES) -lreadline -o $(NAME)
 				@printf '\033[1;32m%-100.100s\n\033[0m' '${NAME} compile success!'
 
 lib:
 			$(LIBFTMAKE)
 
 clean:
-			@$(MAKE)	clean -sC $(LIBFT_PATH)
+			@$(MAKE)	clean -sC $(LIBFT)
 			@rm -rf $(OBJS) $(DEPS)
 			@printf '\033[1;35mDelete objects success!\n\033[0m'
 
 fclean:		clean
-			@$(MAKE)	fclean -sC $(LIBFT_PATH)
+			@$(MAKE)	fclean -sC $(LIBFT)
 			@rm -rf ${NAME}
 			@printf '\033[1;35mDelete ${NAME} success!\n\033[0m'
 
 re:			fclean all
-.PHONY:		all lib bonus clean fclean re
--include	$(OBJS:.o=.d) $(BNS_OBJS:.o=.d)
+.PHONY:		all lib clean fclean re
+-include	$(DEPS)
