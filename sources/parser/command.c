@@ -31,47 +31,59 @@ void	*free_command(t_command *command)
 	return (NULL);
 }
 
-void	fill_command(t_command *command, t_list *list[2])
+char	**from_list_to_array(t_list *list)
 {
+	char	**array;
 	int		index;
-	char	**path;
 	t_list	*temp;
 
-	path = ft_split(ft_getenv(g_info.env, "PATH"), ':');
+	array = malloc(sizeof(char *) * (ft_lstsize(list) + 1));
+	if (!array)
+		return (NULL);
 	index = 0;
-	temp = list[0];
+	temp = list;
 	while (temp)
 	{
-		command->argv[index++] = expand(temp->content);
+		array[index++] = expand(temp->content);
 		temp = temp->next;
 	}
-	command->argv[index] = NULL;
-	index = 0;
-	temp = list[1];
-	while (temp)
+	array[index] = NULL;
+	return (array);
+}
+
+char	**get_split_path(void)
+{
+	char	**path;
+	char	*env;
+
+	env = ft_getenv(g_info.env, "PATH");
+	if (env)
 	{
-		command->rdrct[index++] = expand(temp->content);
-		temp = temp->next;
+		path = ft_split(env, ':');
+		if (!path)
+			return (raise_error(MEMORY_ERROR, NULL, 1));
 	}
-	command->rdrct[index] = NULL;
-	command->name = add_full_path(ft_strdup(command->argv[0]), path);
-	free_arr(&path);
+	else
+		path = NULL;
+	return (path);
 }
 
 t_command	*new_command(t_list *list[2])
 {
 	t_command	*command;
+	char		**path;
 
 	command = malloc(sizeof(t_command));
 	if (!command)
 		return (raise_error(MEMORY_ERROR, NULL, 1));
-	command->name = NULL;
-	command->argv = malloc(sizeof(char *) * (ft_lstsize(list[0]) + 1));
-	command->rdrct = malloc(sizeof(char *) * (ft_lstsize(list[1]) + 1));
-	command->next = NULL;
+	command->argv = from_list_to_array(list[0]);
+	command->rdrct = from_list_to_array(list[1]);
 	if (!command->argv || !command->rdrct)
 		return (raise_error(MEMORY_ERROR, NULL, 1));
-	fill_command(command, list);
+	path = get_split_path();
+	command->name = add_full_path(ft_strdup(command->argv[0]), path);
+	command->next = NULL;
+	free_arr(&path);
 	return (command);
 }
 

@@ -12,20 +12,6 @@
 
 #include <builtin.h>
 
-static void	num_error(char *argv)
-{
-	ft_putstr_fd("bash: exit: ", STDERR_FILENO);
-	ft_putstr_fd(argv, STDERR_FILENO);
-	ft_putstr_fd(": ", STDERR_FILENO);
-	ft_putendl_fd(NUM_ERROR, STDERR_FILENO);
-}
-
-static void	args_error(void)
-{
-	ft_putstr_fd("bash: exit: ", STDERR_FILENO);
-	ft_putendl_fd(ARG_ERROR, STDERR_FILENO);
-}
-
 int	ft_isnumeric(char *str)
 {
 	int	i;
@@ -44,46 +30,63 @@ int	ft_isnumeric(char *str)
 	return (1);
 }
 
+int	exit_success()
+{
+	if (!g_info.commands->next)
+	{
+		ft_putendl_fd("exit", STDOUT_FILENO);
+		exit(EXIT_SUCCESS);
+	}
+	else
+		return (0);
+}
+
+int	exit_num(char *argv)
+{
+	u_int64_t	code;
+
+	code = ft_atoul(argv);
+	if (!g_info.commands->next)
+	{
+		ft_putendl_fd("exit", STDOUT_FILENO);
+		exit((unsigned char) code);
+	}
+	else
+		return ((unsigned char) code);
+}
+
+int	arg_error()
+{
+	if (!g_info.commands->next)
+		ft_putendl_fd("exit", STDOUT_FILENO);
+	ft_putstr_fd("bash: exit: ", STDERR_FILENO);
+	ft_putendl_fd(ARG_ERROR, STDERR_FILENO);
+	return (1);
+}
+
+int	num_error(char *argv)
+{
+	if (!g_info.commands->next)
+		ft_putendl_fd("exit", STDOUT_FILENO);
+	ft_putstr_fd("bash: exit: ", STDERR_FILENO);
+	ft_putstr_fd(argv, STDERR_FILENO);
+	ft_putstr_fd(": ", STDERR_FILENO);
+	ft_putendl_fd(NUM_ERROR, STDERR_FILENO);
+	if (!g_info.commands->next)
+		exit(255);
+	return (255);
+}
+
 int	ft_exit(char **argv)
 {
-	uint8_t	code;
-
 	if (argv && argv[1])
 	{
 		if (!ft_isnumeric(argv[1]))
-		{
-			if (!g_info.commands->next)
-			{
-				ft_putendl_fd("exit", STDOUT_FILENO);
-				num_error(argv[1]);
-				exit(255);
-			}
-			else
-			{
-				num_error(argv[1]);
-				return (255);
-			}
-		}
+			return (num_error(argv[1]));
 		else if (argv[2])
-		{
-			ft_putendl_fd("exit", STDOUT_FILENO);
-			args_error();
-			return (1);
-		}
+			return (arg_error());
 		else
-		{
-			code = ft_atol(argv[1]);
-			exit((unsigned char)code);
-		}
+			return (exit_num(argv[1]));
 	}
-	else
-	{
-		if (!g_info.commands->next)
-		{
-			ft_putendl_fd("exit", STDOUT_FILENO);
-			exit(EXIT_SUCCESS);
-		}
-		else
-			return (0);
-	}
+	return (exit_success());
 }
