@@ -43,7 +43,7 @@ char		*ft_getenv(char **envp, char *name);
 int			check_fd_ret(int fd_redir[2], int fd[2]);
 int			*redirect(char **red_arr, int fd_pair[2]);
 int			control(char *delimiter);
-//void		rl_replace_line(const char *buffer, int val);
+void		rl_replace_line(const char *buffer, int val);
 void		fill_fd(int *fd_arr, int count);
 void		set_signals(void);
 void		signal_in_pipes(void);

@@ -23,7 +23,7 @@ void	error(char *str, int err)
 	if (!err)
 	{
 		ft_putendl_fd(strerror(errno), 2);
-		err = g_info.last_prcs;
+		err = 127;
 	}
 	else
 		ft_putendl_fd("command not found", 2);

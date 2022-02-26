@@ -16,7 +16,7 @@ void	ft_signal_cltr_c(int sig)
 {
 	(void) sig;
 	write(2, "^C\n", 3);
-	rl_replace_line("", 0);
+//	rl_replace_line("", 0);
 	rl_on_new_line();
 	rl_redisplay();
 	g_info.last_prcs = 130;
