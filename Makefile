@@ -35,7 +35,6 @@ DEPS		=	$(OBJS:.o=.d)
 
 LIBFT		=	libft/
 LIBFTMAKE	=	$(MAKE) all -sC $(LIBFT)
-LDFLAGS		=	-L$(HOME)/.brew/opt/readline/lib -I .brew/opt/readline/include
 
 CC			=	cc
 CFLAGS		=	-Wall -Wextra -Werror -MMD
@@ -47,8 +46,16 @@ $(OBJ_DIR)/%.o:	%.c
 				@printf "\033[0;33mObject %-40.100s [\033[0;32m✔\033[0;33m]\r" $@
 
 $(NAME):		$(OBJS)
-				@$(CC) $(CFLAGS) $(OBJS) -Ilibft -L$(LIBFT) -lft -I$(INCLUDES) -lreadline -o $(NAME)
+				@$(CC) $(CFLAGS) $(OBJS) -Ilibft -L$(LIBFT) -lft\
+ -I$(INCLUDES) -L$(HOME)/.brew/opt/readline/lib  -lreadline -o $(NAME)
 				@printf '\033[1;32m%-100.100s\n\033[0m' '${NAME} compile success!'
+
+$(OBJS):		| $(OBJ_DIR)
+
+$(OBJ_DIR):
+				mkdir $(OBJ_DIR)
+				mkdir $(OBJ_DIR)/parser $(OBJ_DIR)/shell $(OBJ_DIR)/pipex\
+ $(OBJ_DIR)/builtin
 
 lib:
 			$(LIBFTMAKE)
@@ -61,6 +68,7 @@ clean:
 fclean:		clean
 			@$(MAKE)	fclean -sC $(LIBFT)
 			@rm -rf ${NAME}
+			@rm -rf $(OBJ_DIR)
 			@printf '\033[1;35mDelete ${NAME} success!\n\033[0m'
 
 re:			fclean all

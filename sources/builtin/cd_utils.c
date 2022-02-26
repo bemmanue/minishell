@@ -48,6 +48,7 @@ void	*freedom(char ***arr)
 	char	**temp;
 	int		index;
 
+	index = 0;
 	temp = *arr;
 	while (temp[index])
 	{
