@@ -40,6 +40,20 @@ void	check_correct_use_of_pipes(char *str)
 		raise_error(NEWL_ERROR, NULL, 1);
 }
 
+int	str_is_empty(char *str)
+{
+	int	index;
+
+	index = 0;
+	while (str[index])
+	{
+		if (!strchr(" \t\v", str[index]))
+			return (0);
+		index++;
+	}
+	return (1);
+}
+
 t_command	*parse_string(char *str)
 {
 	t_command	*command;
@@ -48,6 +62,8 @@ t_command	*parse_string(char *str)
 
 	g_info.error = 0;
 	command = NULL;
+	if (str_is_empty(str))
+		return (NULL);
 	check_correct_use_of_pipes(str);
 	while (*str && !g_info.error)
 	{
