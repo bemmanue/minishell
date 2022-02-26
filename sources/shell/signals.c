@@ -15,8 +15,8 @@
 void	ft_signal_cltr_c(int sig)
 {
 	(void) sig;
-	write(2, "^C\n", 3);
-//	rl_replace_line("", 0);
+	write(2, "\n", 1);
+	rl_replace_line("", 0);
 	rl_on_new_line();
 	rl_redisplay();
 	g_info.last_prcs = 130;
@@ -33,7 +33,7 @@ void	signal_in_child(void)
 {
 	signal(SIGTERM, SIG_DFL);
 	signal(SIGINT, SIG_DFL);
-	signal(SIGQUIT, SIG_DFL);
+	signal(SIGQUIT, ft_signal_cltr_c);
 }
 
 void	ft_signal_pipes(int sig)
