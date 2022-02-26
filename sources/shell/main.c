@@ -100,7 +100,7 @@ int	prompt(char **envp)
 
 int	main(int argc, char **argv, char **envp)
 {
-//	int	rl_catch_signals;
+	int	rl_catch_signals;
 
 	init_info(argc, argv, envp);
 	rl_catch_signals = 0;

@@ -43,11 +43,11 @@ CFLAGS		=	-Wall -Wextra -Werror -MMD
 all:			lib $(NAME) $(BUILTIN)
 
 $(OBJ_DIR)/%.o:	%.c
-				@$(CC) -I$(LIBFT) -I$(INCLUDES) $(CFLAGS) -c $< -o $@
+				@$(CC) $(LDFLAGS)-I$(LIBFT) -I$(INCLUDES) $(CFLAGS) -c $< -o $@
 				@printf "\033[0;33mObject %-40.100s [\033[0;32m✔\033[0;33m]\r" $@
 
 $(NAME):		$(OBJS)
-				@$(CC) $(CFLAGS) $(OBJS) -Ilibft -L$(LIBFT) -lft -I$(INCLUDES) -lreadline -o $(NAME)
+				@$(CC) $(LDFLAGS) $(CFLAGS) $(OBJS) -Ilibft -L$(LIBFT) -lft -I$(INCLUDES) -lreadline -o $(NAME)
 				@printf '\033[1;32m%-100.100s\n\033[0m' '${NAME} compile success!'
 
 lib:
