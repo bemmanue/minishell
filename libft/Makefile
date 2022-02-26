@@ -22,22 +22,27 @@ SRCS =		ft_atoi.c			ft_bzero.c 			ft_calloc.c 	\
 
 OBJS = 		${SRCS:.c=.o}
 DEPS =		${SRCS:.c=.d}
-BNS_OBJS =	${BNS:.c=.o}
-BNS_DEPS =	${BNS:.c=.d}
 CC = 		clang
 CFLAGS =	-Wall -Wextra -Werror -MMD -c
 
 all: 		$(NAME)
 .c.o:
-		$(CC) $(CFLAGS) $< -o $@
+			@$(CC) $(CFLAGS) $< -o $@
+			@printf "\033[0;34mObject %-50.100s [\033[0;32m✔\033[0;34m]\r" $@
+
 $(NAME): 	$(OBJS)
-		ar -rcs $(NAME) $?
-bonus:
-		make OBJS="$(BNS_OBJS)" all
+			@ar -rcs $(NAME) $?
+			@printf '\033[1;32m%-100.100s\n\033[0m' 'Libft compile success!'
+
 clean:
-		rm -f $(OBJS) $(BNS_OBJS) $(DEPS) $(BNS_DEPS)
+			@rm -f $(OBJS) $(DEPS)
+			@printf '\033[1;35m%s\n\033[0m' "Clean Libft"
+
 fclean: 	clean
-		rm -f $(NAME)
-re:		fclean all
-.PHONY:    	all bonus clean fclean re
--include			$(OBJS:.o=.d) $(BNS_OBJS:.o=.d)
+			@rm -f $(NAME)
+			@printf '\033c\033[1;35m%s\n\033[0m' "Fclean Libft"
+
+re:			fclean all
+
+.PHONY:    	all clean fclean re
+-include	$(OBJS:.o=.d)

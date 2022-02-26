@@ -50,6 +50,7 @@ void	*freedom(char ***arr)
 
 	index = 0;
 	temp = *arr;
+	index = 0;
 	while (temp[index])
 	{
 		free(temp[index]);
