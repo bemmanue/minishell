@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#	include "parser.h"
+#include "parser.h"
 
 t_info	g_info;
 
@@ -46,7 +46,5 @@ int	main(int argc, char **argv, char **envp)
 		command = command->next;
 	}
 	free_command(temp);
-	while (1)
-		NULL;
 	return (0);
 }

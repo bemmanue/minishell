@@ -38,7 +38,7 @@ char	*get_dollar(char *str)
 		dollar = ft_strdup("?");
 	else
 	{
-		while (!ft_strchr(" $'\"\t\v\0", str[i]))
+		while (!ft_strchr(" <>$'\"\t\v\0", str[i]))
 			i++;
 		dollar = ft_strndup(&str[1], i - 1);
 	}
