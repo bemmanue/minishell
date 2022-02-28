@@ -16,7 +16,7 @@ int	exit_success(void)
 {
 	if (!g_info.commands->next)
 	{
-		ft_putendl_fd("exit", STDOUT_FILENO);
+		ft_putendl_fd("exit", STDERR_FILENO);
 		exit(EXIT_SUCCESS);
 	}
 	else
@@ -30,7 +30,7 @@ int	exit_num(char *argv)
 	code = ft_atoul(argv);
 	if (!g_info.commands->next)
 	{
-		ft_putendl_fd("exit", STDOUT_FILENO);
+		ft_putendl_fd("exit", STDERR_FILENO);
 		exit((unsigned char) code);
 	}
 	else
@@ -40,7 +40,7 @@ int	exit_num(char *argv)
 int	arg_error(void)
 {
 	if (!g_info.commands->next)
-		ft_putendl_fd("exit", STDOUT_FILENO);
+		ft_putendl_fd("exit", STDERR_FILENO);
 	ft_putstr_fd("bash: exit: ", STDERR_FILENO);
 	ft_putendl_fd(ARG_ERROR, STDERR_FILENO);
 	return (1);
@@ -49,7 +49,7 @@ int	arg_error(void)
 int	num_error(char *argv)
 {
 	if (!g_info.commands->next)
-		ft_putendl_fd("exit", STDOUT_FILENO);
+		ft_putendl_fd("exit", STDERR_FILENO);
 	ft_putstr_fd("bash: exit: ", STDERR_FILENO);
 	ft_putstr_fd(argv, STDERR_FILENO);
 	ft_putstr_fd(": ", STDERR_FILENO);
