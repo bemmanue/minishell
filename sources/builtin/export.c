@@ -12,7 +12,14 @@
 
 #include <builtin.h>
 
-void	change_env(char *new_str, char **envp, char *name)
+void	*export_error(char **new)
+{
+	free_arr(&new);
+	raise_error(MEMORY_ERROR, NULL);
+	return (NULL);
+}
+
+char	**change_env(char *new_str, char **envp, char *name)
 {
 	int		index;
 	char	**new;
@@ -25,51 +32,70 @@ void	change_env(char *new_str, char **envp, char *name)
 			new[index] = ft_strdup(new_str);
 		else
 			new[index] = ft_strdup(envp[index]);
+		if (!new[index])
+			return (export_error(new));
 		index++;
 	}
 	new[index] = NULL;
-	free_arr(&g_info.env);
-	g_info.env = new;
+	return (new);
 }
 
-void	add_env(char *new_str, char **envp)
+char 	**add_env(char *new_str, char **envp)
 {
-	int		count;
 	int		index;
 	char	**new;
 
-	count = ft_arrlen(envp) + 1;
-	new = malloc(sizeof(char *) * (count + 1));
+	new = malloc(sizeof(char *) * (ft_arrlen(envp) + 2));
+	if (!new)
+		return (raise_error(MEMORY_ERROR, NULL));
 	index = 0;
-	while (envp[index])
+	while (envp[index] && !g_info.error)
 	{
 		new[index] = ft_strdup(envp[index]);
+		if (!new[index])
+			return (export_error(new));
 		index++;
 	}
-	new[index++] = ft_strdup(new_str);
-	new[index] = NULL;
-	free_arr(&g_info.env);
-	g_info.env = new;
+	new[index] = ft_strdup(new_str);
+	if (!new[index])
+		return (export_error(new));
+	new[++index] = NULL;
+	return (new);
+}
+
+char	**do_export(char *argv)
+{
+	char	**new;
+	char	*name;
+
+	name = ft_strcut(argv, "=");
+	if (!name)
+		return (raise_error(MEMORY_ERROR, NULL));
+	if (!ft_getenv(g_info.env, name))
+		new = add_env(argv, g_info.env);
+	else
+		new = change_env(argv, g_info.env, name);
+	free(name);
+	return (new);
 }
 
 int	ft_export(char **argv)
 {
-	char	*name;
+	char	**new;
 	int		index;
 
 	index = 1;
-	while (argv[index])
+	while (argv[index] && !g_info.error)
 	{
 		if (ft_strchr(argv[index], '='))
 		{
-			name = ft_strcut(argv[index], "=");
-			if (!ft_getenv(g_info.env, name))
-				add_env(argv[index], g_info.env);
-			else
-				change_env(argv[index], g_info.env, name);
-			free(name);
+			new = do_export(argv[index]);
+			free(g_info.env);
+			g_info.env = new;
 		}
 		index++;
 	}
+	if (g_info.error)
+		return (1);
 	return (0);
 }

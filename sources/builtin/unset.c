@@ -12,46 +12,45 @@
 
 #include <builtin.h>
 
-static int	is_unset(char *name, char **argv)
+static int	is_unset(char *name, char *argv)
 {
 	char	*variable;
 	int		len;
-	int		index;
 
-	variable = ft_strcut(name, "=");
-	len = (int)ft_strlen(variable);
-	index = 1;
-	while (argv[index])
+	variable = ft_strjoin(argv, "=");
+	if (!variable)
 	{
-		if (!ft_strncmp(argv[index], variable, len))
-		{
-			free(variable);
-			return (1);
-		}
-		index++;
+		raise_error(MEMORY_ERROR, NULL);
+		return (-1);
+	}
+	len = (int)ft_strlen(variable);
+	if (!ft_strncmp(name, variable, len))
+	{
+		free(variable);
+		return (1);
 	}
 	free(variable);
 	return (0);
 }
 
-char	**do_unset(char **argv, int unset_number)
+char	**do_unset(char *argv)
 {
 	char	**new;
-	int		count;
 	int		envp_index;
 	int		new_index;
 
-	count = ft_arrlen(g_info.env) - unset_number;
-	new = malloc(sizeof(char *) * (count + 1));
+	new = malloc(sizeof(char *) * (ft_arrlen(g_info.env)));
 	if (!new)
-		return (NULL);
+		return (raise_error(MEMORY_ERROR, NULL));
 	envp_index = 0;
 	new_index = 0;
-	while (g_info.env[envp_index])
+	while (g_info.env[envp_index] && !g_info.error)
 	{
 		if (!is_unset(g_info.env[envp_index], argv))
 		{
 			new[new_index] = ft_strdup(g_info.env[envp_index]);
+			if (!new[new_index])
+				raise_error(MEMORY_ERROR, NULL);
 			new_index++;
 		}
 		envp_index++;
@@ -60,33 +59,32 @@ char	**do_unset(char **argv, int unset_number)
 	return (new);
 }
 
-int	count_unset(char **argv)
-{
-	int		count;
-	int		index;
-
-	count = 0;
-	index = 1;
-	while (argv && argv[index])
-	{
-		if (ft_getenv(g_info.env, argv[index]))
-			count++;
-		index++;
-	}
-	return (count);
-}
-
 int	ft_unset(char **argv)
 {
 	char	**new;
-	int		unset_number;
+	int		code;
+	int		index;
 
-	unset_number = count_unset(argv);
-	if (unset_number)
+	code = 0;
+	index = 1;
+	while (argv[index] && !g_info.error)
 	{
-		new = do_unset(argv, unset_number);
-		free_arr(&g_info.env);
-		g_info.env = new;
+		if (strchr(argv[index], '='))
+		{
+			ft_putstr_fd("bash: unset: `", STDERR_FILENO);
+			ft_putstr_fd(argv[index], STDERR_FILENO);
+			ft_putendl_fd("': not a valid identifier", STDERR_FILENO);
+			code = 1;
+		}
+		else if (ft_getenv(g_info.env, argv[index]))
+		{
+			new = do_unset(argv[index]);
+			free_arr(&g_info.env);
+			g_info.env = new;
+		}
+		index++;
 	}
-	return (0);
+	if (g_info.error)
+		code = g_info.error;
+	return (code);
 }
