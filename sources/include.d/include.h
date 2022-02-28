@@ -49,8 +49,4 @@ typedef struct s_info
 	char		**bltn;
 }				t_info;
 
-# include <minishell.h>
-# include <builtin.h>
-# include <parser.h>
-
 #endif

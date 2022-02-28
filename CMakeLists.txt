@@ -15,8 +15,9 @@ project(minishell C)
 
 set(
         CMAKE_C_STANDARD 99
-        sources/include.d/minishell.h
         libft/libft.h
+        sources/include.d/minishell.h
+        sources/include.d/logic.h
         sources/include.d/builtin.h
         sources/include.d/parser.h
         sources/include.d/include.h
@@ -33,6 +34,7 @@ add_executable(
         sources/include.d/builtin.h
         sources/include.d/parser.h
         sources/include.d/include.h
+        sources/include.d/logic.h
         sources/shell/command_center.c
         sources/shell/main.c
         sources/pipex/pipex.c

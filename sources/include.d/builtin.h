@@ -13,7 +13,7 @@
 #ifndef BUILTIN_H
 # define BUILTIN_H
 
-# include <include.h>
+# include <logic.h>
 
 # define ARG_ERROR "too many arguments"
 # define NUM_ERROR "numeric argument required"

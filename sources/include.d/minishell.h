@@ -13,7 +13,7 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# include <include.h>
+# include <logic.h>
 
 # define INPUT_END 1
 # define OUTPUT_END 0
