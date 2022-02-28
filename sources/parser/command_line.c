@@ -15,21 +15,37 @@
 void	add_argument(char **str, t_list **list)
 {
 	t_list	*new;
+	char	*argument;
 
-	new = ft_lstnew(get_argument(*str));
-	if (new)
-		ft_lstadd_back(list, new);
-	*str += skip_argument(*str);
+	argument = get_argument(*str);
+	if (!argument)
+		return ;
+	new = ft_lstnew(argument);
+	if (!new)
+	{
+		raise_error(MEMORY_ERROR, NULL);
+		return ;
+	}
+	ft_lstadd_back(list, new);
+	*str += ft_strlen(argument);
 }
 
 void	add_redirect(char **str, t_list **list)
 {
 	t_list	*new;
+	char	*redirect;
 
-	new = ft_lstnew(get_redirect(*str));
-	if (new)
-		ft_lstadd_back(list, new);
-	*str += skip_redirect(*str);
+	redirect = get_redirect(*str);
+	if (!redirect)
+		return ;
+	new = ft_lstnew(redirect);
+	if (!new)
+	{
+		raise_error(MEMORY_ERROR, NULL);
+		return ;
+	}
+	ft_lstadd_back(list, new);
+	*str += ft_strlen(redirect);
 }
 
 void	add_dollar(char **str, t_list **list)
@@ -41,15 +57,18 @@ void	add_dollar(char **str, t_list **list)
 	dollar = get_dollar(*str);
 	if (!dollar)
 		return ;
-	if (*dollar == '?' || ft_getenv(g_info.env, dollar))
+	if (*dollar == '?' || *dollar == '\0'
+		|| ft_getenv(g_info.env, dollar))
 	{
 		new = ft_lstnew(get_argument(*str));
-		if (new)
-			ft_lstadd_back(list, new);
-		*str += skip_argument(*str);
+		if (!new)
+		{
+			raise_error(MEMORY_ERROR, NULL);
+			return ;
+		}
+		ft_lstadd_back(list, new);
 	}
-	else
-		*str += ft_strlen(dollar) + 1;
+	*str += ft_strlen(dollar) + 1;
 	free(dollar);
 }
 
