@@ -23,6 +23,7 @@ void	add_argument(char **str, t_list **list)
 	new = ft_lstnew(argument);
 	if (!new)
 	{
+		free(argument);
 		raise_error(MEMORY_ERROR, NULL);
 		return ;
 	}
@@ -41,6 +42,7 @@ void	add_redirect(char **str, t_list **list)
 	new = ft_lstnew(redirect);
 	if (!new)
 	{
+		free(redirect);
 		raise_error(MEMORY_ERROR, NULL);
 		return ;
 	}
@@ -63,6 +65,7 @@ void	add_dollar(char **str, t_list **list)
 		new = ft_lstnew(get_argument(*str));
 		if (!new)
 		{
+			free(dollar);
 			raise_error(MEMORY_ERROR, NULL);
 			return ;
 		}
