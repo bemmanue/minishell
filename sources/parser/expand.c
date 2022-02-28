@@ -32,7 +32,7 @@ void	disclose_dollar(char **str, int *i)
 	char	*content;
 	char	*temp;
 
-	dollar = get_dollar(&(*str)[*i]);
+	dollar = get_dollar_for_expand(&(*str)[*i]);
 	if (!dollar)
 		return ;
 	if (*dollar == '?')

@@ -34,6 +34,7 @@ char		*get_dollar(char *str);
 char		*get_argument(char *str);
 char		*get_redirect(char *str);
 char		*get_quotes_content(char *str);
+char		*get_dollar_for_expand(char *str);
 
 int			skip_quotes(char *str);
 int			skip_redirect(char *str);
