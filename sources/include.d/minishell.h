@@ -48,7 +48,6 @@ void		fill_fd(int *fd_arr, int count);
 void		set_signals(void);
 void		signal_in_pipes(void);
 void		signal_in_child(void);
-void		cancel_cmd(int signo);
 void		ft_signal_cltr_c(int sig);
 
 #endif

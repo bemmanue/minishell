@@ -6,7 +6,7 @@
 /*   By: dwillard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/21 15:29:50 by dwillard          #+#    #+#             */
-/*   Updated: 2022/02/21 15:29:51 by dwillard         ###   ########.fr       */
+/*   Updated: 2022/02/28 17:16:24 by dwillard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,9 @@ static void	cancel_cmd_doc(int signo)
 
 static void	set_signal(void)
 {
-	signal(SIGQUIT, SIG_IGN);			// cntrl '\'
-	signal(SIGTERM, SIG_IGN);			// cntrl D
-	signal(SIGINT, cancel_cmd_doc);		// cntrl C
+	signal(SIGQUIT, SIG_IGN);
+	signal(SIGTERM, SIG_IGN);
+	signal(SIGINT, cancel_cmd_doc);
 }
 
 static void	get_readstr(char **str, int fd)
@@ -68,6 +68,7 @@ int	control(char *delim)
 	if (WEXITSTATUS(status) == SIG_END)
 	{
 		g_info.last_prcs = SIG_END;
+		g_info.sig = 0;
 		return (SIG_END);
 	}
 	return (HEREDOC);

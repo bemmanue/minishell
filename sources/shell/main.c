@@ -6,7 +6,7 @@
 /*   By: dwillard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 16:41:32 by dwillard          #+#    #+#             */
-/*   Updated: 2022/02/20 19:46:54 by bemmanue         ###   ########.fr       */
+/*   Updated: 2022/02/28 17:16:49 by dwillard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ static void	init_info(int argc, char **argv, char **envp)
 {
 	int		temp_i;
 	char	*temp_s;
-	char 	*temp_s1;
+	char	*temp_s1;
 
 	(void)argc;
 	fill_minidir(argv);
