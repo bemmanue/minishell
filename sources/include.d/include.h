@@ -38,6 +38,7 @@ typedef struct s_command
 
 typedef struct s_info
 {
+	uint8_t		sig;
 	uint8_t		error;
 	uint8_t		last_prcs;
 	int32_t		std_fd[2];
@@ -47,9 +48,5 @@ typedef struct s_info
 	char		**env;
 	char		**bltn;
 }				t_info;
-
-# include <minishell.h>
-# include <builtin.h>
-# include <parser.h>
 
 #endif

@@ -13,7 +13,7 @@
 #ifndef PARSER_H
 # define PARSER_H
 
-# include <include.h>
+# include <logic.h>
 
 # define MEMORY_ERROR "minishell: Cannot allocate memory"
 # define TOKEN_ERROR "minishell: syntax error near unexpected token "

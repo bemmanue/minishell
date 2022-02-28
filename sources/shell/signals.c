@@ -19,7 +19,8 @@ void	ft_signal_cltr_c(int sig)
 	rl_replace_line("", 0);
 	rl_on_new_line();
 	rl_redisplay();
-	g_info.last_prcs = 130;
+	g_info.last_prcs = 1;
+	g_info.sig = 1;
 }
 
 void	set_signals(void)
@@ -27,6 +28,7 @@ void	set_signals(void)
 	signal(SIGQUIT, SIG_IGN);			// cntrl '\'
 	signal(SIGTERM, SIG_IGN);			// cntrl D
 	signal(SIGINT, ft_signal_cltr_c);	// cntrl C
+	g_info.sig = 0;
 }
 
 void	signal_in_child(void)
