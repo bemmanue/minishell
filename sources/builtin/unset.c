@@ -84,7 +84,5 @@ int	ft_unset(char **argv)
 		}
 		index++;
 	}
-	if (g_info.error)
-		code = g_info.error;
-	return (code);
+	return (g_info.error);
 }

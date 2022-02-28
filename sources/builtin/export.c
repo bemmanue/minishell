@@ -40,7 +40,7 @@ char	**change_env(char *new_str, char **envp, char *name)
 	return (new);
 }
 
-char 	**add_env(char *new_str, char **envp)
+char	**add_env(char *new_str, char **envp)
 {
 	int		index;
 	char	**new;
