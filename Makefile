@@ -6,7 +6,7 @@
 #    By: dwillard <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/17 18:22:10 by dwillard          #+#    #+#              #
-#    Updated: 2022/02/20 13:54:02 by dwillard         ###   ########.fr        #
+#    Updated: 2022/02/26 20:32:21 by bemmanue         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,7 +34,7 @@ OBJS 		=	$(patsubst %,$(OBJ_DIR)/%,$(SRCS:.c=.o))
 DEPS		=	$(OBJS:.o=.d)
 
 LIBFT		=	libft/
-LIBFTMAKE	=	$(MAKE) all -sC $(LIBFT)
+LIBFTMAKE	=	@$(MAKE) all -C $(LIBFT)
 LDFLAGS		=	-L$(HOME)/.brew/opt/readline/lib -I .brew/opt/readline/include
 
 CC			=	cc
@@ -54,8 +54,8 @@ $(NAME):		$(OBJS)
 $(OBJS):		| $(OBJ_DIR)
 
 $(OBJ_DIR):
-				mkdir $(OBJ_DIR)
-				mkdir $(OBJ_DIR)/parser $(OBJ_DIR)/shell $(OBJ_DIR)/pipex\
+				@mkdir $(OBJ_DIR)
+				@mkdir $(OBJ_DIR)/parser $(OBJ_DIR)/shell $(OBJ_DIR)/pipex\
  $(OBJ_DIR)/builtin
 
 lib:

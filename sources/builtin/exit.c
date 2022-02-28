@@ -12,25 +12,7 @@
 
 #include <builtin.h>
 
-int	ft_isnumeric(char *str)
-{
-	int	i;
-
-	i = 0;
-	if (ft_strchr("-+", *str))
-		str++;
-	while (str[i])
-	{
-		if (!ft_isdigit(str[i]))
-			return (0);
-		i++;
-	}
-	if (i > 19 && ft_atoul(str) > 9223372036854775807)
-		return (0);
-	return (1);
-}
-
-int	exit_success()
+int	exit_success(void)
 {
 	if (!g_info.commands->next)
 	{
@@ -55,7 +37,7 @@ int	exit_num(char *argv)
 		return ((unsigned char) code);
 }
 
-int	arg_error()
+int	arg_error(void)
 {
 	if (!g_info.commands->next)
 		ft_putendl_fd("exit", STDOUT_FILENO);

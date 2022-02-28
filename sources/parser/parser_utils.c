@@ -12,14 +12,21 @@
 
 #include <parser.h>
 
-void	free_strs(char *s1, char *s2, char *s3)
+char	**get_split_path(void)
 {
-	if (s1)
-		free(s1);
-	if (s2)
-		free(s2);
-	if (s3)
-		free(s3);
+	char	**path;
+	char	*env;
+
+	env = ft_getenv(g_info.env, "PATH");
+	if (env)
+	{
+		path = ft_split(env, ':');
+		if (!path)
+			return (raise_error(MEMORY_ERROR, NULL));
+	}
+	else
+		path = NULL;
+	return (path);
 }
 
 char	*insert_content(char *str, int start, int end, char *content)
@@ -34,16 +41,16 @@ char	*insert_content(char *str, int start, int end, char *content)
 	temp = ft_strjoin(first_part, content);
 	new = ft_strjoin(temp, second_part);
 	if (!new)
-		raise_error(MEMORY_ERROR, NULL, 1);
-	free_strs(temp, first_part, second_part);
+		raise_error(MEMORY_ERROR, NULL);
+	ft_free_strs(temp, first_part, second_part);
 	return (new);
 }
 
-void	*raise_error(char *message, char *str, int code)
+void	*raise_error(char *message, char *str)
 {
 	char	*specify;
 
-	g_info.error = code;
+	g_info.error = 1;
 	if (!str)
 		ft_putendl_fd(message, 2);
 	else
@@ -54,7 +61,7 @@ void	*raise_error(char *message, char *str, int code)
 		else
 			specify = ft_strndup(str, 1);
 		if (!specify)
-			return (raise_error(MEMORY_ERROR, NULL, 1));
+			return (raise_error(MEMORY_ERROR, NULL));
 		ft_putstr_fd("`", 2);
 		ft_putstr_fd(specify, 2);
 		ft_putendl_fd("'", 2);

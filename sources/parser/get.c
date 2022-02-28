@@ -24,7 +24,7 @@ char	*get_quotes_content(char *str)
 		i++;
 	content = ft_strndup(str, i);
 	if (!content)
-		raise_error(MEMORY_ERROR, NULL, 1);
+		raise_error(MEMORY_ERROR, NULL);
 	return (content);
 }
 
@@ -43,7 +43,7 @@ char	*get_dollar(char *str)
 		dollar = ft_strndup(&str[1], i - 1);
 	}
 	if (!dollar)
-		raise_error(MEMORY_ERROR, NULL, 1);
+		raise_error(MEMORY_ERROR, NULL);
 	return (dollar);
 }
 
@@ -56,10 +56,10 @@ char	*get_redirect(char *str)
 	i = skip_redirect(str);
 	temp = ft_strndup(str, i);
 	if (!temp)
-		return (raise_error(MEMORY_ERROR, NULL, 1));
+		return (raise_error(MEMORY_ERROR, NULL));
 	redirect = ft_skipnchar(temp, i, " \t\v");
 	if (!redirect)
-		raise_error(MEMORY_ERROR, NULL, 1);
+		raise_error(MEMORY_ERROR, NULL);
 	free(temp);
 	return (redirect);
 }
@@ -72,6 +72,6 @@ char	*get_argument(char *str)
 	i = skip_argument(str);
 	argument = ft_strndup(str, i);
 	if (!argument)
-		raise_error(MEMORY_ERROR, NULL, 1);
+		raise_error(MEMORY_ERROR, NULL);
 	return (argument);
 }

@@ -24,7 +24,7 @@ void	check_correct_use_of_pipes(char *str)
 		if (*str == '|')
 		{
 			if (!word || str[1] == '|')
-				raise_error(TOKEN_ERROR, str, 1);
+				raise_error(TOKEN_ERROR, str);
 			pipe = 1;
 			word = 0;
 		}
@@ -37,7 +37,7 @@ void	check_correct_use_of_pipes(char *str)
 		str++;
 	}
 	if (pipe == 1 && word == 0 && !g_info.error)
-		raise_error(NEWL_ERROR, NULL, 1);
+		raise_error(NEWL_ERROR, NULL);
 }
 
 int	str_is_empty(char *str)

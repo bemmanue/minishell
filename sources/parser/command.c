@@ -51,23 +51,6 @@ char	**from_list_to_array(t_list *list)
 	return (array);
 }
 
-char	**get_split_path(void)
-{
-	char	**path;
-	char	*env;
-
-	env = ft_getenv(g_info.env, "PATH");
-	if (env)
-	{
-		path = ft_split(env, ':');
-		if (!path)
-			return (raise_error(MEMORY_ERROR, NULL, 1));
-	}
-	else
-		path = NULL;
-	return (path);
-}
-
 t_command	*new_command(t_list *list[2])
 {
 	t_command	*command;
@@ -75,11 +58,11 @@ t_command	*new_command(t_list *list[2])
 
 	command = malloc(sizeof(t_command));
 	if (!command)
-		return (raise_error(MEMORY_ERROR, NULL, 1));
+		return (raise_error(MEMORY_ERROR, NULL));
 	command->argv = from_list_to_array(list[0]);
 	command->rdrct = from_list_to_array(list[1]);
 	if (!command->argv || !command->rdrct)
-		return (raise_error(MEMORY_ERROR, NULL, 1));
+		return (raise_error(MEMORY_ERROR, NULL));
 	path = get_split_path();
 	command->name = add_full_path(ft_strdup(command->argv[0]), path);
 	command->next = NULL;

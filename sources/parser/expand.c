@@ -23,7 +23,7 @@ void	disclose_quotes(char **str, int *i)
 	temp = *str;
 	*str = insert_content(*str, *i, *i + 2 + ft_strlen(content), content);
 	*i += (int)ft_strlen(content) + 2;
-	free_strs(temp, content, NULL);
+	ft_free_strs(temp, content, NULL);
 }
 
 void	disclose_dollar(char **str, int *i)
@@ -40,7 +40,7 @@ void	disclose_dollar(char **str, int *i)
 		content = ft_itoa(g_info.last_prcs);
 		if (!content)
 		{
-			raise_error(MEMORY_ERROR, NULL, 1);
+			raise_error(MEMORY_ERROR, NULL);
 			free(dollar);
 			return ;
 		}
@@ -52,7 +52,7 @@ void	disclose_dollar(char **str, int *i)
 	temp = *str;
 	*str = insert_content(*str, *i, *i + 1 + ft_strlen(dollar), content);
 	*i += (int)ft_strlen(content);
-	free_strs(temp, dollar, content);
+	ft_free_strs(temp, dollar, content);
 }
 
 void	expand_quotes(char **str)
@@ -95,7 +95,7 @@ char	*expand(char *argument)
 
 	new = ft_strdup(argument);
 	if (!new)
-		raise_error(MEMORY_ERROR, NULL, 1);
+		raise_error(MEMORY_ERROR, NULL);
 	expand_dollar(&new);
 	expand_quotes(&new);
 	return (new);

@@ -18,7 +18,8 @@ SRCS =		ft_atoi.c			ft_bzero.c 			ft_calloc.c 	\
      		ft_lstdelone.c 		ft_lstiter.c 		ft_lstlast.c 	\
 			ft_lstmap.c			ft_lstnew.c			ft_lstsize.c	\
 			ft_skipchar.c		ft_skipnchar.c		ft_strcut.c		\
-			ft_atoul.c			ft_arrlen.c			ft_strndup.c
+			ft_atoul.c			ft_arrlen.c			ft_strndup.c	\
+			ft_free_strs.c		ft_isnumeric.c
 
 OBJS = 		${SRCS:.c=.o}
 DEPS =		${SRCS:.c=.d}
@@ -32,15 +33,15 @@ all: 		$(NAME)
 
 $(NAME): 	$(OBJS)
 			@ar -rcs $(NAME) $?
-			@printf '\033[1;32m%-100.100s\n\033[0m' 'Libft compile success!'
+			@printf '\033[1;32m%-100.100s\n\033[0m' 'libft compile success!'
 
 clean:
 			@rm -f $(OBJS) $(DEPS)
-			@printf '\033[1;35m%s\n\033[0m' "Clean Libft"
+			@printf '\033[1;35m%s\n\033[0m' "Clean libft"
 
 fclean: 	clean
 			@rm -f $(NAME)
-			@printf '\033c\033[1;35m%s\n\033[0m' "Fclean Libft"
+			@printf '\033c\033[1;35m%s\n\033[0m' "Fclean libft"
 
 re:			fclean all
 
