@@ -12,6 +12,33 @@
 
 #include <builtin.h>
 
+void	output_prompts(void)
+{
+	int		index;
+	char	*name;
+	char	*value;
+
+	index = 0;
+	while (g_info.env[index] && !g_info.error)
+	{
+		name = ft_strcut(g_info.env[index], "=");
+		if (!name)
+		{
+			raise_error(MEMORY_ERROR, NULL);
+			return;
+		}
+		ft_putstr_fd("declare -x ", STDOUT_FILENO);
+		ft_putstr_fd(name, STDOUT_FILENO);
+		ft_putstr_fd("=", STDOUT_FILENO);
+		value = ft_strchr(g_info.env[index], '=') + 1;
+		ft_putstr_fd("\"", STDOUT_FILENO);
+		ft_putstr_fd(value, STDOUT_FILENO);
+		ft_putendl_fd("\"", STDOUT_FILENO);
+		index++;
+		free(name);
+	}
+}
+
 void	*export_error(char **new)
 {
 	free_arr(&new);
@@ -85,6 +112,8 @@ int	ft_export(char **argv)
 	int		index;
 
 	index = 1;
+	if (!argv[index])
+		output_prompts();
 	while (argv[index] && !g_info.error)
 	{
 		if (ft_strchr(argv[index], '='))

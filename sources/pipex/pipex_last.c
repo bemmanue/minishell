@@ -61,7 +61,10 @@ int	last_fork(t_command *commands)
 {
 	int		pid;
 
-	pid = pipeline(commands);
+	if (commands->name)
+		pid = pipeline(commands);
+	else
+		return (0);
 	if (pid < 0)
 		return (-1);
 	if (pid == 1)

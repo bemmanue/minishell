@@ -69,9 +69,11 @@ void	add_dollar(char **str, t_list **list)
 			raise_error(MEMORY_ERROR, NULL);
 			return ;
 		}
+		*str += ft_strlen(new->content);
 		ft_lstadd_back(list, new);
 	}
-	*str += ft_strlen(dollar) + 1;
+	else
+		*str += ft_strlen(dollar) + 1;
 	free(dollar);
 }
 

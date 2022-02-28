@@ -49,6 +49,8 @@ static int	pipeline(t_command *commands, int fd[2])
 	pid_t	pid;
 	int		*fd_redir;
 
+	if (!commands->name)
+		return (0);
 	fd_redir = commands->fd_redirs;
 	if (check_fd_ret(fd_redir, fd))
 		return (-1);

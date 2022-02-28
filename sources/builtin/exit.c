@@ -41,7 +41,7 @@ int	arg_error(void)
 {
 	if (!g_info.commands->next)
 		ft_putendl_fd("exit", STDERR_FILENO);
-	ft_putstr_fd("bash: exit: ", STDERR_FILENO);
+	ft_putstr_fd("minishell: exit: ", STDERR_FILENO);
 	ft_putendl_fd(ARG_ERROR, STDERR_FILENO);
 	return (1);
 }
@@ -50,7 +50,7 @@ int	num_error(char *argv)
 {
 	if (!g_info.commands->next)
 		ft_putendl_fd("exit", STDERR_FILENO);
-	ft_putstr_fd("bash: exit: ", STDERR_FILENO);
+	ft_putstr_fd("minishell: exit: ", STDERR_FILENO);
 	ft_putstr_fd(argv, STDERR_FILENO);
 	ft_putstr_fd(": ", STDERR_FILENO);
 	ft_putendl_fd(NUM_ERROR, STDERR_FILENO);

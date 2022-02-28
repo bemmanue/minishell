@@ -25,7 +25,7 @@ int	ft_isnumeric(char *str)
 			return (0);
 		i++;
 	}
-	if (i > 19 && ft_atoul(str) > 9223372036854775807)
+	if (i > 19 || ft_atoul(str) > 9223372036854775807)
 		return (0);
 	return (1);
 }
