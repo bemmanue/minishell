@@ -34,7 +34,7 @@ OBJS 		=	$(patsubst %,$(OBJ_DIR)/%,$(SRCS:.c=.o))
 DEPS		=	$(OBJS:.o=.d)
 
 LIBFT		=	libft/
-LIBFTMAKE	=	$(MAKE) all -sC $(LIBFT)
+LIBFTMAKE	=	@$(MAKE) all -sC $(LIBFT)
 LDFLAGS		=	-L$(HOME)/.brew/opt/readline/lib -I .brew/opt/readline/include
 
 CC			=	cc

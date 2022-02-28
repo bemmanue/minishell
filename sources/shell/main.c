@@ -6,7 +6,7 @@
 /*   By: dwillard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 16:41:32 by dwillard          #+#    #+#             */
-/*   Updated: 2022/02/20 19:46:54 by bemmanue         ###   ########.fr       */
+/*   Updated: 2022/02/28 17:16:49 by dwillard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ static void	init_info(int argc, char **argv, char **envp)
 {
 	int		temp_i;
 	char	*temp_s;
-	char 	*temp_s1;
+	char	*temp_s1;
 
 	(void)argc;
 	fill_minidir(argv);
@@ -74,11 +74,14 @@ static void	init_info(int argc, char **argv, char **envp)
 	if (!g_info.env)
 		return ;
 	temp_s = get_str(g_info.env, "SHLVL=");
-	temp_i = ft_atoi(temp_s) + 1;
-	temp_s1 = ft_itoa(temp_i);
-	if (temp_i > 1 && temp_s1)
-		ft_memcpy(temp_s, temp_s1, ft_strlen(temp_s1));
-	free(temp_s1);
+	if (temp_s)
+	{
+		temp_i = ft_atoi(temp_s) + 1;
+		temp_s1 = ft_itoa(temp_i);
+		if (temp_i > 1 && temp_s1)
+			ft_memcpy(temp_s, temp_s1, ft_strlen(temp_s1));
+		free(temp_s1);
+	}
 	g_info.error = 0;
 	g_info.filed = ft_calloc(32, sizeof (int));
 }
