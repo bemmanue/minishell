@@ -47,6 +47,25 @@ char	*get_dollar(char *str)
 	return (dollar);
 }
 
+char	*get_dollar_for_expand(char *str)
+{
+	char	*dollar;
+	int		i;
+
+	i = 1;
+	if (str[i] == '?')
+		dollar = ft_strdup("?");
+	else
+	{
+		while (!ft_strchr(" :<>$'\"\t\v\0", str[i]))
+			i++;
+		dollar = ft_strndup(&str[1], i - 1);
+	}
+	if (!dollar)
+		raise_error(MEMORY_ERROR, NULL);
+	return (dollar);
+}
+
 char	*get_redirect(char *str)
 {
 	char	*redirect;

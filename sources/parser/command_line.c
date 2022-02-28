@@ -54,7 +54,7 @@ void	add_dollar(char **str, t_list **list)
 	char	*dollar;
 
 	new = NULL;
-	dollar = get_dollar(*str);
+	dollar = get_dollar_for_expand(*str);
 	if (!dollar)
 		return ;
 	if (*dollar == '?' || *dollar == '\0'
