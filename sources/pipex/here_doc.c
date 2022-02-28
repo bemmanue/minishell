@@ -19,12 +19,18 @@ static void	cancel_cmd_doc(int signo)
 	exit(SIG_END);
 }
 
+static void	set_signal(void)
+{
+	signal(SIGQUIT, SIG_IGN);			// cntrl '\'
+	signal(SIGTERM, SIG_IGN);			// cntrl D
+	signal(SIGINT, cancel_cmd_doc);		// cntrl C
+}
+
 static void	get_readstr(char **str, int fd)
 {
 	ft_putendl_fd(*str, fd);
 	free(*str);
-	set_signals();
-	signal(SIGINT, cancel_cmd_doc);
+	set_signal();
 	*str = readline("> ");
 }
 
@@ -36,13 +42,13 @@ static int	here_doc(char *delimiter)
 
 	dup2(g_info.std_fd[0], STDIN_FILENO);
 	dup2(g_info.std_fd[1], STDOUT_FILENO);
+	signal(SIGINT, SIG_IGN);
 	pid = fork();
 	if (pid > 0)
 		return (pid);
 	fd = open(g_info.minidir, O_CREAT | O_WRONLY | O_TRUNC, 0622);
 	delimiter += 2;
-	set_signals();
-	signal(SIGINT, cancel_cmd);
+	set_signal();
 	str = readline("> ");
 	while (str && ft_strncmp(str, delimiter, ft_strlen(delimiter)))
 		get_readstr(&str, fd);

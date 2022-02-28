@@ -26,7 +26,7 @@ static int	input(char *str, int fd)
 			fd = NO_READ;
 		if (fd)
 			g_info.error = fd;
-		if (!fd)
+		if (fd == STD_VAL)
 			fd = open(&str[1], O_RDONLY);
 		if (fd < 0)
 			fd = OPN_ERR;
