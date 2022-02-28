@@ -74,11 +74,14 @@ static void	init_info(int argc, char **argv, char **envp)
 	if (!g_info.env)
 		return ;
 	temp_s = get_str(g_info.env, "SHLVL=");
-	temp_i = ft_atoi(temp_s) + 1;
-	temp_s1 = ft_itoa(temp_i);
-	if (temp_i > 1 && temp_s1)
-		ft_memcpy(temp_s, temp_s1, ft_strlen(temp_s1));
-	free(temp_s1);
+	if (temp_s)
+	{
+		temp_i = ft_atoi(temp_s) + 1;
+		temp_s1 = ft_itoa(temp_i);
+		if (temp_i > 1 && temp_s1)
+			ft_memcpy(temp_s, temp_s1, ft_strlen(temp_s1));
+		free(temp_s1);
+	}
 	g_info.error = 0;
 	g_info.filed = ft_calloc(32, sizeof (int));
 }

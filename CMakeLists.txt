@@ -50,6 +50,9 @@ add_executable(
         sources/builtin/unset.c
         sources/builtin/export.c
         sources/builtin/exit.c
+        libft/ft_atoi.c
+        libft/ft_isnumeric.c
+        libft/ft_free_strs.c
         libft/ft_split.c
         libft/ft_arrlen.c
         libft/ft_arrdup.c
