@@ -92,7 +92,7 @@ int	ft_export(char **argv)
 		if (ft_strchr(argv[index], '='))
 		{
 			new = do_export(argv[index]);
-			free(g_info.env);
+			free_arr(&g_info.env);
 			g_info.env = new;
 		}
 		index++;
