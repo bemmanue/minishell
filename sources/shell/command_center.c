@@ -26,6 +26,7 @@ void	print_msg(int *stat)
 	{
 		write(STDOUT_FILENO, "\n", 1);
 		g_info.last_prcs = SIG_END;
+		g_info.sig = 0;
 	}
 	else if (!WIFSIGNALED(status))
 		g_info.last_prcs = WEXITSTATUS(status);
