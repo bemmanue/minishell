@@ -82,7 +82,7 @@ static void	init_info(int argc, char **argv, char **envp)
 	}
 	g_info.error = 0;
 	g_info.filed = ft_calloc(32, sizeof (int));
-	g_info.files = ft_calloc(10, sizeof (char *));
+	g_info.files = ft_calloc(16, sizeof (char *));
 }
 
 int	prompt(char **envp)
