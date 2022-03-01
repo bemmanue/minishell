@@ -67,6 +67,20 @@ void	unset_error(char *argv, int *code)
 	*code = 1;
 }
 
+int	is_correct(char *argv)
+{
+	int	i;
+
+	i = 0;
+	while (argv[i])
+	{
+		if (!ft_isalnum(argv[i]))
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
 int	ft_unset(char **argv)
 {
 	char	**new;
@@ -77,7 +91,7 @@ int	ft_unset(char **argv)
 	index = 1;
 	while (argv[index] && !g_info.error)
 	{
-		if (strchr(argv[index], '='))
+		if (!is_correct(argv[index]))
 			unset_error(argv[index], &code);
 		else if (ft_getenv(g_info.env, argv[index]))
 		{
