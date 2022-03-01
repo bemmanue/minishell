@@ -37,11 +37,11 @@ $(NAME): 	$(OBJS)
 
 clean:
 			@rm -f $(OBJS) $(DEPS)
-			@printf '\033[1;35m%s\n\033[0m' "Clean libft"
+
 
 fclean: 	clean
 			@rm -f $(NAME)
-			@printf '\033c\033[1;35m%s\n\033[0m' "Fclean libft"
+			@printf '\033[1;35mDelete libft success!\n\033[0m'
 
 re:			fclean all
 
