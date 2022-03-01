@@ -47,7 +47,7 @@ int	str_is_empty(char *str)
 	index = 0;
 	while (str[index])
 	{
-		if (!strchr(" \t\v", str[index]))
+		if (!ft_strchr(" \t\v", str[index]))
 			return (0);
 		index++;
 	}

@@ -59,6 +59,14 @@ char	**do_unset(char *argv)
 	return (new);
 }
 
+void	unset_error(char *argv, int *code)
+{
+	ft_putstr_fd("bash: unset: `", STDERR_FILENO);
+	ft_putstr_fd(argv, STDERR_FILENO);
+	ft_putendl_fd("': not a valid identifier", STDERR_FILENO);
+	*code = 1;
+}
+
 int	ft_unset(char **argv)
 {
 	char	**new;
@@ -70,12 +78,7 @@ int	ft_unset(char **argv)
 	while (argv[index] && !g_info.error)
 	{
 		if (strchr(argv[index], '='))
-		{
-			ft_putstr_fd("bash: unset: `", STDERR_FILENO);
-			ft_putstr_fd(argv[index], STDERR_FILENO);
-			ft_putendl_fd("': not a valid identifier", STDERR_FILENO);
-			code = 1;
-		}
+			unset_error(argv[index], &code);
 		else if (ft_getenv(g_info.env, argv[index]))
 		{
 			new = do_unset(argv[index]);
@@ -84,5 +87,7 @@ int	ft_unset(char **argv)
 		}
 		index++;
 	}
+	if (code)
+		g_info.error = 1;
 	return (g_info.error);
 }
