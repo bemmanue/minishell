@@ -12,7 +12,23 @@
 
 #include <minishell.h>
 
-static int	input(char *str, int fd)
+int	set_name(t_command *cmd)
+{
+	char	*str;
+
+	str = ft_itoa(cmd->num);
+	if (str)
+	{
+		cmd->file = ft_strjoin(g_info.minidir, str);
+		g_info.files[cmd->num] = ft_strdup(cmd->file);
+	}
+	free(str);
+	if (!g_info.files[cmd->num])
+		return (MEM_ERR);
+	return (0);
+}
+
+static int	input(char *str, int fd, t_command *cmd)
 {
 	if (fd != STD_VAL)
 		close(fd);
@@ -32,7 +48,7 @@ static int	input(char *str, int fd)
 			fd = OPN_ERR;
 	}
 	else
-		fd = control(str);
+		fd = control(str, cmd);
 	if (fd < 0)
 		g_info.error = fd;
 	else if (fd != HEREDOC && fd != SIG_END)
@@ -68,7 +84,7 @@ static int	output(char *str, int fd)
 	return (check);
 }
 
-int	*redirect(char **red_arr, int fd_pair[2])
+int	*redirect(char **red_arr, int fd_pair[2], t_command *cmd)
 {
 	int		counter;
 
@@ -80,7 +96,7 @@ int	*redirect(char **red_arr, int fd_pair[2])
 	while (red_arr[counter])
 	{
 		if (red_arr[counter][0] == '<')
-			fd_pair[0] = input(red_arr[counter], fd_pair[0]);
+			fd_pair[0] = input(red_arr[counter], fd_pair[0], cmd);
 		else if (red_arr[counter][0] == '>')
 			fd_pair[1] = output(red_arr[counter], fd_pair[1]);
 		if (fd_pair[0] < 0 || fd_pair[1] < 0)

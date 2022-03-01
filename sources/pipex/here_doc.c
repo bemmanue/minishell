@@ -34,7 +34,7 @@ static void	get_readstr(char **str, int fd)
 	*str = readline("> ");
 }
 
-static int	here_doc(char *delimiter)
+static int	here_doc(char *delimiter, t_command *cmd)
 {
 	char	*str;
 	int		fd;
@@ -46,7 +46,7 @@ static int	here_doc(char *delimiter)
 	pid = fork();
 	if (pid > 0)
 		return (pid);
-	fd = open(g_info.minidir, O_CREAT | O_WRONLY | O_TRUNC, 0622);
+	fd = open(cmd->file, O_CREAT | O_WRONLY | O_TRUNC, 0622);
 	delimiter += 2;
 	set_signal();
 	str = readline("> ");
@@ -58,12 +58,14 @@ static int	here_doc(char *delimiter)
 	exit(0);
 }
 
-int	control(char *delim)
+int	control(char *delim, t_command *cmd)
 {
 	pid_t	pid;
 	int		status;
 
-	pid = here_doc(delim);
+	if (set_name(cmd))
+		return (MEM_ERR);
+	pid = here_doc(delim, cmd);
 	waitpid(pid, &status, 0);
 	if (WEXITSTATUS(status) == SIG_END)
 	{

@@ -26,6 +26,7 @@ int		ft_echo(char **argv);
 int		ft_unset(char **argv);
 int		ft_export(char **argv);
 
+void	output_prompts(void);
 void	*freedom(char ***arr);
 void	err_msg(char *str, int option);
 char	*get_str(char **envp, char *reference);
