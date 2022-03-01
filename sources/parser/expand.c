@@ -50,19 +50,19 @@ void	disclose_dollar(char **str, int *i)
 	if (!dollar)
 		return ;
 	if (*dollar == '?')
-	{
 		content = ft_itoa(g_info.last_prcs);
-		if (!content)
-		{
-			raise_error(MEMORY_ERROR, NULL);
-			free(dollar);
-			return ;
-		}
-	}
 	else if (ft_getenv(g_info.env, dollar))
 		content = ft_strdup(ft_getenv(g_info.env, dollar));
+	else if (!ft_isalnum(*dollar))
+		content = ft_strjoin("$", dollar);
 	else
 		content = ft_strdup("");
+	if (!content)
+	{
+		raise_error(MEMORY_ERROR, NULL);
+		free(dollar);
+		return ;
+	}
 	temp = *str;
 	*str = insert_content(*str, *i, *i + 1 + ft_strlen(dollar), content);
 	*i += (int)ft_strlen(content);
