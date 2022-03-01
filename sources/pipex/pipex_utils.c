@@ -66,7 +66,7 @@ int	chk_builtin(t_command *commands)
 	return (code);
 }
 
-void	dups(int fd_redir[2])
+static void	dups(int fd_redir[2], t_command *cmd)
 {
 	int	fd;
 
@@ -74,7 +74,7 @@ void	dups(int fd_redir[2])
 		dup2(fd_redir[0], STDIN_FILENO);
 	else if (fd_redir[0] == HEREDOC)
 	{
-		fd = open(g_info.minidir, O_RDONLY);
+		fd = open(cmd->file, O_RDONLY);
 		dup2(fd, STDIN_FILENO);
 		close(fd);
 	}
@@ -87,7 +87,7 @@ void	dups(int fd_redir[2])
 	}
 }
 
-int	check_fd_ret(int fd_redir[2], int fd[2])
+int	check_fd_ret(int fd_redir[2], int fd[2], t_command *cmd)
 {
 	if (fd_redir[0] < 0 || fd_redir[1] < 0)
 	{
@@ -104,6 +104,6 @@ int	check_fd_ret(int fd_redir[2], int fd[2])
 		return (-1);
 	}
 	if (fd_redir[0] != STD_VAL || fd_redir[1] != STD_VAL)
-		dups(fd_redir);
+		dups(fd_redir, cmd);
 	return (0);
 }

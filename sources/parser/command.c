@@ -26,6 +26,8 @@ void	*free_command(t_command *command)
 			free_arr(&temp->argv);
 		if (temp->rdrct)
 			free_arr(&temp->rdrct);
+		if (temp->file)
+			free(temp->file);
 		free(temp);
 	}
 	return (NULL);
@@ -65,6 +67,7 @@ t_command	*new_command(t_list *list[2])
 		return (raise_error(MEMORY_ERROR, NULL));
 	path = get_split_path();
 	command->name = add_full_path(ft_strdup(command->argv[0]), path);
+	command->file = NULL;
 	command->next = NULL;
 	free_arr(&path);
 	return (command);

@@ -51,11 +51,9 @@ static int	fill_minidir(char **argv)
 	g_info.minidir = getcwd(NULL, 0);
 	chdir(temp);
 	temp1 = g_info.minidir;
-	g_info.minidir = ft_strjoin(temp1, "/.tmp");
+	g_info.minidir = ft_strjoin(temp1, "/.");
 	free(temp);
 	free(temp1);
-	if (!access(g_info.minidir, F_OK))
-		unlink(g_info.minidir);
 	return (0);
 }
 
@@ -84,6 +82,7 @@ static void	init_info(int argc, char **argv, char **envp)
 	}
 	g_info.error = 0;
 	g_info.filed = ft_calloc(32, sizeof (int));
+	g_info.files = ft_calloc(5, sizeof (char *));
 }
 
 int	prompt(char **envp)
@@ -117,7 +116,7 @@ int	main(int argc, char **argv, char **envp)
 
 	init_info(argc, argv, envp);
 	rl_catch_signals = 0;
-	if (!g_info.env || !g_info.bltn || !g_info.filed)
+	if (!g_info.env || !g_info.bltn || !g_info.filed || !g_info.files)
 		error(NULL, 0);
 	envp = g_info.env;
 	set_signals();

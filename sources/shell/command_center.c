@@ -66,16 +66,36 @@ static void	empty_fd_arr(void)
 		temp++;
 	}
 	ft_bzero(g_info.filed, 32 * sizeof (int));
+	temp = 0;
+	while (g_info.files[temp])
+	{
+		if (temp == 5)
+			break ;
+		if (!access(g_info.files[temp], F_OK))
+			unlink(g_info.files[temp]);
+		free(g_info.files[temp]);
+		temp++;
+	}
+	ft_bzero(g_info.files, 5 * sizeof (char *));
 }
 
 static int	get_fd(t_command *command)
 {
-	int	ret;
+	int			ret;
+	t_command	*temp;
 
+	ret = 0;
+	temp = command;
+	while (temp)
+	{
+		temp->num = ret;
+		ret++;
+		temp = temp->next;
+	}
 	ret = 0;
 	while (!ret && command)
 	{
-		redirect(command->rdrct, command->fd_redirs);
+		redirect(command->rdrct, command->fd_redirs, command);
 		if (command->fd_redirs[0] == SIG_END)
 		{
 			ret = 1;
@@ -103,14 +123,12 @@ int	command_center(char *input, char ***envp)
 		}
 		dup2(g_info.std_fd[0], STDIN_FILENO);
 		dup2(g_info.std_fd[1], STDOUT_FILENO);
-		get_exit(g_info.commands);
-		free_command(g_info.commands);
-		empty_fd_arr();
 	}
+	get_exit(g_info.commands);
+	free_command(g_info.commands);
+	empty_fd_arr();
 	*envp = g_info.env;
 	errno = 0;
 	g_info.error = 0;
-	if (!access(g_info.minidir, F_OK))
-		unlink(g_info.minidir);
 	return (0);
 }

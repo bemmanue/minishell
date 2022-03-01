@@ -31,7 +31,6 @@
 extern t_info	g_info;
 
 int			command_center(char *input, char ***envp);
-void		dups(int fd[2]);
 void		error_pipex(char *str);
 void		error(char *str, int err);
 int			pipex(t_command *commands);
@@ -40,9 +39,10 @@ int			get_exit(t_command *commands);
 int			command_len(t_command *command);
 int			chk_builtin(t_command *commands);
 char		*ft_getenv(char **envp, char *name);
-int			check_fd_ret(int fd_redir[2], int fd[2]);
-int			*redirect(char **red_arr, int fd_pair[2]);
-int			control(char *delimiter);
+int			check_fd_ret(int fd_redir[2], int fd[2], t_command *cmd);
+int			*redirect(char **red_arr, int fd_pair[2], t_command *cmd);
+int			control(char *delimiter, t_command *cmd);
+int			set_name(t_command *cmd);
 void		rl_replace_line(const char *buffer, int val);
 void		fill_fd(int *fd_arr, int count);
 void		set_signals(void);

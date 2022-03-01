@@ -29,6 +29,8 @@
 typedef struct s_command
 {
 	int		fd_redirs[2];
+	int		num;
+	char	*file;
 	char	*name;
 	char	**argv;
 	char	**rdrct;
@@ -45,6 +47,7 @@ typedef struct s_info
 	int32_t		*filed;
 	t_command	*commands;
 	char		*minidir;
+	char		**files;
 	char		**env;
 	char		**bltn;
 }				t_info;

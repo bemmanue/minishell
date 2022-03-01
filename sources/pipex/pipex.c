@@ -50,7 +50,7 @@ static int	pipeline(t_command *commands, int fd[2])
 	int		*fd_redir;
 
 	fd_redir = commands->fd_redirs;
-	if (check_fd_ret(fd_redir, fd))
+	if (check_fd_ret(fd_redir, fd, commands))
 		return (-1);
 	pid = child(fd, commands, fd_redir[1]);
 	if (pid < 0)
