@@ -21,7 +21,7 @@ set(
         sources/include.d/builtin.h
         sources/include.d/parser.h
         sources/include.d/include.h
-    )
+)
 
 include_directories(
         sources/include.d
