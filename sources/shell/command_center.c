@@ -67,16 +67,14 @@ static void	empty_fd_arr(void)
 	}
 	ft_bzero(g_info.filed, 32 * sizeof (int));
 	temp = 0;
-	while (g_info.files[temp])
+	while (temp < 10)
 	{
-		if (temp == 5)
-			break ;
 		if (!access(g_info.files[temp], F_OK))
 			unlink(g_info.files[temp]);
 		free(g_info.files[temp]);
 		temp++;
 	}
-	ft_bzero(g_info.files, 5 * sizeof (char *));
+	ft_bzero(g_info.files, 10 * sizeof (char *));
 }
 
 static int	get_fd(t_command *command)
