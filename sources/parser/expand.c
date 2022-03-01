@@ -21,9 +21,23 @@ void	disclose_quotes(char **str, int *i)
 	if (!content)
 		return ;
 	temp = *str;
-	*str = insert_content(*str, *i, *i + 2 + ft_strlen(content), content);
-	*i += (int)ft_strlen(content) + 2;
+	*str = insert_content(*str, *i, (*i) + 2 + ft_strlen(content), content);
+	(*i) += (int)ft_strlen(content);
 	ft_free_strs(temp, content, NULL);
+}
+
+void	expand_quotes(char **str)
+{
+	int		i;
+
+	i = 0;
+	while (!g_info.error && (*str)[i])
+	{
+		if (ft_strchr("'\"", (*str)[i]))
+			disclose_quotes(str, &i);
+		else
+			i++;
+	}
 }
 
 void	disclose_dollar(char **str, int *i)
@@ -55,19 +69,6 @@ void	disclose_dollar(char **str, int *i)
 	ft_free_strs(temp, dollar, content);
 }
 
-void	expand_quotes(char **str)
-{
-	int		i;
-
-	i = 0;
-	while (!g_info.error && (*str)[i])
-	{
-		if (ft_strchr("'\"", (*str)[i]))
-			disclose_quotes(str, &i);
-		i++;
-	}
-}
-
 void	expand_dollar(char **str)
 {
 	bool	double_quote;
@@ -78,7 +79,7 @@ void	expand_dollar(char **str)
 	while (!g_info.error && (*str)[i])
 	{
 		if ((*str)[i] == '\'' && !double_quote)
-			i += skip_quotes(str[i]);
+			i += skip_quotes(&(*str)[i]);
 		else if ((*str)[i] == '"' && !double_quote)
 			double_quote = 1;
 		else if ((*str)[i] == '"' && double_quote)
