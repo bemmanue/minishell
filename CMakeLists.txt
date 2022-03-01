@@ -43,7 +43,7 @@ add_executable(
         sources/shell/signals.c
         sources/pipex/pipex_utils.c
         sources/builtin/cd.c
-        sources/builtin/cd_utils.c
+        sources/builtin/builtin_utils.c
         sources/builtin/echo.c
         sources/builtin/pwd.c
         sources/builtin/env.c
