@@ -6,7 +6,7 @@
 /*   By: bemmanue <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/18 18:00:00 by bemmanue          #+#    #+#             */
-/*   Updated: 2022/02/28 17:17:09 by dwillard         ###   ########.fr       */
+/*   Updated: 2022/03/01 13:16:56 by dwillard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	ft_signal_cltr_c(int sig)
 {
 	(void) sig;
 	write(2, "\n", 1);
-//	rl_replace_line("", 0);
+	rl_replace_line("", 0);
 	rl_on_new_line();
 	rl_redisplay();
 	g_info.last_prcs = 1;
