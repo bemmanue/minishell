@@ -16,15 +16,18 @@ int	set_name(t_command *cmd)
 {
 	char	*str;
 
-	str = ft_itoa(cmd->num);
-	if (str)
+	if (!cmd->file)
 	{
-		cmd->file = ft_strjoin(g_info.minidir, str);
-		g_info.files[cmd->num] = ft_strdup(cmd->file);
+		str = ft_itoa(cmd->num);
+		if (str)
+		{
+			cmd->file = ft_strjoin(g_info.minidir, str);
+			g_info.files[cmd->num] = ft_strdup(cmd->file);
+		}
+		free(str);
+		if (!g_info.files[cmd->num])
+			return (MEM_ERR);
 	}
-	free(str);
-	if (!g_info.files[cmd->num])
-		return (MEM_ERR);
 	return (0);
 }
 
