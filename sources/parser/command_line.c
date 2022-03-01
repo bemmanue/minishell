@@ -87,7 +87,7 @@ void	split_command_line(char *str, t_list *list[2])
 			str++;
 		else if (ft_strchr("<>", *str))
 			add_redirect(&str, &list[1]);
-		else if (*str == '$')
+		else if (*str == '$' && ft_isalnum(str[1]))
 			add_dollar(&str, &list[0]);
 		else
 			add_argument(&str, &list[0]);
