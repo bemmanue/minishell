@@ -21,7 +21,7 @@ void	*ft_memcpy(void *dst, const void *src, size_t number)
 	s = src;
 	if (d == s)
 		return (dst);
-	while (number != 0)
+	while (number > 0)
 	{
 		*d++ = *s++;
 		number--;

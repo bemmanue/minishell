@@ -18,7 +18,7 @@ SRCS		=	pipex/redirects.c		shell/command_center.c	\
 				shell/shell_utils.c		pipex/pipex_utils.c		\
 				pipex/pipex_last.c		builtin/env.c			\
 				builtin/exit.c			builtin/export.c		\
-				builtin/cd.c			builtin/biltin_utils.c	\
+				builtin/cd.c			builtin/builtin_utils.c	\
 				builtin/pwd.c			builtin/echo.c			\
 				parser/parser.c			parser/parser_utils.c	\
 				parser/command_line.c	parser/command.c		\
