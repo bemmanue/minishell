@@ -47,7 +47,7 @@ void	add_redirect(char **str, t_list **list)
 		return ;
 	}
 	ft_lstadd_back(list, new);
-	*str += ft_strlen(redirect);
+	*str += skip_redirect(*str);
 }
 
 void	add_dollar(char **str, t_list **list)
