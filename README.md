@@ -7,8 +7,8 @@ Simple shell, heavily inspired by bash.
 ### We implemented following features:
 ◦ Working history.<br />
 ◦ $PATH.<br />
-◦ '' and "" (closed single and double quotes).<br />
-◦ Redirections (<, <<(DELIM), >, >>).<br />
+◦ ' ' and " " (closed single and double quotes).<br />
+◦ Redirections (<,  << (with delimiter),  >, >>).<br />
 ◦ Pipes ('|' character).<br />
 ◦ Ctrl-C, Ctrl-D, Ctrl-\ behaving like in bash.<br />
 
