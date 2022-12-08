@@ -20,3 +20,6 @@ Simple shell, heavily inspired by bash.
 ◦ unset with no options.<br />
 ◦ env with no options or arguments.<br />
 ◦ exit with no options.<br />
+<br />
+<br />
+Uses readline lib, install via brew if on mac.
